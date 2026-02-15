@@ -4,6 +4,9 @@
 - [ ] Define the technical "Stack" (Organizing, Learning, Researching, Writing).
 - [x] Create Karen's GitHub account and obtain a token for `.envrc`.
 - [x] Establish Karen-friendly commit conventions.
+- [x] Create Lesson 2: Git & SourceTree.
+- [x] Create Lesson 3: How LLMs Remember (Context).
+- [x] Develop "Version Control" AI skill for Karen.
 - [ ] Answer the foundational questions about Karen's needs and goals.
 
 ## Karen
