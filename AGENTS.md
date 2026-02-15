@@ -15,7 +15,7 @@ You are responsible for maintaining the `TODO.md` file, ensuring `INSTALL.md` re
 
 ## Workflow
 1. **Understand Context:** Always check `TODO.md` and `README.md` before suggesting new actions.
-2. **Commit Conventions:** Follow the format `type: [EMOJI] description` as defined in `docs/conventions/commits.md` for all Git commits. Always include the corresponding emoji.
+2. **Commit Conventions:** Follow the format `type: [EMOJI] description` as defined in `docs/conventions/commits.md` for all Git commits. Always include the corresponding emoji. **Attribution:** `tech:` commits must use `--author="Michael Johnston <lastobelus@mac.com>"` (GUIDE's work, not Karen's).
 3. **Background Committing:**
     - Agents are responsible for managing version control. Karen should not have to run Git commands.
     - Follow the specialized instructions in `.agents/instructions/version_control_concierge.md`.
