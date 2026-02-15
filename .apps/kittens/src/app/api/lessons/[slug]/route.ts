@@ -4,9 +4,9 @@ import path from 'path';
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = params;
+  const { slug } = await params;
   const curriculumDir = path.resolve(process.cwd(), '../../curriculum');
   const filePath = path.join(curriculumDir, slug + '.md');
 
