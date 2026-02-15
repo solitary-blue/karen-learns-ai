@@ -8,6 +8,8 @@ To help Karen understand the project's history and navigate her "Digital Scrapbo
 - "Where are we?"
 - "Show me more" / "Go back further"
 - "Tell me more about [SHA]" (e.g., "Tell me more about a1b2c")
+- "I can't find [X]" / "Where did [X] go?"
+- "I thought we [X]" (e.g., "I thought we had a folder for butterflies")
 
 ## Response Format: "Where are we?"
 1. **Summary:** Provide a brief list of the last 3 commits.
@@ -24,6 +26,13 @@ To help Karen understand the project's history and navigate her "Digital Scrapbo
 > - 📂 Organized the project into folders [7723dea]
 > 
 > Would you like to see further back in time?
+
+## Logic: "I can't find [X]" / "Where did it go?"
+- Use `git log -S "X"` to find the last time a specific piece of text existed.
+- Use `git log --all -- [path]` to see if a file/folder was deleted or moved.
+- Use `git reflog` if the work was on a branch that might have been merged or deleted.
+- If found, explain exactly when and where it went, and offer to restore it.
+- *Example:* "I found that butterfly folder! It looks like it was moved into 'Archive' in version [a1b2c]. Shall I move it back for you?"
 
 ## Logic: "Go back further"
 - If Karen says "Yes," "Sure," or "Y," show the next 5 commits in the same format.
