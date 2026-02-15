@@ -4,31 +4,28 @@ To make the project history readable and meaningful for Karen, we use the follow
 
 ## Types
 
-| Type | Description | For Karen? |
-| :--- | :--- | :--- |
-| **`tech`** | Updates to tools, configurations, or coding infrastructure. | 🙈 (Ignore) |
-| **`ai`** | Developing/editing AI skills, prompts, or persona instructions. | 🧠 (Core learning) |
-| **`research`** | Documents from research queries, paper summaries, or data gathering. | 📖 (Read this) |
-| **`write`** | Drafting Master's content, school papers, or newsletters. | ✍️ (Drafting) |
-| **`edit`** | Polishing, revising, or correcting existing work. | 💅 (Refining) |
-| **`learn`** | Karen's personal learning logs, reflections, or summaries. | 📓 (Journal) |
-| **`review`** | Feedback, critiques, and suggestions from GUIDE or AI. | 💬 (Feedback) |
-| **`media`** | Images, PDFs, printable materials, or diagrams. | 🎨 (Visuals) |
-| **`organize`**| Moving files, creating directories, or restructuring. | 📂 (FYI) |
-| **`todo`** | Task management (updating `TODO.md`). | ✅ (Actionable) |
-| **`docs`** | Documentation about the project or tool guides. | 📝 (Read this) |
+| Type | Description | For Karen? | Emoji |
+| :--- | :--- | :--- | :--- |
+| **`tech`** | Updates to tools, config, infrastructure. | 🙈 (Ignore) | 🙈 |
+| **`ai`** | AI skills, prompts, persona instructions. | 🧠 (Core learning) | 🧠 |
+| **`research`** | Documents, paper summaries, data. | 📖 (Read this) | 📖 |
+| **`write`** | Drafting Master's content or school papers. | ✍️ (Drafting) | ✍️ |
+| **`edit`** | Polishing or revising existing work. | 💅 (Refining) | 💅 |
+| **`learn`** | Karen's personal learning logs/reflections. | 📓 (Journal) | 📓 |
+| **`review`** | Feedback and critiques. | 💬 (Feedback) | 💬 |
+| **`media`** | Images, PDFs, or diagrams. | 🎨 (Visuals) | 🎨 |
+| **`organize`**| Moving files, folder structures. | 📂 (FYI) | 📂 |
+| **`todo`** | Task management (updating `TODO.md`). | ✅ (Actionable) | ✅ |
+| **`docs`** | How-to guides, project documentation. | 📝 (Read this) | 📝 |
 
 ## Format
-Use the format: `type: brief description`
+Use the format: `type: [EMOJI] brief description`
 
-*Example:* `ai: update the Montessori Guide persona with better storytelling cues`
+*Example:* `ai: 🧠 update the Montessori Guide persona`
+*Example:* `tech: 🙈 update sops configuration`
 
 ---
 
 # Git Client for Karen
 
-Since Karen is non-technical, we recommend using a visual client to view the project history without needing the command line.
-
-### Recommendation: **SourceTree**
-- **Why:** It is free, has a clean visual interface, and clearly shows the history of "who did what" and "what changed."
-- **Use Case:** Karen can use this to see the `research`, `write`, and `learn` commits made by her and her agents.
+We recommend **SourceTree**. It clearly shows the history of these emojis, making it easy for Karen to spot her **`✍️` Writing** or your **`💬` Feedback**.
