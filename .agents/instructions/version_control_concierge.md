@@ -31,3 +31,9 @@ To handle all Git complexity (branching, merging, switching) so Karen feels safe
     - `git reflog` to find work that might have been on a deleted branch.
     - Check all other branches for the missing content.
 - **The Reveal:** Present the findings clearly: "💾 I found it! That lesson plan was actually in our 'Experimental' branch. I've brought it back here for you."
+
+## The Safety Guardian: Commit Attribution Hook
+We have implemented a `.git/hooks/commit-msg` hook to prevent incorrect author attribution. 
+- **What it does:** If a commit message starts with `tech:`, the hook verifies that the author is NOT "Karen Ngo".
+- **Why it exists:** To ensure that infrastructure and technical maintenance are correctly attributed to the GUIDE (Michael Johnston), keeping Karen's learning history clean and focused on her progress.
+- **How to resolve an error:** If the hook blocks a commit, use the explicit author flag: `git commit --author="Michael Johnston <lastobelus@mac.com>" -m "tech: ..."`
