@@ -7,8 +7,15 @@
 - [x] Establish Karen-friendly commit conventions.
 - [x] Create Lesson 2: Git & SourceTree.
 - [x] Create Lesson 3: How LLMs Remember (Context).
+- [x] Convert Lesson 3 to SlideShow format for Kittens.
 - [x] Develop "Version Control" AI skill for Karen.
+- [x] Build "Kittens" lesson viewer app.
 - [ ] Answer the foundational questions about Karen's needs and goals.
+- [ ] setup obsidian vault
+- [ ] create obsidian intro lesson
+- [ ] setup gravatar
+- [ ] better kittens styles
+- [ ] kittenize git lesson
 
 ## Karen
 - [ ] Explore the `.agents/skills/teach-me-about-ai.md` skill.
