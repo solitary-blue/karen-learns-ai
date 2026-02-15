@@ -1,0 +1,13 @@
+var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/_not-found/page.js")
+R.c("server/chunks/ssr/[root-of-the-server]__f4f28ec6._.js")
+R.c("server/chunks/ssr/5c40d_next_dist_120a4446._.js")
+R.c("server/chunks/ssr/5c40d_next_dist_esm_build_templates_app-page_8ba40f11.js")
+R.c("server/chunks/ssr/[root-of-the-server]__d078a560._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__01476530._.js")
+R.c("server/chunks/ssr/5c40d_next_dist_7e3ac17f._.js")
+R.c("server/chunks/ssr/598d3_lastobelus-2025_karen-learns-ai__apps_kittens_src_app_layout_tsx_e55e46d7._.js")
+R.c("server/chunks/ssr/5c40d_next_dist_client_components_9d473f7f._.js")
+R.c("server/chunks/ssr/5c40d_next_dist_client_components_builtin_forbidden_f125b776.js")
+R.c("server/chunks/ssr/a8b7c__apps_kittens__next-internal_server_app__not-found_page_actions_acd74d99.js")
+R.m(31360)
+module.exports=R.m(31360).exports

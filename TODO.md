@@ -3,6 +3,7 @@
 ## GUIDE
 - [ ] Define the technical "Stack" (Organizing, Learning, Researching, Writing).
 - [x] Create Karen's GitHub account and obtain a token for `.envrc`.
+- [x] Push local repository to GitHub under solitary-blue.
 - [x] Establish Karen-friendly commit conventions.
 - [x] Create Lesson 2: Git & SourceTree.
 - [x] Create Lesson 3: How LLMs Remember (Context).
