@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(direnv version:*)",
+      "WebFetch(domain:direnv.net)",
+      "Bash(direnv allow:*)",
+      "Bash(direnv status:*)",
+      "Bash(direnv export:*)",
+      "Bash(/usr/local/opt/bash/bin/bash:*)",
+      "Bash(echo:*)",
+      "Bash(git -C /Users/lasto/clients/lastobelus-2025/karen-learns-ai status:*)",
+      "Bash(git -C /Users/lasto/clients/lastobelus-2025/karen-learns-ai diff:*)",
+      "Bash(git -C /Users/lasto/clients/lastobelus-2025/karen-learns-ai log:*)",
+      "Bash(git -C /Users/lasto/clients/lastobelus-2025/karen-learns-ai add:*)"
+    ]
+  }
+}
