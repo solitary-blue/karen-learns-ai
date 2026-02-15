@@ -3,6 +3,7 @@
 ## GUIDE
 - [ ] Define the technical "Stack" (Organizing, Learning, Researching, Writing).
 - [x] Create Karen's GitHub account and obtain a token for `.envrc`.
+- [x] Establish Karen-friendly commit conventions.
 - [ ] Answer the foundational questions about Karen's needs and goals.
 
 ## Karen
