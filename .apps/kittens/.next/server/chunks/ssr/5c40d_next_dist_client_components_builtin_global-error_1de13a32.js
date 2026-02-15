@@ -1,3 +1,0 @@
-module.exports=[68610,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(19016);a.n(d("[project]/clients/lastobelus-2025/karen-learns-ai/.apps/kittens/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},24532,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(19016);a.n(d("[project]/clients/lastobelus-2025/karen-learns-ai/.apps/kittens/node_modules/next/dist/client/components/builtin/global-error.js"))},75731,a=>{"use strict";a.i(68610);var b=a.i(24532);a.n(b)}];
-
-//# sourceMappingURL=5c40d_next_dist_client_components_builtin_global-error_1de13a32.js.map
