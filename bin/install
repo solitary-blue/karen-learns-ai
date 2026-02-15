@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Karen Learns AI - Installation Script
+set -e
+
+echo "Checking prerequisites..."
+
+# Check for Homebrew
+if ! command -v brew &> /dev/null; then
+    echo "Error: Homebrew is not installed. Please install it from https://brew.sh/"
+    exit 1
+fi
+
+echo "Installing/Updating project dependencies..."
+
+# Install tools via Homebrew
+brew install age sops gh direnv
+
+# Note: Gemini CLI is assumed to be installed globally or via the environment 
+# If there's a specific npm install command for it, we'll add it here.
+# npm install -g @google/gemini-cli
+
+echo "Setting up configuration directories..."
+mkdir -p ~/.config/sops/age
+
+echo "Installation complete!"
+echo "Next steps:"
+echo "1. Ensure your age key is in ~/.config/sops/age/keys.txt"
+echo "2. Run 'direnv allow' in the project root."
