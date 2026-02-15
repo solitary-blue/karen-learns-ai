@@ -19,6 +19,7 @@ You are responsible for maintaining the `TODO.md` file and ensuring `INSTALL.md`
 3. **Background Committing:**
     - Agents are responsible for managing version control. Karen should not have to run Git commands.
     - Follow the specialized instructions in `.agents/instructions/version_control_concierge.md`.
+    - **Visual Signal:** Always use the `💾` emoji when notifying Karen that a commit has been made.
     - Perform commits in the background as work is completed.
     - Break work into atomic, logical chunks (e.g., don't mix `tech` and `research` in one commit).
     - Use `git add` and `git commit` proactively.
