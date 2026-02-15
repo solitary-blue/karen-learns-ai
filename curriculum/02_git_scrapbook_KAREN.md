@@ -12,6 +12,11 @@ Let's add something personal to our project.
 **Action:** Type a message to your Agent in the chat:
 > "Hi! Can you create a file called `projects/my_notes.md` and add my favorite Montessori quote: 'Follow the child'?"
 
+**Action:** Once the agent says they've "Saved" it, ask:
+> "Where are we?"
+
+Look at the response. Notice the **Time Machine Code** in brackets like `[a1b2c]`. This is like a unique page number. You can ask: "Tell me more about [that code]" if you ever want to know exactly what was changed!
+
 ## Phase 3: The "What-If" Experiment
 Sometimes you have an idea but you aren't sure if it's right. In Git, we call this a **Branch**. It's like taking a separate sheet of paper to try an idea.
 

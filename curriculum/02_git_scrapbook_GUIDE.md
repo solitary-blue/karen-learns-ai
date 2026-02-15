@@ -13,12 +13,13 @@
 - Open SourceTree.
 - Point out the "Main" line (the timeline).
 - Explain that every "dot" is a moment in time we saved.
+- **New Concept:** The **Time Machine Code** (SHA). Show the 7-character code (e.g., `a1b2c3d`) and explain it's like a unique page number.
 
 ## 3. Collaborative Work (10 mins)
 - Have Karen open `projects/karen-prototype/lesson_plan_agent.py` or a new file.
 - Ask the Agent to add a specific Montessori quote or a "Welcome" message to the project.
 - Watch the Agent commit.
-- **Show in SourceTree:** Point out the new dot and the "tech" or "ai" prefix.
+- **New Action:** Have Karen ask: "Where are we?" to see the summary skill in action. Explain the icons and the codes in the response.
 
 ## 4. The "Experiment" Branch (10 mins)
 - Suggest trying a "Risky Idea" (e.g., "What if we rewrote this for toddlers?").
