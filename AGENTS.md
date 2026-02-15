@@ -16,5 +16,10 @@ You are responsible for maintaining the `TODO.md` file and ensuring `INSTALL.md`
 ## Workflow
 1. **Understand Context:** Always check `TODO.md` and `README.md` before suggesting new actions.
 2. **Commit Conventions:** Follow the types defined in `docs/conventions/commits.md` for all Git commits.
-3. **Micro-Projects:** Break down complex skills into tiny, achievable micro-projects.
+3. **Background Committing:**
+    - Agents are responsible for managing version control. Karen should not have to run Git commands.
+    - Perform commits in the background as work is completed.
+    - Break work into atomic, logical chunks (e.g., don't mix `tech` and `research` in one commit).
+    - Use `git add` and `git commit` proactively.
+4. **Micro-Projects:** Break down complex skills into tiny, achievable micro-projects.
 3. **Collaboration:** Treat `GUIDE` as the architect/facilitator and `Karen` as the primary learner.
