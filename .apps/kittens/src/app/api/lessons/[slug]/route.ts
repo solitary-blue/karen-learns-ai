@@ -7,12 +7,18 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const curriculumDir = path.resolve(process.cwd(), '../../curriculum');
+
+  if (/[./\\]/.test(slug)) {
+    return NextResponse.json({ error: 'Invalid lesson slug' }, { status: 400 });
+  }
+
+  const curriculumDir = process.env.CURRICULUM_DIR
+    ?? path.resolve(process.cwd(), '../../curriculum');
   const filePath = path.join(curriculumDir, slug + '.md');
 
   try {
     if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ error: 'Lesson not found: ' + filePath }, { status: 404 });
+      return NextResponse.json({ error: 'Lesson not found' }, { status: 404 });
     }
     const content = fs.readFileSync(filePath, 'utf-8');
     return NextResponse.json({ content });

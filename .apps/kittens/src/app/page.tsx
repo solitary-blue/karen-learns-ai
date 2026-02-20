@@ -4,11 +4,12 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SlideShow from '@/components/SlideShow';
 import { parseMarkdownToSlides } from '@/lib/markdown';
+import type { Slide } from '@/lib/types';
 
 function LessonLoader() {
   const searchParams = useSearchParams();
   const slug = searchParams.get('lesson') || '03_llm_memory_KAREN';
-  const [slides, setSlides] = useState<any[]>([]);
+  const [slides, setSlides] = useState<Slide[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

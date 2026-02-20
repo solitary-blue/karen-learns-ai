@@ -4,12 +4,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { List } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-interface Slide {
-  html: string;
-  title: string;
-  hideTitle: boolean;
-}
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
+import type { Slide } from '@/lib/types';
 
 interface SlideShowProps {
   slides: Slide[];
@@ -38,39 +39,39 @@ export default function SlideShow({ slides }: SlideShowProps) {
   }, [next, prev]);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-montessori-cream select-none">
+    <div className="relative w-full h-screen overflow-hidden bg-background select-none">
       {/* Ghost UI: Slide List Button */}
       <div className="absolute top-6 left-6 z-50 opacity-0 hover:opacity-100 transition-opacity">
-        <button 
+        <button
           onClick={() => setShowList(true)}
-          className="p-2 rounded-full hover:bg-black/5 text-montessori-charcoal/40 hover:text-montessori-charcoal transition-colors"
+          className="p-2 rounded-full hover:bg-black/5 text-foreground/40 hover:text-foreground transition-colors"
         >
           <List size={24} />
         </button>
       </div>
 
       {/* Ghost UI: Navigation Hovers */}
-      <div 
+      <div
         className="absolute top-0 left-0 right-0 h-24 z-40 group flex items-center justify-center cursor-pointer"
         onClick={prev}
       >
         <div className="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center">
-          <span className="text-xs uppercase tracking-widest text-montessori-gold/60 mb-1">Previous</span>
-          <span className="text-sm font-serif text-montessori-charcoal/40">
+          <span className="text-xs uppercase tracking-widest text-primary/60 mb-1">Previous</span>
+          <span className="text-sm font-serif text-foreground/40">
             {current > 0 ? slides[current - 1].title : 'Start of Lesson'}
           </span>
         </div>
       </div>
 
-      <div 
+      <div
         className="absolute bottom-0 left-0 right-0 h-24 z-40 group flex items-center justify-center cursor-pointer"
         onClick={next}
       >
         <div className="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center">
-          <span className="text-sm font-serif text-montessori-charcoal/40 mb-1">
+          <span className="text-sm font-serif text-foreground/40 mb-1">
             {current < slides.length - 1 ? slides[current + 1].title : 'End of Lesson'}
           </span>
-          <span className="text-xs uppercase tracking-widest text-montessori-gold/60">Next</span>
+          <span className="text-xs uppercase tracking-widest text-primary/60">Next</span>
         </div>
       </div>
 
@@ -90,50 +91,38 @@ export default function SlideShow({ slides }: SlideShowProps) {
         </AnimatePresence>
       </div>
 
-      {/* Slide List Sidebar */}
-      <AnimatePresence>
-        {showList && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowList(false)}
-              className="absolute inset-0 bg-black/20 backdrop-blur-sm z-[60]"
-            />
-            <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              className="absolute top-0 left-0 bottom-0 w-80 bg-white shadow-2xl z-[70] p-8 overflow-y-auto"
-            >
-              <h2 className="text-2xl font-serif text-montessori-gold mb-8">Lesson Overview</h2>
-              <div className="space-y-4">
-                {slides.map((slide, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setCurrent(i);
-                      setShowList(false);
-                    }}
-                    className={cn(
-                      "w-full text-left p-3 rounded-lg transition-colors text-sm font-medium",
-                      current === i 
-                        ? "bg-montessori-cream text-montessori-gold border border-montessori-gold/20" 
-                        : "hover:bg-montessori-cream/50 text-montessori-charcoal/60"
-                    )}
-                  >
-                    {slide.title}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      {/* Slide List Sidebar — shadcn Sheet */}
+      <Sheet open={showList} onOpenChange={setShowList}>
+        <SheetContent side="left" className="w-80 overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle className="text-2xl font-serif text-primary">
+              Lesson Overview
+            </SheetTitle>
+          </SheetHeader>
+          <div className="space-y-4 mt-6">
+            {slides.map((slide, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setCurrent(i);
+                  setShowList(false);
+                }}
+                className={cn(
+                  "w-full text-left p-3 rounded-lg transition-colors text-sm font-medium",
+                  current === i
+                    ? "bg-muted text-primary border border-primary/20"
+                    : "hover:bg-muted/50 text-muted-foreground"
+                )}
+              >
+                {slide.title}
+              </button>
+            ))}
+          </div>
+        </SheetContent>
+      </Sheet>
 
       {/* Progress Dot */}
-      <div className="absolute bottom-8 right-8 text-[10px] tracking-[0.2em] font-medium text-montessori-gold/30 uppercase">
+      <div className="absolute bottom-8 right-8 text-[10px] tracking-[0.2em] font-medium text-primary/30 uppercase">
         {current + 1} / {slides.length}
       </div>
     </div>

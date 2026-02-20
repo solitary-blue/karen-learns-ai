@@ -2,8 +2,9 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
+import type { Slide } from './types';
 
-export async function parseMarkdownToSlides(markdown: string) {
+export async function parseMarkdownToSlides(markdown: string): Promise<Slide[]> {
   // Split by horizontal rule: ---
   const rawSlides = markdown.split(/\n---\n/);
   
