@@ -103,6 +103,7 @@ export default function SlideShow({ slides }: SlideShowProps) {
             {slides.map((slide, i) => (
               <button
                 key={i}
+                aria-current={current === i ? 'page' : undefined}
                 onClick={() => {
                   setCurrent(i);
                   setShowList(false);

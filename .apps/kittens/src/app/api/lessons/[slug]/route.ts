@@ -2,14 +2,24 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+interface LessonError {
+  error: string;
+}
+
+interface LessonResponse {
+  content: string;
+}
+
+const VALID_SLUG_PATTERN = /^[a-z0-9_-]+$/i;
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
 
-  if (/[./\\]/.test(slug)) {
-    return NextResponse.json({ error: 'Invalid lesson slug' }, { status: 400 });
+  if (!VALID_SLUG_PATTERN.test(slug)) {
+    return NextResponse.json<LessonError>({ error: 'Invalid lesson slug' }, { status: 400 });
   }
 
   const curriculumDir = process.env.CURRICULUM_DIR
@@ -18,11 +28,11 @@ export async function GET(
 
   try {
     if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ error: 'Lesson not found' }, { status: 404 });
+      return NextResponse.json<LessonError>({ error: 'Lesson not found' }, { status: 404 });
     }
     const content = fs.readFileSync(filePath, 'utf-8');
-    return NextResponse.json({ content });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to read lesson' }, { status: 500 });
+    return NextResponse.json<LessonResponse>({ content });
+  } catch {
+    return NextResponse.json<LessonError>({ error: 'Failed to read lesson' }, { status: 500 });
   }
 }
