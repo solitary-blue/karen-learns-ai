@@ -11,7 +11,28 @@
       "Bash(git -C /Users/lasto/clients/lastobelus-2025/karen-learns-ai status:*)",
       "Bash(git -C /Users/lasto/clients/lastobelus-2025/karen-learns-ai diff:*)",
       "Bash(git -C /Users/lasto/clients/lastobelus-2025/karen-learns-ai log:*)",
-      "Bash(git -C /Users/lasto/clients/lastobelus-2025/karen-learns-ai add:*)"
+      "Bash(git -C /Users/lasto/clients/lastobelus-2025/karen-learns-ai add:*)",
+      "WebSearch",
+      "WebFetch(*)",
+      "WebFetch(domain:mikhail.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:pnote.eu)",
+      "WebFetch(domain:opencode.ai)",
+      "WebFetch(domain:leehanchung.github.io)",
+      "Bash(npx tailwindcss --help:*)",
+      "Bash(wc:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(cat:*)",
+      "Bash(test:*)",
+      "Bash(ls:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm install:*)",
+      "Bash(chmod:*)",
+      "Bash(node -e:*)",
+      "Bash(npx shadcn@latest add:*)"
     ]
-  }
+  },
+  "enabledPlugins": {
+  },
+  "plansDirectory": "./.plans"
 }

@@ -1,1 +1,18 @@
-../../.apps/kittens/docs
+#!/bin/bash
+# Launch the Kittens lesson viewer and open it in your browser.
+
+KITTENS_DIR="$(cd "$(dirname "$0")/../.apps/kittens" && pwd)"
+
+cd "$KITTENS_DIR" || { echo "Could not find kittens app at $KITTENS_DIR"; exit 1; }
+
+# Install dependencies if needed
+if [ ! -d node_modules ]; then
+  echo "Installing dependencies (first run)..."
+  npm install --legacy-peer-deps
+fi
+
+# Open browser after a short delay to let the server start
+(sleep 2 && open "http://localhost:3000") &
+
+echo "Starting Kittens..."
+exec npm run dev
