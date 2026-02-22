@@ -3,7 +3,6 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SlideShow from '@/components/SlideShow';
-import { parseMarkdownToSlides } from '@/lib/markdown';
 import type { Slide } from '@/lib/types';
 
 function LessonLoader() {
@@ -18,8 +17,7 @@ function LessonLoader() {
         const res = await fetch(`/api/lessons/${slug}`);
         if (!res.ok) throw new Error('Failed to load lesson');
         const data = await res.json();
-        const parsedSlides = await parseMarkdownToSlides(data.content);
-        setSlides(parsedSlides);
+        setSlides(data.slides);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
       }

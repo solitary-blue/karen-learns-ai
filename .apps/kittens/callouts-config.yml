@@ -1,0 +1,108 @@
+# Obsidian Callout Configuration
+# Schema:
+#   type: string (unique identifier)
+#   title: string (default title)
+#   icon: string (lucide icon name)
+#   color: string (tailwind text color class)
+#   backgroundColor: string (tailwind bg color class)
+#   borderColor: string (tailwind border color class)
+
+callouts:
+  - type: note
+    title: Note
+    icon: FileText
+    color: text-blue-600
+    backgroundColor: bg-blue-50
+    borderColor: border-blue-200
+
+  - type: abstract
+    title: Abstract
+    icon: List
+    color: text-cyan-600
+    backgroundColor: bg-cyan-50
+    borderColor: border-cyan-200
+    aliases: [summary, tldr]
+
+  - type: info
+    title: Info
+    icon: Info
+    color: text-blue-600
+    backgroundColor: bg-blue-50
+    borderColor: border-blue-200
+
+  - type: todo
+    title: Todo
+    icon: CheckCircle
+    color: text-blue-600
+    backgroundColor: bg-blue-50
+    borderColor: border-blue-200
+
+  - type: tip
+    title: Tip
+    icon: Flame
+    color: text-teal-600
+    backgroundColor: bg-teal-50
+    borderColor: border-teal-200
+    aliases: [hint, important]
+
+  - type: success
+    title: Success
+    icon: CheckCircle
+    color: text-green-600
+    backgroundColor: bg-green-50
+    borderColor: border-green-200
+    aliases: [check, done]
+
+  - type: question
+    title: Question
+    icon: HelpCircle
+    color: text-orange-600
+    backgroundColor: bg-orange-50
+    borderColor: border-orange-200
+    aliases: [help, faq]
+
+  - type: warning
+    title: Warning
+    icon: AlertTriangle
+    color: text-amber-600
+    backgroundColor: bg-amber-50
+    borderColor: border-amber-200
+    aliases: [caution, attention]
+
+  - type: failure
+    title: Failure
+    icon: XCircle
+    color: text-red-600
+    backgroundColor: bg-red-50
+    borderColor: border-red-200
+    aliases: [fail, missing]
+
+  - type: danger
+    title: Danger
+    icon: Zap
+    color: text-red-700
+    backgroundColor: bg-red-100
+    borderColor: border-red-300
+    aliases: [error]
+
+  - type: bug
+    title: Bug
+    icon: Bug
+    color: text-red-600
+    backgroundColor: bg-red-50
+    borderColor: border-red-200
+
+  - type: example
+    title: Example
+    icon: List
+    color: text-purple-600
+    backgroundColor: bg-purple-50
+    borderColor: border-purple-200
+
+  - type: quote
+    title: Quote
+    icon: Quote
+    color: text-gray-600
+    backgroundColor: bg-gray-50
+    borderColor: border-gray-200
+    aliases: [cite]

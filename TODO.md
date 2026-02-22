@@ -10,6 +10,8 @@
 - [x] Convert Lesson 3 to SlideShow format for Kittens.
 - [x] Develop "Version Control" AI skill for Karen.
 - [x] Build "Kittens" lesson viewer app.
+- [x] Implement rendering of Obsidian custom callouts in Kittens app.
+- [x] Better kittens styles (typography, fonts, callouts).
 - [ ] Answer the foundational questions about Karen's needs and goals.
 - [ ] setup obsidian vault
 - [ ] create obsidian intro lesson

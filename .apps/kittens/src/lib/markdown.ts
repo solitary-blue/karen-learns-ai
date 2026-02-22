@@ -2,6 +2,7 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
+import { remarkCallout } from './remark-callout';
 import type { Slide } from './types';
 
 export async function parseMarkdownToSlides(markdown: string): Promise<Slide[]> {
@@ -10,8 +11,9 @@ export async function parseMarkdownToSlides(markdown: string): Promise<Slide[]> 
   
   const processor = unified()
     .use(remarkParse)
-    .use(remarkRehype)
-    .use(rehypeStringify);
+    .use(remarkCallout)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeStringify, { allowDangerousHtml: true });
 
   const slides = await Promise.all(
     rawSlides.map(async (content) => {

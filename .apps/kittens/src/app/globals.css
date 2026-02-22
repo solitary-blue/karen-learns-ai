@@ -40,13 +40,17 @@
     --chart-3: 0 0% 17%;
     --chart-4: 30 20% 82%;
     --chart-5: 37 20% 88%;
+
+    --font-main: 'Avenir Next', Avenir, 'Seravek', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-title: Georgia, Cambria, 'Times New Roman', Times, serif;
   }
 
   body {
     @apply bg-background text-foreground font-sans;
+    font-family: var(--font-main);
   }
-
-  h1, h2, h3, h4 {
-    @apply font-serif;
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-title);
   }
 }

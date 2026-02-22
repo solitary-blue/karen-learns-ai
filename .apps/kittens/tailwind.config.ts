@@ -1,8 +1,12 @@
 import type { Config } from 'tailwindcss';
 import tailwindcssAnimate from 'tailwindcss-animate';
+import typography from '@tailwindcss/typography';
 
 const config: Config = {
-  content: ['./src/**/*.{ts,tsx}'],
+  content: [
+    './src/**/*.{ts,tsx}',
+    './callouts-config.yml',
+  ],
   theme: {
     extend: {
       /* Direct Montessori tokens — keep for backward compat */
@@ -59,8 +63,8 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        serif: ['var(--font-title)', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+        sans: ['var(--font-main)', '"Avenir Next"', 'Avenir', '"Seravek"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {
@@ -76,9 +80,36 @@ const config: Config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      typography: (theme: any) => ({
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+            color: theme('colors.foreground'),
+            h1: {
+              color: theme('colors.foreground'),
+              fontWeight: '700',
+            },
+            h2: {
+              color: theme('colors.foreground'),
+            },
+            h3: {
+              color: theme('colors.foreground'),
+            },
+            h4: {
+              color: theme('colors.foreground'),
+            },
+            'ul > li::marker': {
+              color: theme('colors.muted.foreground'),
+            },
+            'ol > li::marker': {
+              color: theme('colors.muted.foreground'),
+            },
+          },
+        },
+      }),
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [tailwindcssAnimate, typography],
 };
 
 export default config;

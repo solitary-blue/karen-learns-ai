@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { SettingsMenu } from '@/components/SettingsMenu';
+import { FontLoader } from '@/components/FontLoader';
 
 export const metadata: Metadata = {
   title: 'Kittens - Montessori AI Lessons',
@@ -13,7 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <FontLoader />
+        {children}
+        <SettingsMenu />
+      </body>
     </html>
   );
 }

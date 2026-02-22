@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { parseMarkdownToSlides } from '@/lib/markdown';
+import type { Slide } from '@/lib/types';
 
 interface LessonError {
   error: string;
@@ -8,6 +10,7 @@ interface LessonError {
 
 interface LessonResponse {
   content: string;
+  slides: Slide[];
 }
 
 const VALID_SLUG_PATTERN = /^[a-z0-9_-]+$/i;
@@ -31,7 +34,8 @@ export async function GET(
       return NextResponse.json<LessonError>({ error: 'Lesson not found' }, { status: 404 });
     }
     const content = fs.readFileSync(filePath, 'utf-8');
-    return NextResponse.json<LessonResponse>({ content });
+    const slides = await parseMarkdownToSlides(content);
+    return NextResponse.json<LessonResponse>({ content, slides });
   } catch {
     return NextResponse.json<LessonError>({ error: 'Failed to read lesson' }, { status: 500 });
   }
