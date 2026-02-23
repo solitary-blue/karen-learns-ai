@@ -6,7 +6,7 @@ Read AGENTS.md for persona and workflow guidance.
 Format: `type: EMOJI description` — see docs/conventions/commits.md for full type/emoji table.
 `tech:` commits must use `--author="Michael Johnston <lastobelus@mac.com>"` (GUIDE's work, not Karen's).
 
-Common types: tech 🙈 | ai 🧠 | docs 📝 | learn 📓 | write ✍️ | organize 📂 | todo ✅
+Common types: tech: 🙈 | ai: 🧠 | docs: 📝 | learn: 📓 | write: ✍️ | organize: 📂 | todo: ✅
 
 ## Key references
 - `.agents/skills/` — agent skill definitions (directory style with SKILL.md, or flat .md)
