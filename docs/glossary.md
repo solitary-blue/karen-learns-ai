@@ -11,6 +11,8 @@ This document defines terms used in this project to help Karen navigate the "Dig
 | **direnv** | A tool that automatically sets up your "Work Environment" as soon as you open your project folder. |
 | **Git** | The "Time Machine" or "Digital Scrapbook" system that keeps track of every change we make. |
 | **GUIDE** | Michael Johnston (lastobelus). He is the architect of this learning environment and your primary mentor. |
+| **Kittens** | The lesson viewer app that turns Markdown lessons into a slideshow presentation. |
+| **Markdown-First** | A writing rule: lessons should remain clear and useful as normal Markdown notes, even without Kittens. |
 | **Meta-Project** | The entire `karen-learns-ai` folder (the "Repo"). It contains all your projects, lessons, and tools. |
 | **Persona** | A "Role" given to an AI (e.g., "The Montessori Expert") to change how it thinks and talks. |
 | **Project** | Specific sub-folders inside the `projects/` directory where you do your actual school or research work. |

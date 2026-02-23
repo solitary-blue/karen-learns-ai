@@ -2,6 +2,22 @@
 
 Kittens is a quiet little app that turns your lesson notes into a slideshow you can step through at your own pace — like turning the pages of a beautifully laid-out book.
 
+## Our Authoring Promise (Markdown First)
+
+Kittens is designed so your lesson files stay useful **with or without** the app.
+
+That means:
+
+- Write lessons in normal Markdown first.
+- Keep Kittens-only syntax to a minimum.
+- If someone opens the file in Obsidian, GitHub, or a plain text editor, it should still read clearly from top to bottom.
+
+In practice, we treat this as a simple rule:
+
+`A lesson should be readable as a document first, and a slideshow second.`
+
+For a plain-language guide to writing lessons this way, see `docs/kittens/authoring.md`.
+
 ## Opening a Lesson
 
 In your terminal, from the project folder, run:
