@@ -12,6 +12,7 @@
 - [x] Build "Kittens" lesson viewer app.
 - [x] Implement rendering of Obsidian custom callouts in Kittens app.
 - [x] Better kittens styles (typography, fonts, callouts).
+- [x] Document Kittens markdown-first authoring rules for non-technical users.
 - [ ] Answer the foundational questions about Karen's needs and goals.
 - [ ] setup obsidian vault
 - [ ] create obsidian intro lesson
