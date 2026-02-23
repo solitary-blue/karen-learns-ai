@@ -20,7 +20,7 @@
 - [ ] kittenize git lesson
 - [ ] research potential value of [AionUi](https://github.com/iOfficeAI/AionUi)
 - [ ] setup jezweb/claude-skills for gemini
-- [ ] reinstall new version of jezweb/claude-skills (/plugin install all@jezweb-skills), might have to uninstall old first? `claude plugin uninstall`
+- [x] reinstall new version of jezweb/claude-skills (/plugin install all@jezweb-skills), might have to uninstall old first? `claude plugin uninstall`
 
 ## Karen
 - [ ] Explore the `.agents/skills/teach-me-about-ai.md` skill.
