@@ -29,10 +29,11 @@
       "Bash(npm install:*)",
       "Bash(chmod:*)",
       "Bash(node -e:*)",
-      "Bash(npx shadcn@latest add:*)"
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(tail:*)",
+      "Bash(git commit:*)"
     ]
   },
-  "enabledPlugins": {
-  },
+  "enabledPlugins": {},
   "plansDirectory": "./.plans"
 }
