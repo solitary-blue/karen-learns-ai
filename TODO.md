@@ -15,6 +15,7 @@
 - [x] Document Kittens markdown-first authoring rules for non-technical users.
 - [x] Add Obsidian-style lesson metadata (frontmatter) to Kittens.
 - [x] Add GitHub CI quality gate for Kittens (lint, typecheck, tests, build).
+- [x] Add kitten mascots to presentation slides.
 - [ ] Answer the foundational questions about Karen's needs and goals.
 - [ ] setup obsidian vault
 - [ ] create obsidian intro lesson
