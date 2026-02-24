@@ -20,7 +20,7 @@
 - [ ] setup obsidian vault
 - [ ] create obsidian intro lesson
 - [ ] setup gravatar
-- [ ] better kittens styles
+- [x] better kittens styles
 - [ ] kittenize git lesson
 - [ ] research potential value of [AionUi](https://github.com/iOfficeAI/AionUi)
 - [ ] setup jezweb/claude-skills for gemini
