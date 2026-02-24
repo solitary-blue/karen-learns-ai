@@ -1,0 +1,47 @@
+name: Kittens CI
+
+on:
+  push:
+    paths:
+      - '.apps/kittens/**'
+      - 'curriculum/**'
+      - '.github/workflows/kittens-ci.yml'
+  pull_request:
+    paths:
+      - '.apps/kittens/**'
+      - 'curriculum/**'
+      - '.github/workflows/kittens-ci.yml'
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .apps/kittens
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: .apps/kittens/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+

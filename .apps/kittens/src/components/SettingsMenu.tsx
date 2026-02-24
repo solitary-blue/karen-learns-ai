@@ -29,7 +29,7 @@ export function SettingsMenu() {
   const [availableMainFonts, setAvailableMainFonts] = React.useState<FontOption[]>(DEFAULT_MAIN_FONTS);
   const [availableTitleFonts, setAvailableTitleFonts] = React.useState<FontOption[]>(DEFAULT_TITLE_FONTS);
   
-  const { mainFont, titleFont, updateMainFont, updateTitleFont, loaded } = useSettings(DEFAULT_MAIN_FONTS[0], DEFAULT_TITLE_FONTS[0]);
+  const { mainFont, titleFont, updateMainFont, updateTitleFont } = useSettings(DEFAULT_MAIN_FONTS[0], DEFAULT_TITLE_FONTS[0]);
 
   React.useEffect(() => {
     async function loadFonts() {

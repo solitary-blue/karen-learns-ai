@@ -10,38 +10,45 @@ export interface FontOption {
   value: string;
 }
 
+function resolveStoredFont(storageKey: string, fallback: FontOption): FontOption {
+  if (typeof window === 'undefined') {
+    return fallback;
+  }
+
+  const saved = window.localStorage.getItem(storageKey);
+  if (!saved) {
+    return fallback;
+  }
+
+  try {
+    const parsed = JSON.parse(saved);
+    if (
+      parsed
+      && typeof parsed === 'object'
+      && typeof parsed.name === 'string'
+      && typeof parsed.value === 'string'
+    ) {
+      return parsed;
+    }
+  } catch (e) {
+    console.error(`Failed to parse font setting for ${storageKey}`, e);
+  }
+
+  return fallback;
+}
+
 export function useSettings(defaultMain: FontOption, defaultTitle: FontOption) {
-  const [mainFont, setMainFont] = useState<FontOption>(defaultMain);
-  const [titleFont, setTitleFont] = useState<FontOption>(defaultTitle);
-  const [loaded, setLoaded] = useState(false);
+  const [mainFont, setMainFont] = useState<FontOption>(() => resolveStoredFont(STORAGE_KEY_MAIN_FONT, defaultMain));
+  const [titleFont, setTitleFont] = useState<FontOption>(() => resolveStoredFont(STORAGE_KEY_TITLE_FONT, defaultTitle));
 
-  // Initialize from localStorage on mount
+  // Keep CSS variables in sync with selected fonts.
   useEffect(() => {
-    const savedMain = localStorage.getItem(STORAGE_KEY_MAIN_FONT);
-    const savedTitle = localStorage.getItem(STORAGE_KEY_TITLE_FONT);
+    document.documentElement.style.setProperty('--font-main', mainFont.value);
+  }, [mainFont]);
 
-    if (savedMain) {
-      try {
-        const font = JSON.parse(savedMain);
-        setMainFont(font);
-        document.documentElement.style.setProperty('--font-main', font.value);
-      } catch (e) {
-        console.error('Failed to parse main font setting', e);
-      }
-    }
-
-    if (savedTitle) {
-      try {
-        const font = JSON.parse(savedTitle);
-        setTitleFont(font);
-        document.documentElement.style.setProperty('--font-title', font.value);
-      } catch (e) {
-        console.error('Failed to parse title font setting', e);
-      }
-    }
-    
-    setLoaded(true);
-  }, []);
+  useEffect(() => {
+    document.documentElement.style.setProperty('--font-title', titleFont.value);
+  }, [titleFont]);
 
   const updateMainFont = (font: FontOption) => {
     setMainFont(font);
@@ -60,6 +67,5 @@ export function useSettings(defaultMain: FontOption, defaultTitle: FontOption) {
     titleFont,
     updateMainFont,
     updateTitleFont,
-    loaded
   };
 }
