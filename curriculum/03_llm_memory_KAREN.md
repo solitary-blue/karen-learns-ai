@@ -31,3 +31,5 @@ If we talk about a great idea and you want to make sure I don't forget it next t
 ## . Action for Today
 Ask me: 
 > "What is the most important thing you've learned about my project today? Please save it to a file called `projects/persistence_check.md` so you remember it after your restart!"
+---
+### This slide should have a kitten
