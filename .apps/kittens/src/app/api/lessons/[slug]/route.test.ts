@@ -1,9 +1,15 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import fs from 'fs';
 import { TEST_CALLOUT_CONFIG, SIMPLE_LESSON } from '@/test/fixtures';
 
 vi.mock('@/lib/callout-config', () => ({
   loadCalloutConfig: () => TEST_CALLOUT_CONFIG,
+}));
+
+const mockParseMarkdownToSlides = vi.fn().mockResolvedValue([]);
+
+vi.mock('@/lib/markdown', () => ({
+  parseMarkdownToSlides: (...args: any[]) => mockParseMarkdownToSlides(...args),
 }));
 
 import { GET } from './route';
@@ -17,6 +23,9 @@ function makeParams(slug: string) {
 }
 
 describe('GET /api/lessons/[slug]', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
   it('returns 400 for invalid slug (path traversal)', async () => {
     const res = await GET(makeRequest('../etc/passwd'), makeParams('../etc/passwd'));
 
@@ -38,6 +47,11 @@ describe('GET /api/lessons/[slug]', () => {
   it('returns 200 with parsed metadata and slides for valid lesson', async () => {
     vi.spyOn(fs, 'existsSync').mockReturnValue(true);
     vi.spyOn(fs, 'readFileSync').mockReturnValue(SIMPLE_LESSON);
+    
+    mockParseMarkdownToSlides.mockResolvedValueOnce([
+      { title: 'Slide One', html: '<p>Content</p>' },
+      { title: 'Slide Two', html: '<p>More</p>' }
+    ]);
 
     const res = await GET(makeRequest('cosmic-education'), makeParams('cosmic-education'));
 
@@ -56,5 +70,16 @@ describe('GET /api/lessons/[slug]', () => {
     const res = await GET(makeRequest('lesson-01_test'), makeParams('lesson-01_test'));
 
     expect(res.status).toBe(200);
+  });
+
+  it('passes theme query parameter to markdown parser', async () => {
+    vi.spyOn(fs, 'existsSync').mockReturnValue(true);
+    vi.spyOn(fs, 'readFileSync').mockReturnValue('# Theme Test');
+    
+    const req = new Request('http://localhost:3000/api/lessons/test-theme?theme=dracula');
+    const res = await GET(req, makeParams('test-theme'));
+    
+    expect(res.status).toBe(200);
+    expect(mockParseMarkdownToSlides).toHaveBeenCalledWith('# Theme Test', 'dracula');
   });
 });

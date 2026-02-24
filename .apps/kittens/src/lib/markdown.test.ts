@@ -35,6 +35,24 @@ vi.mock('./kitten-config', () => ({
   }),
 }));
 
+vi.mock('./theme-parser', () => ({
+  loadThemeConfig: () => ({
+    defaultTheme: 'montessori',
+    themes: {
+      dracula: {
+        definition: {
+          mascots: {
+            header: ['dracula-header-mascot'],
+            callouts: {
+              tip: ['dracula-tip-mascot']
+            }
+          }
+        }
+      }
+    }
+  })
+}));
+
 import { parseMarkdownToSlides, analyzeSlideContent } from './markdown';
 
 describe('parseMarkdownToSlides', () => {
@@ -157,5 +175,17 @@ describe('parseMarkdownToSlides kitten injection', () => {
   it('does not inject kitten into normal content slide', async () => {
     const slides = await parseMarkdownToSlides(NORMAL_CONTENT_SLIDE);
     expect(slides[0].kitten).toBeUndefined();
+  });
+
+  it('uses theme mascot overrides for header slides if theme provided', async () => {
+    const slides = await parseMarkdownToSlides(HEADER_ONLY_SLIDE, 'dracula');
+    expect(slides[0].kitten).toBeDefined();
+    expect(slides[0].kitten?.name).toBe('dracula-header-mascot');
+  });
+
+  it('uses theme mascot overrides for callout slides if theme provided', async () => {
+    const slides = await parseMarkdownToSlides(CALLOUT_DOMINANT_SLIDE, 'dracula');
+    expect(slides[0].kitten).toBeDefined();
+    expect(slides[0].kitten?.name).toBe('dracula-tip-mascot');
   });
 });
