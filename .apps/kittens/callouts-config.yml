@@ -44,6 +44,7 @@ callouts:
     backgroundColor: bg-teal-50
     borderColor: border-teal-200
     aliases: [hint, important]
+    kittens: [proud-book, shows-book]
 
   - type: success
     title: Success
@@ -52,6 +53,7 @@ callouts:
     backgroundColor: bg-green-50
     borderColor: border-green-200
     aliases: [check, done]
+    kittens: excited-chemist
 
   - type: question
     title: Question
@@ -68,6 +70,7 @@ callouts:
     backgroundColor: bg-amber-50
     borderColor: border-amber-200
     aliases: [caution, attention]
+    kittens: concerned-chemist
 
   - type: failure
     title: Failure
@@ -98,6 +101,7 @@ callouts:
     color: text-purple-600
     backgroundColor: bg-purple-50
     borderColor: border-purple-200
+    kittens: suit-arms-crossed
 
   - type: quote
     title: Quote

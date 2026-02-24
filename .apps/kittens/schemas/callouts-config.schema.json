@@ -38,6 +38,13 @@
               "type": "string"
             },
             "description": "Alternative names for this callout type"
+          },
+          "kittens": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } }
+            ],
+            "description": "Preferred kitten mascot name(s) for this callout type"
           }
         },
         "required": ["type", "icon", "color", "backgroundColor", "borderColor"]

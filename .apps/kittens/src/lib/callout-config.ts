@@ -11,6 +11,7 @@ export interface CalloutConfig {
   backgroundColor?: string;
   borderColor?: string;
   aliases?: string[];
+  kittens?: string | string[];
 }
 
 export interface CalloutsConfig {

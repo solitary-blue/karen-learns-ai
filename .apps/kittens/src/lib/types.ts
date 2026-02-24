@@ -4,6 +4,10 @@ export interface Slide {
   html: string;
   title: string;
   hideTitle: boolean;
+  kitten?: {
+    name: string;
+    height: string;
+  };
 }
 
 export interface LessonResponse {

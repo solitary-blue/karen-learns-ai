@@ -114,6 +114,23 @@ export default function SlideShow({ slides, metadata = {} }: SlideShowProps) {
         </AnimatePresence>
       </div>
 
+      {/* Kitten Mascot */}
+      <AnimatePresence mode="wait">
+        {slides[current].kitten && (
+          <motion.img
+            key={`kitten-${current}`}
+            src={`/api/kittens/${slides[current].kitten!.name}`}
+            alt=""
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
+            className="absolute bottom-28 right-8 z-30 pointer-events-none"
+            style={{ height: slides[current].kitten!.height, width: 'auto' }}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Slide List Sidebar — shadcn Sheet */}
       <Sheet open={showList} onOpenChange={setShowList}>
         <SheetContent side="left" className="w-80 overflow-y-auto">

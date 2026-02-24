@@ -1,11 +1,41 @@
 import { describe, expect, it, vi } from 'vitest';
-import { TEST_CALLOUT_CONFIG } from '@/test/fixtures';
+import {
+  TEST_CALLOUT_CONFIG,
+  HEADER_ONLY_SLIDE,
+  HEADER_ONLY_WITH_BLANKS,
+  MULTI_HEADING_SLIDE,
+  CALLOUT_DOMINANT_SLIDE,
+  CALLOUT_WITH_EXTRA_CONTENT,
+  NORMAL_CONTENT_SLIDE,
+  WARNING_CALLOUT_SLIDE,
+} from '@/test/fixtures';
 
 vi.mock('./callout-config', () => ({
-  loadCalloutConfig: () => TEST_CALLOUT_CONFIG,
+  loadCalloutConfig: () => ({
+    callouts: {
+      ...TEST_CALLOUT_CONFIG.callouts,
+      tip: {
+        ...TEST_CALLOUT_CONFIG.callouts.tip,
+        kittens: ['suit-arms-crossed']
+      }
+    }
+  }),
 }));
 
-import { parseMarkdownToSlides } from './markdown';
+vi.mock('./kitten-config', () => ({
+  loadAppConfig: () => ({
+    'kitten-size': '280px',
+    'callout-kitten-size': '180px',
+    'kitten-min-other-lines': 3,
+  }),
+  pickRandomKitten: () => ({ name: 'suit-arms-crossed', filePath: '/fake/path.png' }),
+  pickKittenFromPreferences: (prefs: string | string[]) => ({
+    name: Array.isArray(prefs) ? prefs[0] : prefs,
+    filePath: '/fake/path.png',
+  }),
+}));
+
+import { parseMarkdownToSlides, analyzeSlideContent } from './markdown';
 
 describe('parseMarkdownToSlides', () => {
   it('splits on \\n---\\n into separate slides', async () => {
@@ -68,5 +98,64 @@ describe('parseMarkdownToSlides', () => {
     const empty = await parseMarkdownToSlides('');
     expect(empty).toHaveLength(1);
     expect(empty[0].title).toBe('Untitled Slide');
+  });
+});
+
+describe('analyzeSlideContent', () => {
+  it('identifies header-only slide', () => {
+    const analysis = analyzeSlideContent(HEADER_ONLY_SLIDE);
+    expect(analysis.isHeaderOnly).toBe(true);
+    expect(analysis.isCalloutDominant).toBe(false);
+  });
+
+  it('identifies header-only slide with blank lines', () => {
+    const analysis = analyzeSlideContent(HEADER_ONLY_WITH_BLANKS);
+    expect(analysis.isHeaderOnly).toBe(true);
+  });
+
+  it('multi-heading slide is not header-only', () => {
+    const analysis = analyzeSlideContent(MULTI_HEADING_SLIDE);
+    expect(analysis.isHeaderOnly).toBe(false);
+  });
+
+  it('identifies callout-dominant slide', () => {
+    const analysis = analyzeSlideContent(CALLOUT_DOMINANT_SLIDE);
+    expect(analysis.isCalloutDominant).toBe(true);
+    expect(analysis.calloutType).toBe('tip');
+  });
+
+  it('callout with too many extra lines is not dominant', () => {
+    const analysis = analyzeSlideContent(CALLOUT_WITH_EXTRA_CONTENT);
+    expect(analysis.isCalloutDominant).toBe(false);
+  });
+
+  it('normal content is neither', () => {
+    const analysis = analyzeSlideContent(NORMAL_CONTENT_SLIDE);
+    expect(analysis.isHeaderOnly).toBe(false);
+    expect(analysis.isCalloutDominant).toBe(false);
+  });
+});
+
+describe('parseMarkdownToSlides kitten injection', () => {
+  it('injects kitten into header-only slide', async () => {
+    const slides = await parseMarkdownToSlides(HEADER_ONLY_SLIDE);
+    expect(slides[0].kitten).toBeDefined();
+    expect(slides[0].kitten?.height).toBe('280px');
+  });
+
+  it('injects kitten into callout-dominant slide with preference', async () => {
+    const slides = await parseMarkdownToSlides(CALLOUT_DOMINANT_SLIDE);
+    expect(slides[0].kitten).toBeDefined();
+    expect(slides[0].kitten?.height).toBe('180px');
+  });
+
+  it('does not inject kitten if no preference configured for callout', async () => {
+    const slides = await parseMarkdownToSlides('# Notes\n\n> [!note]\n> Some note.');
+    expect(slides[0].kitten).toBeUndefined();
+  });
+
+  it('does not inject kitten into normal content slide', async () => {
+    const slides = await parseMarkdownToSlides(NORMAL_CONTENT_SLIDE);
+    expect(slides[0].kitten).toBeUndefined();
   });
 });

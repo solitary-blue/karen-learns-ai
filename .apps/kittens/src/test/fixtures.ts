@@ -104,3 +104,13 @@ export const TEST_CALLOUT_CONFIG: CalloutsConfig = {
     },
   },
 };
+
+export const HEADER_ONLY_SLIDE = '# Welcome to the Lesson';
+export const HEADER_ONLY_WITH_BLANKS = '# Welcome\n\n\n';
+export const MULTI_HEADING_SLIDE = '# Main Title\n\n## Subtitle';  // NOT header-only
+
+export const CALLOUT_DOMINANT_SLIDE = '# Tips\n\n> [!tip]\n> Remember to breathe.';
+export const CALLOUT_WITH_EXTRA_CONTENT =
+  '# Tips\n\n> [!tip]\n> Remember to breathe.\n\nExtra line one.\nExtra line two.\nExtra line three.';
+export const NORMAL_CONTENT_SLIDE = '# Regular Slide\n\nThis is a paragraph.\n\nAnother paragraph.';
+export const WARNING_CALLOUT_SLIDE = '# Caution\n\n> [!warning]\n> Be careful with this.';
