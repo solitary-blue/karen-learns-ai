@@ -1,3 +1,15 @@
+---
+title: Exercise 3 - How your AI Assistant Remembers
+aliases:
+  - LLM Memory Lesson
+tags:
+  - ai-literacy
+  - montessori
+  - reflection
+audience: Karen
+duration_minutes: 20
+---
+
 # Exercise 3: How your AI Assistant "Remembers"
 
 Welcome back, Karen! Today we're learning about how your AI assistant thinks and what happens when it "takes a nap" (restarts).

@@ -21,6 +21,7 @@ src/
 ├── components/
 │   └── SlideShow.tsx                  # Slide viewer with keyboard nav + ghost UI
 └── lib/
+    ├── frontmatter.ts                 # Parses Obsidian-style YAML frontmatter
     ├── markdown.ts                    # Splits markdown on --- into Slide[]
     ├── types.ts                       # Shared Slide interface
     └── utils.ts                       # cn() — clsx + tailwind-merge
@@ -42,6 +43,15 @@ Open with a specific lesson: `http://localhost:3000?lesson=03_llm_memory_KAREN`
 2. Fetches `/api/lessons/{slug}` — the API route reads `{slug}.md` from the curriculum directory
 3. `parseMarkdownToSlides()` splits the markdown on `\n---\n` horizontal rules
 4. Each section becomes a `Slide` with `html`, `title` (first heading), and `hideTitle` flag
+
+### Obsidian-Style Frontmatter
+
+Kittens supports YAML frontmatter at the top of lesson files, matching Obsidian conventions.
+
+- Parsed by `parseLessonFrontmatter()`
+- Included in API response as `metadata`
+- Rendered in the slide overview sidebar as "Lesson Details"
+- Fail-open behavior: malformed frontmatter is ignored and lesson body still renders
 
 ### Curriculum Directory
 

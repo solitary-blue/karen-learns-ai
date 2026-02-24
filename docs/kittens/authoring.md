@@ -31,6 +31,32 @@ Kittens turns one Markdown file into slides by splitting on:
 
 This is standard Markdown (a horizontal rule), so it is still fine in normal note apps.
 
+## Lesson Metadata (Obsidian-Style Frontmatter)
+
+If you want lesson details (age band, duration, tags), place YAML frontmatter at the top of the file.
+
+```markdown
+---
+title: Great Lesson 1
+aliases:
+  - Coming of the Universe
+tags:
+  - montessori
+  - lower-elementary
+duration_minutes: 45
+audience: Lower Elementary
+materials:
+  - Timeline cards
+  - Globe
+---
+```
+
+Notes:
+
+- This follows the same style Obsidian uses.
+- Kittens reads and displays metadata in the lesson overview.
+- If frontmatter is missing or broken, Kittens still opens the lesson body normally.
+
 ## Custom Syntax Policy (Keep It Minimal)
 
 Kittens currently supports two extras. Use them only when they solve a real teaching need.
@@ -78,4 +104,3 @@ Use AI to draft three versions of a lesson opening.
 > [!tip] Keep agency with the guide
 > Ask AI for options, then choose deliberately.
 ```
-

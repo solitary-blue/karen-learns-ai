@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { List } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -11,32 +11,55 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import type { Slide } from '@/lib/types';
+import type { LessonMetadata, LessonMetadataValue } from '@/lib/frontmatter';
 
 interface SlideShowProps {
   slides: Slide[];
+  metadata?: LessonMetadata;
 }
 
-export default function SlideShow({ slides }: SlideShowProps) {
+function formatMetadataValue(value: LessonMetadataValue): string {
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => formatMetadataValue(item))
+      .filter(Boolean)
+      .join(', ');
+  }
+
+  if (value === null) {
+    return 'null';
+  }
+
+  return String(value);
+}
+
+function humanizeMetadataKey(key: string): string {
+  return key
+    .replace(/[_-]+/g, ' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+export default function SlideShow({ slides, metadata = {} }: SlideShowProps) {
   const [current, setCurrent] = useState(0);
   const [showList, setShowList] = useState(false);
-
-  const next = useCallback(() => {
-    setCurrent((prev) => (prev < slides.length - 1 ? prev + 1 : prev));
-  }, [slides.length]);
-
-  const prev = useCallback(() => {
-    setCurrent((prev) => (prev > 0 ? prev - 1 : prev));
-  }, []);
+  const metadataEntries = Object.entries(metadata).filter(([, value]) => {
+    const formatted = formatMetadataValue(value);
+    return formatted.trim().length > 0;
+  });
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prev();
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        setCurrent((prev) => (prev < slides.length - 1 ? prev + 1 : prev));
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        setCurrent((prev) => (prev > 0 ? prev - 1 : prev));
+      }
       if (e.key === 'Escape') setShowList(false);
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [next, prev]);
+  }, [slides.length]);
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-background select-none">
@@ -53,7 +76,7 @@ export default function SlideShow({ slides }: SlideShowProps) {
       {/* Ghost UI: Navigation Hovers */}
       <div
         className="absolute top-0 left-0 right-0 h-24 z-40 group flex items-center justify-center cursor-pointer"
-        onClick={prev}
+        onClick={() => setCurrent((prev) => (prev > 0 ? prev - 1 : prev))}
       >
         <div className="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center">
           <span className="text-xs uppercase tracking-widest text-primary/60 mb-1">Previous</span>
@@ -65,7 +88,7 @@ export default function SlideShow({ slides }: SlideShowProps) {
 
       <div
         className="absolute bottom-0 left-0 right-0 h-24 z-40 group flex items-center justify-center cursor-pointer"
-        onClick={next}
+        onClick={() => setCurrent((prev) => (prev < slides.length - 1 ? prev + 1 : prev))}
       >
         <div className="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center">
           <span className="text-sm font-serif text-foreground/40 mb-1">
@@ -100,6 +123,20 @@ export default function SlideShow({ slides }: SlideShowProps) {
             </SheetTitle>
           </SheetHeader>
           <div className="space-y-4 mt-6">
+            {metadataEntries.length > 0 && (
+              <section className="rounded-lg border border-primary/20 bg-muted/20 p-3">
+                <h3 className="font-serif text-sm uppercase tracking-wider text-primary/80">Lesson Details</h3>
+                <dl className="mt-3 space-y-2">
+                  {metadataEntries.map(([key, value]) => (
+                    <div key={key}>
+                      <dt className="text-[11px] uppercase tracking-wider text-muted-foreground/80">{humanizeMetadataKey(key)}</dt>
+                      <dd className="text-sm text-foreground/90">{formatMetadataValue(value)}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            )}
+
             {slides.map((slide, i) => (
               <button
                 key={i}

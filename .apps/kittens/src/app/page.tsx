@@ -3,12 +3,14 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SlideShow from '@/components/SlideShow';
-import type { Slide } from '@/lib/types';
+import type { LessonResponse, Slide } from '@/lib/types';
+import type { LessonMetadata } from '@/lib/frontmatter';
 
 function LessonLoader() {
   const searchParams = useSearchParams();
   const slug = searchParams.get('lesson') || '03_llm_memory_KAREN';
   const [slides, setSlides] = useState<Slide[]>([]);
+  const [metadata, setMetadata] = useState<LessonMetadata>({});
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -16,8 +18,9 @@ function LessonLoader() {
       try {
         const res = await fetch(`/api/lessons/${slug}`);
         if (!res.ok) throw new Error('Failed to load lesson');
-        const data = await res.json();
+        const data: LessonResponse = await res.json();
         setSlides(data.slides);
+        setMetadata(data.metadata || {});
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
       }
@@ -40,7 +43,7 @@ function LessonLoader() {
     </div>
   );
 
-  return <SlideShow slides={slides} />;
+  return <SlideShow slides={slides} metadata={metadata} />;
 }
 
 export default function Home() {

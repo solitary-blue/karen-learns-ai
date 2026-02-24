@@ -18,6 +18,8 @@ In practice, we treat this as a simple rule:
 
 For a plain-language guide to writing lessons this way, see `docs/kittens/authoring.md`.
 
+Kittens also supports Obsidian-style YAML frontmatter for lesson metadata (for example: audience, duration, tags), while keeping the lesson readable as plain Markdown.
+
 ## Opening a Lesson
 
 In your terminal, from the project folder, run:
