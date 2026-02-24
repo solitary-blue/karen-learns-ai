@@ -1,0 +1,55 @@
+name: "montessori"
+label: "Montessori Classic"
+
+# Named Palette
+colors:
+  cream: "#F5F1E8"
+  charcoal: "#2C2C2C"
+  gold: "#D4A574"
+  white: "#FFFFFF"
+  red: "#991B1B"
+  blue: "#2563EB"
+  gray: "#9CA3AF"
+  border-color: "#E5E7EB"
+
+# Semantics (Hierarchical)
+semantics:
+  background: cream
+  foreground: charcoal
+  border: border-color
+  input: border-color
+  ring: gold
+  primary:
+    DEFAULT: gold
+    foreground: white
+  secondary:
+    DEFAULT: charcoal
+    foreground: white
+  destructive:
+    DEFAULT: red
+    foreground: white
+  muted:
+    DEFAULT: gray
+    foreground: charcoal
+  accent:
+    DEFAULT: gold
+    foreground: charcoal
+  popover:
+    DEFAULT: white
+    foreground: charcoal
+  card:
+    DEFAULT: white
+    foreground: charcoal
+  headers:
+    color: charcoal
+    h1:
+      color: gold
+
+# Fonts
+fonts:
+  title: "Georgia, Cambria, 'Times New Roman', serif"
+  main: "'Avenir Next', Avenir, 'Seravek', system-ui, sans-serif"
+
+# Mascot Overrides (Optional)
+mascots:
+  # header: ['concerned-chemist']

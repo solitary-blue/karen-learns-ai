@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import ThemeStyles from '@/components/ThemeStyles';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import { SettingsMenu } from '@/components/SettingsMenu';
 import { FontLoader } from '@/components/FontLoader';
 
@@ -14,11 +16,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="antialiased">
-        <FontLoader />
-        {children}
-        <SettingsMenu />
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeStyles />
+      </head>
+      <body className="antialiased font-sans text-foreground bg-background selection:bg-primary selection:text-primary-foreground">
+        <ThemeProvider>
+          <FontLoader />
+          {children}
+          <SettingsMenu />
+        </ThemeProvider>
       </body>
     </html>
   );

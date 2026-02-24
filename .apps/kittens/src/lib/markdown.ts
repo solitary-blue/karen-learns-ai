@@ -6,6 +6,7 @@ import { remarkCallout } from './remark-callout';
 import type { Slide } from './types';
 import { loadAppConfig, pickRandomKitten, pickKittenFromPreferences } from './kitten-config';
 import { loadCalloutConfig } from './callout-config';
+import { loadThemeConfig } from './theme-parser';
 
 export interface SlideAnalysis {
   isHeaderOnly: boolean;
@@ -48,8 +49,19 @@ export function analyzeSlideContent(rawMarkdown: string): SlideAnalysis {
   return { isHeaderOnly, isCalloutDominant, calloutType };
 }
 
-function resolveKittenForSlide(analysis: SlideAnalysis): { name: string; height: string; } | undefined {
+function resolveKittenForSlide(analysis: SlideAnalysis, themeName?: string): { name: string; height: string; } | undefined {
+  let themeMascots;
+  if (themeName) {
+    const themeConfig = loadThemeConfig();
+    themeMascots = themeConfig.themes[themeName]?.definition.mascots;
+  }
+
   if (analysis.isHeaderOnly) {
+    if (themeMascots?.header) {
+      const kitten = pickKittenFromPreferences(themeMascots.header);
+      if (kitten) return { name: kitten.name, height: loadAppConfig()['kitten-size'] };
+    }
+    
     const kitten = pickRandomKitten();
     if (kitten) {
       return { name: kitten.name, height: loadAppConfig()['kitten-size'] };
@@ -57,6 +69,13 @@ function resolveKittenForSlide(analysis: SlideAnalysis): { name: string; height:
   }
 
   if (analysis.isCalloutDominant && analysis.calloutType) {
+    // 1. Try theme override first
+    if (themeMascots?.callouts?.[analysis.calloutType]) {
+      const kitten = pickKittenFromPreferences(themeMascots.callouts[analysis.calloutType]);
+      if (kitten) return { name: kitten.name, height: loadAppConfig()['callout-kitten-size'] };
+    }
+
+    // 2. Fallback to default callout config
     const config = loadCalloutConfig().callouts[analysis.calloutType];
     if (config?.kittens) {
       const kitten = pickKittenFromPreferences(config.kittens);
@@ -69,7 +88,7 @@ function resolveKittenForSlide(analysis: SlideAnalysis): { name: string; height:
   return undefined;
 }
 
-export async function parseMarkdownToSlides(markdown: string): Promise<Slide[]> {
+export async function parseMarkdownToSlides(markdown: string, themeName?: string): Promise<Slide[]> {
   // Split by horizontal rule: ---
   const rawSlides = markdown.split(/\n---\n/);
   
@@ -87,7 +106,7 @@ export async function parseMarkdownToSlides(markdown: string): Promise<Slide[]> 
       const title = titleMatch ? titleMatch[1] : 'Untitled Slide';
       
       const analysis = analyzeSlideContent(content);
-      const kitten = resolveKittenForSlide(analysis);
+      const kitten = resolveKittenForSlide(analysis, themeName);
       
       return {
         html: result.toString(),

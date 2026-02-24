@@ -16,6 +16,9 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
+  
+  const url = new URL(request.url);
+  const theme = url.searchParams.get('theme') || undefined;
 
   if (!VALID_SLUG_PATTERN.test(slug)) {
     return NextResponse.json<LessonError>({ error: 'Invalid lesson slug' }, { status: 400 });
@@ -31,7 +34,7 @@ export async function GET(
     }
     const content = fs.readFileSync(filePath, 'utf-8');
     const parsedLesson = parseLessonFrontmatter(content);
-    const slides = await parseMarkdownToSlides(parsedLesson.body);
+    const slides = await parseMarkdownToSlides(parsedLesson.body, theme);
     return NextResponse.json<LessonResponse>({
       content,
       slides,

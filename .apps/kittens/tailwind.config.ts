@@ -16,38 +16,38 @@ const config: Config = {
         'montessori-charcoal': '#2C2C2C',
 
         /* shadcn semantic colors via CSS variables */
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        border: 'hsl(var(--border, var(--border-color, 0 0% 90%)))',
+        input: 'hsl(var(--input, var(--border-color, 0 0% 90%)))',
+        ring: 'hsl(var(--ring, var(--primary, 0 0% 10%)))',
+        background: 'hsl(var(--background, 0 0% 100%))',
+        foreground: 'hsl(var(--foreground, 0 0% 10%))',
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+          DEFAULT: 'hsl(var(--primary, 0 0% 10%))',
+          foreground: 'hsl(var(--primary-foreground, var(--foreground, 0 0% 100%)))',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          DEFAULT: 'hsl(var(--secondary, 0 0% 96%))',
+          foreground: 'hsl(var(--secondary-foreground, var(--foreground, 0 0% 10%)))',
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          DEFAULT: 'hsl(var(--destructive, 0 84% 60%))',
+          foreground: 'hsl(var(--destructive-foreground, var(--foreground, 0 0% 100%)))',
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          DEFAULT: 'hsl(var(--muted, 0 0% 96%))',
+          foreground: 'hsl(var(--muted-foreground, var(--foreground, 0 0% 45%)))',
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: 'hsl(var(--accent, 0 0% 96%))',
+          foreground: 'hsl(var(--accent-foreground, var(--foreground, 0 0% 10%)))',
         },
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+          DEFAULT: 'hsl(var(--popover, var(--background, 0 0% 100%)))',
+          foreground: 'hsl(var(--popover-foreground, var(--foreground, 0 0% 10%)))',
         },
         card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+          DEFAULT: 'hsl(var(--card, var(--background, 0 0% 100%)))',
+          foreground: 'hsl(var(--card-foreground, var(--foreground, 0 0% 10%)))',
         },
         chart: {
           '1': 'hsl(var(--chart-1))',
@@ -84,19 +84,19 @@ const config: Config = {
         DEFAULT: {
           css: {
             maxWidth: 'none',
-            color: theme('colors.foreground'),
+            color: 'hsl(var(--foreground, 0 0% 10%))',
             h1: {
-              color: theme('colors.foreground'),
+              color: 'hsl(var(--headers-h1-color, var(--headers-color, var(--foreground, 0 0% 10%))))',
               fontWeight: '700',
             },
             h2: {
-              color: theme('colors.foreground'),
+              color: 'hsl(var(--headers-h2-color, var(--headers-color, var(--foreground, 0 0% 10%))))',
             },
             h3: {
-              color: theme('colors.foreground'),
+              color: 'hsl(var(--headers-h3-color, var(--headers-color, var(--foreground, 0 0% 10%))))',
             },
             h4: {
-              color: theme('colors.foreground'),
+              color: 'hsl(var(--headers-h4-color, var(--headers-color, var(--foreground, 0 0% 10%))))',
             },
             'ul > li::marker': {
               color: theme('colors.muted.foreground'),

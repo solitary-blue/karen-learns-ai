@@ -1,0 +1,61 @@
+name: "dracula"
+label: "Dracula Theme"
+
+# Named Palette
+colors:
+  background: "#282a36"
+  currentLine: "#44475a"
+  foreground: "#f8f8f2"
+  comment: "#6272a4"
+  cyan: "#8be9fd"
+  green: "#50fa7b"
+  orange: "#ffb86c"
+  pink: "#ff79c6"
+  purple: "#bd93f9"
+  red: "#ff5555"
+  yellow: "#f1fa8c"
+
+# Semantics (Hierarchical)
+semantics:
+  background: background
+  foreground: foreground
+  border: currentLine
+  input: currentLine
+  ring: purple
+  primary:
+    DEFAULT: purple
+    foreground: foreground
+  secondary:
+    DEFAULT: currentLine
+    foreground: foreground
+  destructive:
+    DEFAULT: red
+    foreground: foreground
+  muted:
+    DEFAULT: comment
+    foreground: foreground
+  accent:
+    DEFAULT: pink
+    foreground: foreground
+  popover:
+    DEFAULT: background
+    foreground: foreground
+  card:
+    DEFAULT: background
+    foreground: foreground
+  headers:
+    color: pink
+    h1:
+      color: purple
+
+# Fonts
+fonts:
+  title: "system-ui, -apple-system, sans-serif"
+  main: "system-ui, -apple-system, sans-serif"
+
+# Mascot Overrides
+mascots:
+  header: ['suit-arms-crossed']
+  callouts:
+    tip: ['shows-book']
+    note: ['excited-chemist']

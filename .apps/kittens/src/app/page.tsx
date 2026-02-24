@@ -2,6 +2,7 @@
 
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import SlideShow from '@/components/SlideShow';
 import type { LessonResponse, Slide } from '@/lib/types';
 import type { LessonMetadata } from '@/lib/frontmatter';
@@ -9,6 +10,8 @@ import type { LessonMetadata } from '@/lib/frontmatter';
 function LessonLoader() {
   const searchParams = useSearchParams();
   const slug = searchParams.get('lesson') || '03_llm_memory_KAREN';
+  const { resolvedTheme } = useTheme();
+  
   const [slides, setSlides] = useState<Slide[]>([]);
   const [metadata, setMetadata] = useState<LessonMetadata>({});
   const [error, setError] = useState<string | null>(null);
@@ -16,7 +19,8 @@ function LessonLoader() {
   useEffect(() => {
     async function loadLesson() {
       try {
-        const res = await fetch(`/api/lessons/${slug}`);
+        const themeQuery = resolvedTheme ? `?theme=${resolvedTheme}` : '';
+        const res = await fetch(`/api/lessons/${slug}${themeQuery}`);
         if (!res.ok) throw new Error('Failed to load lesson');
         const data: LessonResponse = await res.json();
         setSlides(data.slides);
@@ -26,20 +30,20 @@ function LessonLoader() {
       }
     }
     loadLesson();
-  }, [slug]);
+  }, [slug, resolvedTheme]);
 
   if (error) return (
-    <div className="flex h-screen items-center justify-center bg-montessori-cream">
+    <div className="flex h-screen items-center justify-center bg-background">
       <div className="text-center">
-        <h1 className="text-2xl font-serif text-red-800 mb-4">Oops!</h1>
-        <p className="text-montessori-charcoal/60">{error}</p>
+        <h1 className="text-2xl font-serif text-destructive mb-4">Oops!</h1>
+        <p className="text-foreground/60">{error}</p>
       </div>
     </div>
   );
 
   if (slides.length === 0) return (
-    <div className="flex h-screen items-center justify-center bg-montessori-cream">
-      <p className="animate-pulse font-serif text-montessori-gold">Preparing the environment...</p>
+    <div className="flex h-screen items-center justify-center bg-background">
+      <p className="animate-pulse font-serif text-primary">Preparing the environment...</p>
     </div>
   );
 
