@@ -53,4 +53,27 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-title);
   }
+
+  /* Callout custom styling */
+  .callout blockquote {
+    quotes: none;
+    border: none;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+  }
+
+  .callout blockquote p {
+    margin: 0;
+  }
+
+  /* Ensure prose doesn't add its own margins to callout content */
+  .callout .callout-content p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .callout .callout-content > *:not(:first-child) {
+    margin-top: 0.5rem;
+  }
 }

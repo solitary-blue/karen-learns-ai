@@ -43,13 +43,48 @@ export function remarkCallout() {
       
       const title = titleRaw ? titleRaw.trim() : (config.title || type.charAt(0).toUpperCase() + type.slice(1));
       
-      const iconSvg = renderIconToSvg(config.icon || 'FileText', "w-5 h-5 mr-2 inline-block align-text-bottom");
+      const iconSvg = renderIconToSvg(config.icon || 'FileText', "w-5 h-5 mr-2 inline-block flex-shrink-0");
       
+      const newContentChildren = [...node.children];
+      const firstPara = newContentChildren[0];
+      
+      // Remove the [!type] prefix
+      if (match[0].length === firstTextNode.value.length) {
+        firstPara.children.shift();
+      } else {
+        firstTextNode.value = firstTextNode.value.substring(match[0].length);
+      }
+      
+      if (firstPara.children.length === 0) {
+        newContentChildren.shift();
+      }
+
+      const hasContent = newContentChildren.length > 0;
+      const kittenName = Array.isArray(config.kittens) ? config.kittens[0] : config.kittens;
+      const hasKitten = !!kittenName;
+
       const titleNode = {
         type: 'paragraph',
         data: {
           hName: 'div',
-          hProperties: { className: ['callout-title', 'flex', 'items-center', 'font-bold', 'px-4', 'py-2', config.color, 'border-b', config.borderColor] }
+          hProperties: { 
+            className: [
+              'callout-title', 
+              'flex', 
+              'items-center', 
+              'font-bold', 
+              'px-4', 
+              'py-2', 
+              config.color, 
+              // Only add border if there is content below
+              hasContent ? 'border-b' : '',
+              config.borderColor,
+              // Vertical center title
+              'min-h-[3rem]',
+              // Padding for kitten if single line
+              !hasContent && hasKitten ? 'pr-20' : ''
+            ].filter(Boolean).join(' ')
+          }
         },
         children: [
           { type: 'html', value: iconSvg },
@@ -57,34 +92,54 @@ export function remarkCallout() {
         ]
       };
 
-      const newContentChildren = [...node.children];
-      const firstPara = newContentChildren[0];
-      
-      // Calculate length to remove. 
-      // The match[0] includes the newline if present.
-      // We want to remove the directive line.
-      
-      if (match[0].length === firstTextNode.value.length) {
-        firstPara.children.shift();
-      } else {
-        firstTextNode.value = firstTextNode.value.substring(match[0].length);
-        // If the match included the newline, we are good.
-        // If there are remaining newlines at start (unlikely given regex), trim?
-        // Actually, if match ended with \n, the remaining text starts after it.
+      const childrenNodes: any[] = [titleNode];
+
+      if (hasContent) {
+        const contentNode = {
+          type: 'blockquote', 
+          data: {
+            hName: 'div',
+            hProperties: { 
+              className: [
+                'callout-content', 
+                'px-4', 
+                'py-3', 
+                'flex', 
+                'flex-col', 
+                'justify-center', 
+                'min-h-[4rem]',
+                // Add right padding if there is a kitten
+                hasKitten ? 'pr-20' : ''
+              ].filter(Boolean).join(' ')
+            }
+          },
+          children: newContentChildren
+        };
+        childrenNodes.push(contentNode);
       }
-      
-      if (firstPara.children.length === 0) {
-        newContentChildren.shift();
+
+      if (hasKitten) {
+        const kittenNode = {
+          type: 'paragraph',
+          data: {
+            hName: 'img',
+            hProperties: {
+              src: `/api/kittens/${kittenName}`,
+              className: [
+                'absolute',
+                'bottom-1',
+                'right-1',
+                'pointer-events-none',
+                'h-16',
+                'w-auto',
+                'opacity-90'
+              ].join(' ')
+            }
+          },
+          children: []
+        };
+        childrenNodes.push(kittenNode);
       }
-      
-      const contentNode = {
-        type: 'blockquote', 
-        data: {
-          hName: 'div',
-          hProperties: { className: ['callout-content', 'px-4', 'py-3'] }
-        },
-        children: newContentChildren
-      };
 
       node.type = 'blockquote'; 
       node.data = {
@@ -97,13 +152,15 @@ export function remarkCallout() {
             'rounded-md', 
             'border', 
             'overflow-hidden',
+            'relative',
+            'not-prose', // Break out of prose styles for better control
             config.backgroundColor, 
             config.borderColor
-          ] 
+          ].join(' ')
         }
       };
       
-      node.children = [titleNode, contentNode];
+      node.children = childrenNodes;
     });
   };
 }

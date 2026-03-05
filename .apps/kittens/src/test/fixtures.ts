@@ -82,6 +82,16 @@ export const TEST_CALLOUT_CONFIG: CalloutsConfig = {
       backgroundColor: 'bg-teal-50',
       borderColor: 'border-teal-200',
       aliases: ['hint', 'important'],
+      kittens: ['proud-book'],
+    },
+    success: {
+      type: 'success',
+      title: 'Success',
+      icon: 'CheckCircle',
+      color: 'text-green-600',
+      backgroundColor: 'bg-green-50',
+      borderColor: 'border-green-200',
+      kittens: 'excited-chemist',
     },
     // Alias entries pointing to tip config
     hint: {

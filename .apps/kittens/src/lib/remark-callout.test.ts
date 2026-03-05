@@ -78,4 +78,21 @@ describe('remarkCallout', () => {
     expect(html).toContain('First paragraph.');
     expect(html).toContain('Second paragraph.');
   });
+
+  it('omits callout-content div for single-line callouts', async () => {
+    const md = '> [!note] Just a title';
+    const html = await processMarkdown(md);
+
+    expect(html).toContain('callout-title');
+    expect(html).not.toContain('callout-content');
+    expect(html).toContain('Just a title');
+  });
+
+  it('includes kitten image when configured', async () => {
+    const md = '> [!tip] Tip with kitten';
+    const html = await processMarkdown(md);
+
+    expect(html).toContain('<img src="/api/kittens/proud-book"');
+    expect(html).toContain('absolute bottom-1 right-1');
+  });
 });

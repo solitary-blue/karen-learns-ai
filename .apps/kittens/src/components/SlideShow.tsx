@@ -18,6 +18,7 @@ interface SlideShowProps {
   slides: Slide[];
   metadata?: LessonMetadata;
   currentSlug: string;
+  initialSlide?: number;
 }
 
 type MenuMode = 'overview' | 'curriculum';
@@ -50,9 +51,9 @@ function formatFolderName(name: string): string {
     .replace(/\b\w/g, l => l.toUpperCase());
 }
 
-export default function SlideShow({ slides, metadata = {}, currentSlug }: SlideShowProps) {
+export default function SlideShow({ slides, metadata = {}, currentSlug, initialSlide = 0 }: SlideShowProps) {
   const router = useRouter();
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(initialSlide);
   const [showList, setShowList] = useState(false);
   const [menuMode, setMenuMode] = useState<MenuMode>('overview');
   const [listing, setListing] = useState<LessonListingResponse | null>(null);
@@ -84,6 +85,12 @@ export default function SlideShow({ slides, metadata = {}, currentSlug }: SlideS
       : '';
     fetchListing(folder);
   }, [currentSlug]);
+
+  useEffect(() => {
+    if (initialSlide >= 0 && initialSlide < slides.length) {
+      setCurrent(initialSlide);
+    }
+  }, [initialSlide, slides.length]);
 
   const fetchListing = async (folder: string) => {
     try {

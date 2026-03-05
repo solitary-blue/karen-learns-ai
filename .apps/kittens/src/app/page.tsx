@@ -10,6 +10,7 @@ import type { LessonMetadata } from '@/lib/frontmatter';
 function LessonLoader() {
   const searchParams = useSearchParams();
   const slug = searchParams.get('lesson') || '01_basics/00_karen-learns-ai-roadmap';
+  const slideIndex = parseInt(searchParams.get('slide') || '0', 10);
   const { resolvedTheme } = useTheme();
   
   const [slides, setSlides] = useState<Slide[]>([]);
@@ -47,7 +48,7 @@ function LessonLoader() {
     </div>
   );
 
-  return <SlideShow slides={slides} metadata={metadata} currentSlug={slug} />;
+  return <SlideShow slides={slides} metadata={metadata} currentSlug={slug} initialSlide={slideIndex} />;
 }
 
 export default function Home() {
