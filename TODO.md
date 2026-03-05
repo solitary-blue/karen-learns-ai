@@ -24,6 +24,7 @@
 - [x] fix theme switching specificity bug in Kittens
 - [x] clean folder labels (no numeric prefixes)
 - [x] refactor callouts (single-line support, kittens in bottom-right)
+- [x] improved callout legibility in Dracula theme
 - [ ] kittenize git lesson
 - [ ] research potential value of [AionUi](https://github.com/iOfficeAI/AionUi)
 - [ ] setup jezweb/claude-skills for gemini
