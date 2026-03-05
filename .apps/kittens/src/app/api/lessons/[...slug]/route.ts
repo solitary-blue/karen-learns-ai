@@ -9,13 +9,14 @@ interface LessonError {
   error: string;
 }
 
-const VALID_SLUG_PATTERN = /^[a-z0-9_-]+$/i;
+const VALID_SLUG_PATTERN = /^[a-z0-9_\-\/]+$/i;
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ slug: string[] }> }
 ) {
-  const { slug } = await params;
+  const { slug: slugArray } = await params;
+  const slug = slugArray.join('/');
   
   const url = new URL(request.url);
   const theme = url.searchParams.get('theme') || undefined;
@@ -30,7 +31,7 @@ export async function GET(
 
   try {
     if (!fs.existsSync(filePath)) {
-      return NextResponse.json<LessonError>({ error: 'Lesson not found' }, { status: 404 });
+      return NextResponse.json<LessonError>({ error: `Lesson not found: ${slug}` }, { status: 404 });
     }
     const content = fs.readFileSync(filePath, 'utf-8');
     const parsedLesson = parseLessonFrontmatter(content);
@@ -40,7 +41,8 @@ export async function GET(
       slides,
       metadata: parsedLesson.metadata,
     });
-  } catch {
+  } catch (err) {
+    console.error('Failed to read lesson:', err);
     return NextResponse.json<LessonError>({ error: 'Failed to read lesson' }, { status: 500 });
   }
 }

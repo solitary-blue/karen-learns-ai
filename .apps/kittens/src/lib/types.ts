@@ -15,3 +15,23 @@ export interface LessonResponse {
   slides: Slide[];
   metadata: LessonMetadata;
 }
+
+export interface LessonEntry {
+  slug: string;
+  title: string;
+  label: string;
+}
+
+export interface FolderEntry {
+  name: string;
+  label: string;
+  path: string;
+}
+
+export interface LessonListingResponse {
+  lessons: LessonEntry[];
+  folders: FolderEntry[];
+  currentPath: string;
+  parentPath: string | null;
+  parentLabel: string | null;
+}
