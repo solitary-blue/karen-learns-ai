@@ -63,6 +63,15 @@ export function remarkCallout() {
       const kittenName = Array.isArray(config.kittens) ? config.kittens[0] : config.kittens;
       const hasKitten = !!kittenName;
 
+      // Handle min-height as a CSS string
+      let minHeightCss = '';
+      if (config.minHeight) {
+        minHeightCss = `min-height: ${config.minHeight};`;
+      } else if (hasKitten) {
+        // Larger min-height for larger kittens
+        minHeightCss = `min-height: 250px;`;
+      }
+
       const titleNode = {
         type: 'paragraph',
         data: {
@@ -79,10 +88,10 @@ export function remarkCallout() {
               // Only add border if there is content below
               hasContent ? 'border-b' : '',
               config.borderColor,
-              // Vertical center title
-              'min-h-[3rem]',
-              // Padding for kitten if single line
-              !hasContent && hasKitten ? 'pr-20' : ''
+              // Vertical center title if single line
+              !hasContent ? 'flex-1' : '',
+              // Padding for kitten
+              hasKitten ? 'pr-32' : ''
             ].filter(Boolean).join(' ')
           }
         },
@@ -104,12 +113,12 @@ export function remarkCallout() {
                 'callout-content', 
                 'px-4', 
                 'py-3', 
+                'flex-1',
                 'flex', 
                 'flex-col', 
                 'justify-center', 
-                'min-h-[4rem]',
-                // Add right padding if there is a kitten
-                hasKitten ? 'pr-20' : ''
+                // Add right padding for kitten
+                hasKitten ? 'pr-32' : ''
               ].filter(Boolean).join(' ')
             }
           },
@@ -130,7 +139,7 @@ export function remarkCallout() {
                 'bottom-1',
                 'right-1',
                 'pointer-events-none',
-                'h-16',
+                'h-[175px]', // Large kitten!
                 'w-auto',
                 'opacity-90'
               ].join(' ')
@@ -153,10 +162,14 @@ export function remarkCallout() {
             'border', 
             'overflow-hidden',
             'relative',
-            'not-prose', // Break out of prose styles for better control
+            'not-prose', 
+            'flex',
+            'flex-col',
+            'text-foreground', 
             config.backgroundColor, 
             config.borderColor
-          ].join(' ')
+          ].join(' '),
+          style: minHeightCss
         }
       };
       

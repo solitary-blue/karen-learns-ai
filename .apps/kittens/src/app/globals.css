@@ -76,4 +76,36 @@
   .callout .callout-content > *:not(:first-child) {
     margin-top: 0.5rem;
   }
+
+  /* Dracula Callout Overrides */
+  [data-theme="dracula"] .callout {
+    background-color: #343746 !important;
+    border-color: #44475a !important;
+  }
+
+  [data-theme="dracula"] .callout-title {
+    border-color: #44475a !important;
+  }
+
+  [data-theme="dracula"] .callout-note,
+  [data-theme="dracula"] .callout-info,
+  [data-theme="dracula"] .callout-todo {
+    background-color: #2d3748 !important; /* Slightly blue-tinted dark */
+  }
+
+  [data-theme="dracula"] .callout-tip,
+  [data-theme="dracula"] .callout-success {
+    background-color: #283330 !important; /* Slightly green-tinted dark */
+  }
+
+  [data-theme="dracula"] .callout-warning,
+  [data-theme="dracula"] .callout-question {
+    background-color: #332b26 !important; /* Slightly orange-tinted dark */
+  }
+
+  [data-theme="dracula"] .callout-failure,
+  [data-theme="dracula"] .callout-danger,
+  [data-theme="dracula"] .callout-bug {
+    background-color: #332626 !important; /* Slightly red-tinted dark */
+  }
 }
