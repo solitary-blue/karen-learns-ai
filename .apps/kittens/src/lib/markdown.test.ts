@@ -161,14 +161,8 @@ describe('parseMarkdownToSlides kitten injection', () => {
     expect(slides[0].kitten?.height).toBe('280px');
   });
 
-  it('injects kitten into callout-dominant slide with preference', async () => {
+  it('does not inject kitten into callout-dominant slide (handled by remark-callout)', async () => {
     const slides = await parseMarkdownToSlides(CALLOUT_DOMINANT_SLIDE);
-    expect(slides[0].kitten).toBeDefined();
-    expect(slides[0].kitten?.height).toBe('180px');
-  });
-
-  it('does not inject kitten if no preference configured for callout', async () => {
-    const slides = await parseMarkdownToSlides('# Notes\n\n> [!note]\n> Some note.');
     expect(slides[0].kitten).toBeUndefined();
   });
 
@@ -181,11 +175,5 @@ describe('parseMarkdownToSlides kitten injection', () => {
     const slides = await parseMarkdownToSlides(HEADER_ONLY_SLIDE, 'dracula');
     expect(slides[0].kitten).toBeDefined();
     expect(slides[0].kitten?.name).toBe('dracula-header-mascot');
-  });
-
-  it('uses theme mascot overrides for callout slides if theme provided', async () => {
-    const slides = await parseMarkdownToSlides(CALLOUT_DOMINANT_SLIDE, 'dracula');
-    expect(slides[0].kitten).toBeDefined();
-    expect(slides[0].kitten?.name).toBe('dracula-tip-mascot');
   });
 });

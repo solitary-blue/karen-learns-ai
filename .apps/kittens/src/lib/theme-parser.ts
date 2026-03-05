@@ -2,6 +2,7 @@ import 'server-only';
 import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
+import { getProjectRoot } from './server-utils';
 
 export interface ThemeColors {
   [key: string]: string;
@@ -116,7 +117,7 @@ function flattenSemantics(semantics: ThemeSemantics, colors: ThemeColors, prefix
 export function loadThemeConfig(): ThemeConfig {
   if (cachedThemeConfig) return cachedThemeConfig;
 
-  const themesDir = path.join(process.cwd(), 'themes');
+  const themesDir = path.join(getProjectRoot(), 'themes');
   const config: ThemeConfig = {
     themes: {},
     defaultTheme: 'montessori'

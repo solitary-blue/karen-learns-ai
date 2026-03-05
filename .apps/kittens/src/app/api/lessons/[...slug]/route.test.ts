@@ -19,7 +19,7 @@ function makeRequest(slug: string): Request {
 }
 
 function makeParams(slug: string) {
-  return { params: Promise.resolve({ slug }) };
+  return { params: Promise.resolve({ slug: slug.split('/') }) };
 }
 
 describe('GET /api/lessons/[slug]', () => {

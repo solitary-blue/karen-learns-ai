@@ -4,6 +4,7 @@ import path from 'path';
 import { parseMarkdownToSlides } from '@/lib/markdown';
 import { parseLessonFrontmatter } from '@/lib/frontmatter';
 import type { LessonResponse } from '@/lib/types';
+import { getProjectRoot } from '@/lib/server-utils';
 
 interface LessonError {
   error: string;
@@ -26,7 +27,7 @@ export async function GET(
   }
 
   const curriculumDir = process.env.CURRICULUM_DIR
-    ?? path.resolve(process.cwd(), '../../curriculum');
+    ?? path.resolve(getProjectRoot(), '../../curriculum');
   const filePath = path.join(curriculumDir, slug + '.md');
 
   try {

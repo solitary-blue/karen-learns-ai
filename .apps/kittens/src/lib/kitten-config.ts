@@ -2,6 +2,7 @@ import 'server-only';
 import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
+import { getProjectRoot } from './server-utils';
 
 export interface AppConfig {
   'kitten-size': string;
@@ -27,7 +28,7 @@ export function loadAppConfig(): AppConfig {
   };
 
   try {
-    const configPath = path.join(process.cwd(), 'app-config.yml');
+    const configPath = path.join(getProjectRoot(), 'app-config.yml');
     if (fs.existsSync(configPath)) {
       const fileContents = fs.readFileSync(configPath, 'utf8');
       const data = yaml.load(fileContents) as Partial<AppConfig>;
@@ -48,7 +49,7 @@ export function discoverKittens(): KittenInfo[] {
 
   cachedKittens = [];
   try {
-    const kittensDir = path.join(process.cwd(), 'assets', 'kittens');
+    const kittensDir = path.join(getProjectRoot(), 'assets', 'kittens');
     if (fs.existsSync(kittensDir)) {
       const files = fs.readdirSync(kittensDir);
       for (const file of files) {

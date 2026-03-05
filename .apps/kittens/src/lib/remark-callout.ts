@@ -68,7 +68,6 @@ export function remarkCallout() {
       if (config.minHeight) {
         minHeightCss = `min-height: ${config.minHeight};`;
       } else if (hasKitten) {
-        // Larger min-height for larger kittens
         minHeightCss = `min-height: 250px;`;
       }
 

@@ -68,23 +68,6 @@ function resolveKittenForSlide(analysis: SlideAnalysis, themeName?: string): { n
     }
   }
 
-  if (analysis.isCalloutDominant && analysis.calloutType) {
-    // 1. Try theme override first
-    if (themeMascots?.callouts?.[analysis.calloutType]) {
-      const kitten = pickKittenFromPreferences(themeMascots.callouts[analysis.calloutType]);
-      if (kitten) return { name: kitten.name, height: loadAppConfig()['callout-kitten-size'] };
-    }
-
-    // 2. Fallback to default callout config
-    const config = loadCalloutConfig().callouts[analysis.calloutType];
-    if (config?.kittens) {
-      const kitten = pickKittenFromPreferences(config.kittens);
-      if (kitten) {
-        return { name: kitten.name, height: loadAppConfig()['callout-kitten-size'] };
-      }
-    }
-  }
-
   return undefined;
 }
 

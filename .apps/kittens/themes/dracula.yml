@@ -43,6 +43,7 @@ semantics:
   card:
     DEFAULT: background
     foreground: foreground
+  bold: orange
   headers:
     color: pink
     h1:

@@ -2,6 +2,7 @@ import 'server-only';
 import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
+import { getProjectRoot } from './server-utils';
 
 export interface CalloutConfig {
   type: string;
@@ -12,6 +13,7 @@ export interface CalloutConfig {
   borderColor?: string;
   aliases?: string[];
   kittens?: string | string[];
+  minHeight?: string;
 }
 
 export interface CalloutsConfig {
@@ -24,7 +26,7 @@ export function loadCalloutConfig(): CalloutsConfig {
   if (cachedConfig) return cachedConfig;
 
   try {
-    const configPath = path.join(process.cwd(), 'callouts-config.yml');
+    const configPath = path.join(getProjectRoot(), 'callouts-config.yml');
     if (fs.existsSync(configPath)) {
       const fileContents = fs.readFileSync(configPath, 'utf8');
       const data = yaml.load(fileContents) as any;

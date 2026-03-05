@@ -3,6 +3,9 @@ import fs from 'fs';
 import path from 'path';
 
 vi.mock('fs');
+vi.mock('./server-utils', () => ({
+  getProjectRoot: () => '/mock/cwd',
+}));
 vi.mock('path', async (importOriginal) => {
   const actual = await importOriginal<typeof import('path')>();
   return {
@@ -19,7 +22,6 @@ describe('kitten-config', () => {
 
   beforeEach(async () => {
     vi.resetModules();
-    vi.stubGlobal('process', { cwd: () => '/mock/cwd' });
     kittenConfig = await import('./kitten-config');
   });
 

@@ -3,14 +3,21 @@ import fs from 'fs';
 import path from 'path';
 import { parseLessonFrontmatter } from '@/lib/frontmatter';
 import type { LessonListingResponse, LessonEntry, FolderEntry } from '@/lib/types';
+import { getProjectRoot } from '@/lib/server-utils';
+
+const VALID_FOLDER_PATTERN = /^[a-z0-9_\-\/]*$/i;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const folderParam = searchParams.get('folder') || '';
 
+  if (!VALID_FOLDER_PATTERN.test(folderParam)) {
+    return NextResponse.json({ error: 'Invalid folder path' }, { status: 400 });
+  }
+
   const curriculumDir = process.env.CURRICULUM_DIR
-    ?? path.resolve(process.cwd(), '../../curriculum');
-  
+    ?? path.resolve(getProjectRoot(), '../../curriculum');
+
   const currentPath = path.join(curriculumDir, folderParam);
 
   try {
@@ -36,7 +43,7 @@ export async function GET(request: Request) {
       if (entry.isDirectory()) {
         folders.push({
           name: entry.name,
-          label: formatLabel(entry.name, true),
+          label: formatLabel(entry.name),
           path: relativePath
         });
       } else if (entry.isFile() && entry.name.endsWith('.md')) {
@@ -56,7 +63,7 @@ export async function GET(request: Request) {
         lessons.push({
           slug,
           title,
-          label: formatLabel(entry.name.replace(/\.md$/, ''), false)
+          label: formatLabel(entry.name.replace(/\.md$/, ''))
         });
       }
     }
@@ -67,7 +74,7 @@ export async function GET(request: Request) {
       if (parentPath === '') {
         parentLabel = 'Curriculum';
       } else {
-        parentLabel = formatLabel(path.basename(parentPath!), true);
+        parentLabel = formatLabel(path.basename(parentPath!));
       }
     }
 
@@ -84,18 +91,11 @@ export async function GET(request: Request) {
   }
 }
 
-function formatLabel(name: string, isFolder: boolean): string {
-  if (isFolder) {
-    // 01_basics -> 01: Basics
-    return name
-      .replace(/^(\d{2})_/, '$1: ')
-      .replace(/[_-]+/g, ' ')
-      .replace(/\b\w/g, l => l.toUpperCase());
-  } else {
-    // 00_karen-learns-ai-roadmap -> Karen Learns Ai Roadmap
-    return name
-      .replace(/^\d{2}_/, '')
-      .replace(/[_-]+/g, ' ')
-      .replace(/\b\w/g, l => l.toUpperCase());
-  }
+function formatLabel(name: string): string {
+  // Remove numeric prefix like 00_, 01_ from both folders and lessons
+  const label = name.replace(/^\d{2}_/, '');
+  
+  return label
+    .replace(/[_-]+/g, ' ')
+    .replace(/\b\w/g, l => l.toUpperCase());
 }

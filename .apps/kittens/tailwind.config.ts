@@ -85,6 +85,12 @@ const config: Config = {
           css: {
             maxWidth: 'none',
             color: 'hsl(var(--foreground, 0 0% 10%))',
+            strong: {
+              color: 'hsl(var(--bold, var(--foreground, 0 0% 10%)))',
+            },
+            b: {
+              color: 'hsl(var(--bold, var(--foreground, 0 0% 10%)))',
+            },
             h1: {
               color: 'hsl(var(--headers-h1-color, var(--headers-color, var(--foreground, 0 0% 10%))))',
               fontWeight: '700',
