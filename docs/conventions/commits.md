@@ -14,6 +14,7 @@ To make the project history readable and meaningful for Karen, we use the follow
 | **`learn`** | Karen's personal learning logs/reflections. | 📓 (Journal) | 📓 |
 | **`review`** | Feedback and critiques. | 💬 (Feedback) | 💬 |
 | **`media`** | Images, PDFs, or diagrams. | 🎨 (Visuals) | 🎨 |
+| **`design`**| UX/UI, mockups, themes, aesthetics. | 🖌️ (Creative) | 🖌️ |
 | **`organize`**| Moving files, folder structures. | 📂 (FYI) | 📂 |
 | **`todo`** | Task management (updating `TODO.md`). | ✅ (Actionable) | ✅ |
 | **`docs`** | How-to guides, project documentation. | 📝 (Read this) | 📝 |

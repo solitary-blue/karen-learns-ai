@@ -21,6 +21,7 @@
 - [ ] create obsidian intro lesson
 - [ ] setup gravatar
 - [x] better kittens styles
+- [x] create 5 unique mockup designs for kittens app
 - [x] fix theme switching specificity bug in Kittens
 - [x] clean folder labels (no numeric prefixes)
 - [x] refactor callouts (single-line support, kittens in bottom-right)
