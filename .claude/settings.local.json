@@ -42,7 +42,10 @@
       "Bash(git remote:*)",
       "Bash(git config --global --get credential.helper && gh auth status 2>&1)",
       "Bash(gh auth:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git diff:*)",
+      "Bash(npx vitest:*)",
+      "Bash(git status:*)"
     ]
   },
   "enabledPlugins": {},
