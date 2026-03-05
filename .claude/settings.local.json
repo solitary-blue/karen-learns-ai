@@ -31,7 +31,18 @@
       "Bash(node -e:*)",
       "Bash(npx shadcn@latest add:*)",
       "Bash(tail:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(cd /Users/lasto/clients/lastobelus-2025/karen-learns-ai/.apps/kittens && npx vitest run 2>&1)",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__plugin_context7_context7__query-docs",
+      "Bash(npm run:*)",
+      "Bash(cd:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git remote:*)",
+      "Bash(git config --global --get credential.helper && gh auth status 2>&1)",
+      "Bash(gh auth:*)",
+      "Bash(find:*)"
     ]
   },
   "enabledPlugins": {},
