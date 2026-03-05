@@ -87,8 +87,8 @@ Here's the map. We'll go through it section by section, with 3–6 lessons in ea
 
 **Communicating Effectively** — Getting from "okay" answers to genuinely useful ones. Giving context, iterating, using personas, and knowing good output from bad.
 
-> [!SUCCESS] You've Already Started
-> We've done some of this together! Your Git Scrapbook and LLM Memory lessons are part of Section 1.
+> [!SUCCESS] This Is Where You Start
+> In your first lessons you'll learn how to save your work with a Digital Scrapbook, how AI remembers (and forgets), and how to have your first real conversation with an agent.
 
 ---
 
@@ -100,6 +100,9 @@ This is where things get interesting. You'll learn:
 - The **Think-Do-Check Cycle** — how agents work through problems
 - What tools agents have and what they can actually do
 - How to read what your agent is doing (and when to step in)
+
+> [!example] Agent in Action
+> You say: "Find three science articles about butterflies suitable for 6-year-olds, summarize each one, and save them to my lesson plans folder." The agent searches, reads, writes — all on its own.
 
 ---
 
@@ -144,6 +147,9 @@ The final section is about **independence**:
 - Evaluating different AI tools and choosing the right one
 - Customizing your agent's instructions and skills
 - Planning where you go next
+
+> [!warning] AI Moves Fast
+> The specific tools will keep changing — that's okay. What we're really teaching you are the patterns underneath. Those last.
 
 The goal is that you don't need a guide anymore — you can explore on your own.
 

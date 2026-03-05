@@ -102,6 +102,28 @@ Syntax:
 > Always save important ideas to a file before ending a session!
 ```
 
+### Kittens & Visual Variety
+
+The kittens app shows kitten mascots on slides in two ways:
+
+1. **Header-only slides** (a single heading with no other content) automatically get a random kitten at the slide level.
+2. **Callouts with kittens configured** render a kitten inside the callout box. These callout types have kittens:
+
+| Callout Type | Kitten |
+|---|---|
+| `[!TIP]` | proud-book, shows-book |
+| `[!SUCCESS]` | excited-chemist |
+| `[!WARNING]` | concerned-chemist |
+| `[!EXAMPLE]` | suit-arms-crossed |
+
+**Guidelines:**
+
+- Aim for **5–6 slides with kittens** per lesson — enough to feel lively, not so many it's distracting.
+- **Vary the callout types** so the same kitten doesn't repeat. Mix tip, success, warning, and example callouts across the lesson rather than using the same type repeatedly.
+- The title slide is usually header-only, so that's one kitten for free. Distribute the remaining 4–5 across the lesson arc — a couple in the core content, one in the activity or questions section.
+- Callouts without kittens (`[!NOTE]`, `[!INFO]`, `[!QUESTION]`, `[!QUOTE]`) are still useful — use them for emphasis where a kitten would feel gratuitous.
+- Don't add callouts just for the kitten. Every callout should earn its place by highlighting genuinely useful information.
+
 ### Questions Section
 
 End each lesson with a questions slide using the `[!QUESTION]` callout:
@@ -261,7 +283,8 @@ Questions that reveal whether Karen has grasped the core concept:
 - [ ] At least one "Action" step where Karen does something
 - [ ] Questions section at the end with 2–4 questions
 - [ ] Closes with summary and preview of next lesson
-- [ ] Callouts used appropriately (not overused — max 3–4 per lesson)
+- [ ] Callouts used appropriately (not overused — max 5–6 per lesson)
+- [ ] 5–6 slides have kittens (via header-only slides or kitten-bearing callout types), with variety across callout types
 - [ ] GUIDE file created with timing, talking points, and anticipated difficulties
 - [ ] Diagrams created (via excalidraw-diagram skill) where visual explanation helps
 - [ ] New vocabulary pairs documented
