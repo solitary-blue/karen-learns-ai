@@ -21,6 +21,7 @@
 - [ ] create obsidian intro lesson
 - [ ] setup gravatar
 - [x] better kittens styles
+- [x] fix theme switching specificity bug in Kittens
 - [ ] kittenize git lesson
 - [ ] research potential value of [AionUi](https://github.com/iOfficeAI/AionUi)
 - [ ] setup jezweb/claude-skills for gemini
