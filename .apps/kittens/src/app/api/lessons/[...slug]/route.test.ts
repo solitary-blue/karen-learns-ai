@@ -80,6 +80,6 @@ describe('GET /api/lessons/[slug]', () => {
     const res = await GET(req, makeParams('test-theme'));
     
     expect(res.status).toBe(200);
-    expect(mockParseMarkdownToSlides).toHaveBeenCalledWith('# Theme Test', 'dracula');
+    expect(mockParseMarkdownToSlides).toHaveBeenCalledWith('# Theme Test', 'dracula', 'test-theme');
   });
 });

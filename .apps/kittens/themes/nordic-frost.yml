@@ -1,0 +1,49 @@
+name: "nordic-frost"
+label: "Nordic Frost"
+
+colors:
+  frost-bg: "#f0f4f8"
+  dark-navy: "#1a2030"
+  white: "#ffffff"
+  frost-border: "#d0dae8"
+  steel-blue: "#2a5c8a"
+  rose: "#c84a60"
+  muted: "#e4eaf2"
+  muted-fg: "#5a6a80"
+
+semantics:
+  background: frost-bg
+  foreground: dark-navy
+  border: frost-border
+  input: frost-border
+  ring: steel-blue
+  primary:
+    DEFAULT: steel-blue
+    foreground: white
+  secondary:
+    DEFAULT: muted
+    foreground: dark-navy
+  destructive:
+    DEFAULT: rose
+    foreground: white
+  muted:
+    DEFAULT: muted
+    foreground: muted-fg
+  accent:
+    DEFAULT: rose
+    foreground: white
+  popover:
+    DEFAULT: white
+    foreground: dark-navy
+  card:
+    DEFAULT: white
+    foreground: dark-navy
+  bold: dark-navy
+  headers:
+    color: dark-navy
+    h1:
+      color: steel-blue
+
+fonts:
+  title: "system-ui, -apple-system, sans-serif"
+  main: "system-ui, -apple-system, sans-serif"

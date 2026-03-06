@@ -1,0 +1,51 @@
+name: "dusk-gradient"
+label: "Dusk Gradient"
+
+colors:
+  dusk-bg: "#1a1040"
+  dusk-card: "#2a1848"
+  dusk-fg: "#f0e8e0"
+  dusk-border: "#3a2850"
+  peach: "#f0a070"
+  purple: "#c084fc"
+  muted: "#4a3060"
+  muted-fg: "#b0a0c0"
+
+semantics:
+  background: dusk-bg
+  foreground: dusk-fg
+  border: dusk-border
+  input: dusk-border
+  ring: peach
+  primary:
+    DEFAULT: peach
+    foreground: dusk-bg
+  secondary:
+    DEFAULT: dusk-border
+    foreground: dusk-fg
+  destructive:
+    DEFAULT: "#f07080"
+    foreground: dusk-fg
+  muted:
+    DEFAULT: muted
+    foreground: muted-fg
+  accent:
+    DEFAULT: purple
+    foreground: dusk-fg
+  popover:
+    DEFAULT: dusk-card
+    foreground: dusk-fg
+  card:
+    DEFAULT: dusk-card
+    foreground: dusk-fg
+  bold: dusk-fg
+  headers:
+    color: dusk-fg
+    h1:
+      color: peach
+
+fonts:
+  title: '"Outfit", sans-serif'
+  main: '"Lexend", sans-serif'
+
+googleFonts: "Lexend:wght@300;400;500;600;700&family=Outfit:wght@400;600;700"

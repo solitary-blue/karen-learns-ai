@@ -1,5 +1,7 @@
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
+import remarkGfm from 'remark-gfm';
+import { remarkQA } from './remark-qa';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 import { remarkCallout } from './remark-callout';
@@ -7,6 +9,7 @@ import type { Slide } from './types';
 import { loadAppConfig, pickRandomKitten, pickKittenFromPreferences } from './kitten-config';
 import { loadCalloutConfig } from './callout-config';
 import { loadThemeConfig } from './theme-parser';
+import { visit } from 'unist-util-visit';
 
 export interface SlideAnalysis {
   isHeaderOnly: boolean;
@@ -71,13 +74,32 @@ function resolveKittenForSlide(analysis: SlideAnalysis, themeName?: string): { n
   return undefined;
 }
 
-export async function parseMarkdownToSlides(markdown: string, themeName?: string): Promise<Slide[]> {
+function remarkRewriteImages(options: { basePath: string }) {
+  return (tree: any) => {
+    visit(tree, 'image', (node: any) => {
+      if (node.url && !node.url.startsWith('http') && !node.url.startsWith('/')) {
+        const prefix = options.basePath ? `${options.basePath}/` : '';
+        node.url = `/api/curriculum-images/${prefix}${node.url}`;
+      }
+    });
+  };
+}
+
+export async function parseMarkdownToSlides(markdown: string, themeName?: string, lessonSlug?: string): Promise<Slide[]> {
   // Split by horizontal rule: ---
   const rawSlides = markdown.split(/\n---\n/);
-  
+
+  // Extract the directory portion of the lesson slug for relative image resolution
+  const basePath = lessonSlug && lessonSlug.includes('/')
+    ? lessonSlug.split('/').slice(0, -1).join('/')
+    : '';
+
   const processor = unified()
     .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkQA)
     .use(remarkCallout)
+    .use(remarkRewriteImages, { basePath })
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeStringify, { allowDangerousHtml: true });
 

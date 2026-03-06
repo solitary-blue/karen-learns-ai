@@ -13,6 +13,7 @@ import {
 import type { Slide, LessonListingResponse } from '@/lib/types';
 import type { LessonMetadata, LessonMetadataValue } from '@/lib/frontmatter';
 import { useRouter } from 'next/navigation';
+import SlideContent from './SlideContent';
 
 interface SlideShowProps {
   slides: Slide[];
@@ -113,13 +114,13 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
   return (
     <div className="relative w-full h-screen overflow-hidden bg-background select-none">
       {/* Ghost UI: Slide List Button */}
-      <div className="absolute top-6 left-6 z-50 opacity-0 hover:opacity-100 transition-opacity">
+      <div className="absolute top-6 left-6 z-50">
         <button
           onClick={() => {
             setMenuMode('overview');
             setShowList(true);
           }}
-          className="p-2 rounded-full hover:bg-black/5 text-foreground/40 hover:text-foreground transition-colors"
+          className="p-2 rounded-full text-foreground opacity-[0.15] hover:opacity-80 transition-opacity duration-300"
         >
           <List size={24} />
         </button>
@@ -161,7 +162,7 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
             transition={{ duration: 0.4, ease: 'easeOut' }}
             className="prose prose-lg md:prose-2xl max-w-4xl w-full mx-auto text-center"
           >
-             <div dangerouslySetInnerHTML={{ __html: slides[current].html }} />
+             <SlideContent html={slides[current].html} />
           </motion.div>
         </AnimatePresence>
       </div>

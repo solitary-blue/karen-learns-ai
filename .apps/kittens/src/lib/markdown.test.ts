@@ -107,6 +107,15 @@ describe('parseMarkdownToSlides', () => {
     expect(slides[0].html).toContain('Callout content.');
   });
 
+  it('renders GFM tables to HTML', async () => {
+    const md = '# Comparison\n\n| Left | Right |\n|---|---|\n| Chat | Terminal |\n| Send | Enter |';
+    const slides = await parseMarkdownToSlides(md);
+
+    expect(slides[0].html).toContain('<table>');
+    expect(slides[0].html).toContain('<th>Left</th>');
+    expect(slides[0].html).toContain('<td>Chat</td>');
+  });
+
   it('handles single slide (no separators) and empty string', async () => {
     const single = '# Only Slide\n\nContent.';
     const slides = await parseMarkdownToSlides(single);
@@ -116,6 +125,28 @@ describe('parseMarkdownToSlides', () => {
     const empty = await parseMarkdownToSlides('');
     expect(empty).toHaveLength(1);
     expect(empty[0].title).toBe('Untitled Slide');
+  });
+
+  it('rewrites relative image paths using lesson slug directory', async () => {
+    const md = '# Diagram Slide\n\n![Overview](diagrams/overview.png)';
+    const slides = await parseMarkdownToSlides(md, undefined, 'section-1/01_lesson_KAREN');
+
+    expect(slides[0].html).toContain('src="/api/curriculum-images/section-1/diagrams/overview.png"');
+  });
+
+  it('does not rewrite absolute or external image paths', async () => {
+    const md = '# Slide\n\n![Abs](/images/logo.png)\n\n![Ext](https://example.com/pic.jpg)';
+    const slides = await parseMarkdownToSlides(md, undefined, 'section-1/01_lesson_KAREN');
+
+    expect(slides[0].html).toContain('src="/images/logo.png"');
+    expect(slides[0].html).toContain('src="https://example.com/pic.jpg"');
+  });
+
+  it('handles images when no lesson slug is provided', async () => {
+    const md = '# Slide\n\n![Img](diagrams/test.png)';
+    const slides = await parseMarkdownToSlides(md);
+
+    expect(slides[0].html).toContain('src="/api/curriculum-images/diagrams/test.png"');
   });
 });
 

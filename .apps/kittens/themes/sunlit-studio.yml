@@ -1,0 +1,49 @@
+name: "sunlit-studio"
+label: "Sunlit Studio"
+
+colors:
+  white: "#ffffff"
+  slate-700: "#334155"
+  slate-50: "#f8fafc"
+  slate-200: "#e2e8f0"
+  teal: "#2dd4bf"
+  orange: "#fb923c"
+  muted: "#f1f5f9"
+  muted-fg: "#64748b"
+
+semantics:
+  background: white
+  foreground: slate-700
+  border: slate-200
+  input: slate-200
+  ring: teal
+  primary:
+    DEFAULT: teal
+    foreground: white
+  secondary:
+    DEFAULT: muted
+    foreground: slate-700
+  destructive:
+    DEFAULT: "#ef4444"
+    foreground: white
+  muted:
+    DEFAULT: muted
+    foreground: muted-fg
+  accent:
+    DEFAULT: orange
+    foreground: white
+  popover:
+    DEFAULT: white
+    foreground: slate-700
+  card:
+    DEFAULT: slate-50
+    foreground: slate-700
+  bold: slate-700
+  headers:
+    color: slate-700
+    h1:
+      color: teal
+
+fonts:
+  title: "system-ui, -apple-system, sans-serif"
+  main: "system-ui, -apple-system, sans-serif"

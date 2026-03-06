@@ -1,0 +1,52 @@
+name: "midnight-montessori"
+label: "Midnight Montessori"
+
+colors:
+  deep-slate: "#0f172a"
+  slate-card: "#1e293b"
+  slate-50: "#f8fafc"
+  slate-border: "#334155"
+  blue: "#3b82f6"
+  red: "#ef4444"
+  muted-gray: "#475569"
+  muted-fg: "#94a3b8"
+  indigo: "#4f46e5"
+
+semantics:
+  background: deep-slate
+  foreground: slate-50
+  border: slate-border
+  input: slate-border
+  ring: blue
+  primary:
+    DEFAULT: blue
+    foreground: slate-50
+  secondary:
+    DEFAULT: slate-border
+    foreground: slate-50
+  destructive:
+    DEFAULT: red
+    foreground: slate-50
+  muted:
+    DEFAULT: muted-gray
+    foreground: muted-fg
+  accent:
+    DEFAULT: indigo
+    foreground: slate-50
+  popover:
+    DEFAULT: slate-card
+    foreground: slate-50
+  card:
+    DEFAULT: slate-card
+    foreground: slate-50
+  bold: slate-50
+  headers:
+    color: slate-50
+    h1:
+      color: blue
+
+fonts:
+  title: '"Outfit", sans-serif'
+  main: '"Lexend", sans-serif'
+
+googleFonts: "Lexend:wght@300;400;500;600;700&family=Outfit:wght@400;600;700"

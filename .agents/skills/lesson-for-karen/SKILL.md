@@ -147,26 +147,56 @@ Questions should:
 
 ### Diagrams
 
-When a concept benefits from visual explanation, create an excalidraw diagram using the `excalidraw-diagram` skill. Good candidates for diagrams:
+Every lesson should include **1–2 excalidraw diagrams** created with the `excalidraw-diagram` skill. Diagrams make abstract ideas concrete — especially important for Karen, who is new to these concepts. Even "simple" lessons benefit from a visual anchor.
+
+**Good candidates for diagrams:**
 
 - **Processes and flows** — The agent loop, how context works, prompt → response
 - **Comparisons** — Chatbot vs. agent, short-term vs. long-term memory
 - **Hierarchies** — File organization, instruction inheritance
 - **Timelines** — How a session unfolds, multi-step workflows
+- **Concept overviews** — A visual summary of the lesson's core idea (great for the opening or closing)
+- **Vocabulary maps** — Visual relationships between new terms
 
-Reference the diagram in the slide:
+**Where to place diagrams in the lesson arc:**
+
+- **Opening diagram** (optional) — Sets the scene visually. Good for "here's the big picture" moments.
+- **Core content diagram** (recommended) — Illustrates the lesson's main concept. This is the most valuable diagram.
+- **Closing/summary diagram** (optional) — Ties everything together. Good for lessons with multiple interconnected ideas.
+
+Don't put two diagrams back-to-back — space them out with text slides between them.
+
+**File organization:**
+
+Diagrams live in a `diagrams/` subdirectory next to the lesson files:
+
+```
+curriculum/
+  01-meeting-your-ai/
+    01_the-chat-room_KAREN.md
+    01_the-chat-room_GUIDE.md
+    diagrams/
+      chat-room-overview.excalidraw
+      chat-room-overview.png
+```
+
+**Referencing diagrams in slides:**
+
+The kittens app resolves relative image paths from markdown. Use a standard markdown image link with the relative path from the lesson file to the diagram PNG:
 
 ```markdown
 ---
 
 ## . How the Agent Loop Works
 
-![Agent Loop Diagram](diagrams/agent-loop.excalidraw.png)
+![Agent Loop Diagram](diagrams/agent-loop.png)
 ```
 
-Use hidden headings (`.` prefix) for diagram-dominant slides so the visual speaks for itself.
+Use hidden headings (`.` prefix) for diagram-dominant slides so the visual speaks for itself. Diagram slides do not count toward the kitten quota (they provide their own visual interest).
 
-**Important:** Diagram rendering in kittens is a future feature. For now, create the `.excalidraw` files and reference them — they'll display once support is added.
+**Rendering diagrams:**
+
+After creating the `.excalidraw` JSON, render it to PNG using the excalidraw-diagram skill's render script. The PNG is what the kittens app displays. Always commit both the `.excalidraw` source and the `.png` render.
 
 ## Pedagogical Principles
 
@@ -286,5 +316,5 @@ Questions that reveal whether Karen has grasped the core concept:
 - [ ] Callouts used appropriately (not overused — max 5–6 per lesson)
 - [ ] 5–6 slides have kittens (via header-only slides or kitten-bearing callout types), with variety across callout types
 - [ ] GUIDE file created with timing, talking points, and anticipated difficulties
-- [ ] Diagrams created (via excalidraw-diagram skill) where visual explanation helps
+- [ ] 1–2 excalidraw diagrams created (via excalidraw-diagram skill), rendered to PNG, both `.excalidraw` and `.png` committed
 - [ ] New vocabulary pairs documented

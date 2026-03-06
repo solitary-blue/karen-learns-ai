@@ -1,5 +1,16 @@
 import type { LessonMetadata } from './frontmatter';
 
+export interface QAItem {
+  question: string;
+  answer: string;
+}
+
+export interface QABlock {
+  type: 'callout' | 'bullets' | 'chat';
+  title: string;
+  items: QAItem[];
+}
+
 export interface Slide {
   html: string;
   title: string;

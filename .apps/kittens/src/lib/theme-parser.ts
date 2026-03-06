@@ -29,6 +29,7 @@ export interface ThemeDefinition {
   semantics: ThemeSemantics;
   fonts?: ThemeFonts;
   mascots?: ThemeMascots;
+  googleFonts?: string;
 }
 
 export interface ParsedTheme {

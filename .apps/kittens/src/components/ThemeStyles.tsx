@@ -3,7 +3,7 @@ import { loadThemeConfig } from '@/lib/theme-parser';
 
 export default function ThemeStyles() {
   const config = loadThemeConfig();
-  
+
   if (!config || !config.themes) return null;
 
   let cssString = '';
@@ -29,7 +29,24 @@ export default function ThemeStyles() {
     cssString += `}\n\n`;
   }
 
+  // 3. Collect all unique Google Font URLs across themes
+  const googleFontSpecs = new Set<string>();
+  for (const themeData of Object.values(config.themes)) {
+    if (themeData.definition.googleFonts) {
+      googleFontSpecs.add(themeData.definition.googleFonts);
+    }
+  }
+
+  const googleFontLinks = [...googleFontSpecs].map(spec =>
+    `https://fonts.googleapis.com/css2?family=${spec}&display=swap`
+  );
+
   return (
-    <style dangerouslySetInnerHTML={{ __html: cssString }} />
+    <>
+      <style dangerouslySetInnerHTML={{ __html: cssString }} />
+      {googleFontLinks.map(href => (
+        <link key={href} rel="stylesheet" href={href} />
+      ))}
+    </>
   );
 }

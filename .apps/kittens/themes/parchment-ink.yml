@@ -1,0 +1,49 @@
+name: "parchment-ink"
+label: "Parchment & Ink"
+
+colors:
+  parchment: "#fcf9f2"
+  ink: "#1a1a1a"
+  card-bg: "#f5f1e8"
+  warm-border: "#dcd3bc"
+  deep-red: "#991b1b"
+  deep-blue: "#1e3a8a"
+  muted: "#c8bfa8"
+  muted-fg: "#6b6355"
+
+semantics:
+  background: parchment
+  foreground: ink
+  border: warm-border
+  input: warm-border
+  ring: deep-red
+  primary:
+    DEFAULT: deep-red
+    foreground: parchment
+  secondary:
+    DEFAULT: warm-border
+    foreground: ink
+  destructive:
+    DEFAULT: "#b91c1c"
+    foreground: parchment
+  muted:
+    DEFAULT: muted
+    foreground: muted-fg
+  accent:
+    DEFAULT: deep-blue
+    foreground: parchment
+  popover:
+    DEFAULT: parchment
+    foreground: ink
+  card:
+    DEFAULT: card-bg
+    foreground: ink
+  bold: ink
+  headers:
+    color: ink
+    h1:
+      color: deep-red
+
+fonts:
+  title: "Georgia, Cambria, 'Times New Roman', serif"
+  main: "'Avenir Next', Avenir, system-ui, sans-serif"

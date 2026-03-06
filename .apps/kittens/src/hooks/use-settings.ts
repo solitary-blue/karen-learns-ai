@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const STORAGE_KEY_MAIN_FONT = 'kittens-font-main';
 const STORAGE_KEY_TITLE_FONT = 'kittens-font-title';
@@ -37,34 +37,60 @@ function resolveStoredFont(storageKey: string, fallback: FontOption): FontOption
   return fallback;
 }
 
+// Shared state so all useSettings consumers stay in sync
+let sharedMainFont: FontOption | null = null;
+let sharedTitleFont: FontOption | null = null;
+const listeners = new Set<() => void>();
+
+function notify() {
+  listeners.forEach(fn => fn());
+}
+
 export function useSettings(defaultMain: FontOption, defaultTitle: FontOption) {
-  const [mainFont, setMainFont] = useState<FontOption>(() => resolveStoredFont(STORAGE_KEY_MAIN_FONT, defaultMain));
-  const [titleFont, setTitleFont] = useState<FontOption>(() => resolveStoredFont(STORAGE_KEY_TITLE_FONT, defaultTitle));
+  // Initialize shared state from localStorage on first use
+  if (!sharedMainFont) {
+    sharedMainFont = resolveStoredFont(STORAGE_KEY_MAIN_FONT, defaultMain);
+  }
+  if (!sharedTitleFont) {
+    sharedTitleFont = resolveStoredFont(STORAGE_KEY_TITLE_FONT, defaultTitle);
+  }
 
-  // Keep CSS variables in sync with selected fonts.
+  const [, rerender] = useState(0);
+
+  // Subscribe to shared state changes
   useEffect(() => {
-    document.documentElement.style.setProperty('--font-main', mainFont.value);
-  }, [mainFont]);
+    const listener = () => rerender(n => n + 1);
+    listeners.add(listener);
+    return () => { listeners.delete(listener); };
+  }, []);
 
+  // Keep CSS variables in sync on mount
   useEffect(() => {
-    document.documentElement.style.setProperty('--font-title', titleFont.value);
-  }, [titleFont]);
+    if (sharedMainFont) {
+      document.documentElement.style.setProperty('--font-main', sharedMainFont.value);
+    }
+    if (sharedTitleFont) {
+      document.documentElement.style.setProperty('--font-title', sharedTitleFont.value);
+    }
+  }, []);
 
-  const updateMainFont = (font: FontOption) => {
-    setMainFont(font);
+  const updateMainFont = useCallback((font: FontOption) => {
+    sharedMainFont = font;
     document.documentElement.style.setProperty('--font-main', font.value);
     localStorage.setItem(STORAGE_KEY_MAIN_FONT, JSON.stringify(font));
-  };
+    notify();
+  }, []);
 
-  const updateTitleFont = (font: FontOption) => {
-    setTitleFont(font);
+  const updateTitleFont = useCallback((font: FontOption) => {
+    sharedTitleFont = font;
     document.documentElement.style.setProperty('--font-title', font.value);
     localStorage.setItem(STORAGE_KEY_TITLE_FONT, JSON.stringify(font));
-  };
+    notify();
+  }, []);
 
   return {
-    mainFont,
-    titleFont,
+    mainFont: sharedMainFont!,
+    titleFont: sharedTitleFont!,
     updateMainFont,
     updateTitleFont,
   };

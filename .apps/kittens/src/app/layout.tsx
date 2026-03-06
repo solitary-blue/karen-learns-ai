@@ -3,6 +3,7 @@ import './globals.css';
 import ThemeStyles from '@/components/ThemeStyles';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { SettingsMenu } from '@/components/SettingsMenu';
+import { ThemePicker } from '@/components/ThemePicker';
 import { FontLoader } from '@/components/FontLoader';
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default function RootLayout({
           <FontLoader />
           {children}
           <SettingsMenu />
+          <ThemePicker />
         </ThemeProvider>
       </body>
     </html>

@@ -36,7 +36,7 @@ export async function GET(
     }
     const content = fs.readFileSync(filePath, 'utf-8');
     const parsedLesson = parseLessonFrontmatter(content);
-    const slides = await parseMarkdownToSlides(parsedLesson.body, theme);
+    const slides = await parseMarkdownToSlides(parsedLesson.body, theme, slug);
     return NextResponse.json<LessonResponse>({
       content,
       slides,

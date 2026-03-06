@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { Settings } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import {
   Sheet,
   SheetContent,
@@ -11,9 +10,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useSettings, FontOption } from '@/hooks/use-settings';
-import { ThemePicker } from './ThemePicker';
 
-// Initial safe defaults
 const DEFAULT_MAIN_FONTS = [
   { name: 'Avenir Next', value: '"Avenir Next", Avenir, "Seravek", system-ui, sans-serif' },
   { name: 'Helvetica', value: 'Helvetica, "Helvetica Neue", Arial, sans-serif' },
@@ -29,7 +26,7 @@ const DEFAULT_TITLE_FONTS = [
 export function SettingsMenu() {
   const [availableMainFonts, setAvailableMainFonts] = React.useState<FontOption[]>(DEFAULT_MAIN_FONTS);
   const [availableTitleFonts, setAvailableTitleFonts] = React.useState<FontOption[]>(DEFAULT_TITLE_FONTS);
-  
+
   const { mainFont, titleFont, updateMainFont, updateTitleFont } = useSettings(DEFAULT_MAIN_FONTS[0], DEFAULT_TITLE_FONTS[0]);
 
   React.useEffect(() => {
@@ -55,62 +52,57 @@ export function SettingsMenu() {
   const uiFontStyle = { fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' };
 
   return (
-    <>
-      <ThemePicker />
-      <div className="fixed top-6 right-6 z-50">
-        <Sheet>
-          <SheetTrigger asChild>
-            <button
-              className="p-2 rounded-full hover:bg-black/5 text-foreground/40 hover:text-foreground transition-colors opacity-0 hover:opacity-100 transition-opacity duration-300"
-            >
-              <Settings size={24} />
-            </button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-80">
-            <SheetHeader>
-              <SheetTitle className="text-xl font-serif text-primary" style={uiFontStyle}>
-                Appearance
-              </SheetTitle>
-            </SheetHeader>
-            
-            <div className="space-y-6 mt-8">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-muted-foreground block" style={uiFontStyle}>Main Font</label>
-                <select 
-                  className="w-full text-base bg-transparent border border-border rounded-md shadow-sm focus:border-primary focus:ring-1 focus:ring-primary p-2 text-foreground"
-                  style={uiFontStyle}
-                  value={mainFont.name}
-                  onChange={(e) => {
-                    const font = availableMainFonts.find(f => f.name === e.target.value);
-                    if (font) updateMainFont(font);
-                  }}
-                >
-                  {availableMainFonts.map(f => (
-                    <option key={f.name} value={f.name}>{f.name}</option>
-                  ))}
-                </select>
-              </div>
+    <div className="fixed top-6 right-6 z-50">
+      <Sheet>
+        <SheetTrigger asChild>
+          <button className="p-2 rounded-full text-foreground opacity-[0.15] hover:opacity-80 transition-opacity duration-300">
+            <Settings size={24} />
+          </button>
+        </SheetTrigger>
+        <SheetContent side="right" className="w-80">
+          <SheetHeader>
+            <SheetTitle className="text-xl font-serif text-primary" style={uiFontStyle}>
+              Appearance
+            </SheetTitle>
+          </SheetHeader>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-muted-foreground block" style={uiFontStyle}>Title Font</label>
-                <select 
-                  className="w-full text-base bg-transparent border border-border rounded-md shadow-sm focus:border-primary focus:ring-1 focus:ring-primary p-2 text-foreground font-serif"
-                  style={uiFontStyle}
-                  value={titleFont.name}
-                  onChange={(e) => {
-                    const font = availableTitleFonts.find(f => f.name === e.target.value);
-                    if (font) updateTitleFont(font);
-                  }}
-                >
-                  {availableTitleFonts.map(f => (
-                    <option key={f.name} value={f.name}>{f.name}</option>
-                  ))}
-                </select>
-              </div>
+          <div className="space-y-6 mt-8">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-muted-foreground block" style={uiFontStyle}>Main Font</label>
+              <select
+                className="w-full text-base bg-transparent border border-border rounded-md shadow-sm focus:border-primary focus:ring-1 focus:ring-primary p-2 text-foreground"
+                style={uiFontStyle}
+                value={mainFont.name}
+                onChange={(e) => {
+                  const font = availableMainFonts.find(f => f.name === e.target.value);
+                  if (font) updateMainFont(font);
+                }}
+              >
+                {availableMainFonts.map(f => (
+                  <option key={f.name} value={f.name}>{f.name}</option>
+                ))}
+              </select>
             </div>
-          </SheetContent>
-        </Sheet>
-      </div>
-    </>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-muted-foreground block" style={uiFontStyle}>Title Font</label>
+              <select
+                className="w-full text-base bg-transparent border border-border rounded-md shadow-sm focus:border-primary focus:ring-1 focus:ring-primary p-2 text-foreground font-serif"
+                style={uiFontStyle}
+                value={titleFont.name}
+                onChange={(e) => {
+                  const font = availableTitleFonts.find(f => f.name === e.target.value);
+                  if (font) updateTitleFont(font);
+                }}
+              >
+                {availableTitleFonts.map(f => (
+                  <option key={f.name} value={f.name}>{f.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
   );
 }
