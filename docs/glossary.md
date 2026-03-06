@@ -9,6 +9,7 @@ This document defines terms used in this project to help Karen navigate the "Dig
 | **Branch** | An "Experiment." A way to try a new idea without changing your main work. |
 | **Commit** | A "Save." Adding a new entry or "page" to your project's Digital Scrapbook. |
 | **direnv** | A tool that automatically sets up your "Work Environment" as soon as you open your project folder. |
+| **Excalidraw** | A tool for creating "Visual Arguments" (diagrams) that help explain complex ideas. |
 | **Git** | The "Time Machine" or "Digital Scrapbook" system that keeps track of every change we make. |
 | **GUIDE** | Michael Johnston (lastobelus). He is the architect of this learning environment and your primary mentor. |
 | **Kittens** | The lesson viewer app that turns Markdown lessons into a slideshow presentation. |

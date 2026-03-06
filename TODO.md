@@ -30,6 +30,8 @@
 - [ ] research potential value of [AionUi](https://github.com/iOfficeAI/AionUi)
 - [ ] setup jezweb/claude-skills for gemini
 - [x] reinstall new version of jezweb/claude-skills (/plugin install all@jezweb-skills), might have to uninstall old first? `claude plugin uninstall`
+- [x] update Excalidraw color palette with Dracula theme
+- [x] create curriculum roadmap diagram (`curriculum/roadmap.excalidraw`)
 
 ## Karen
 - [ ] Explore the `.agents/skills/teach-me-about-ai.md` skill.

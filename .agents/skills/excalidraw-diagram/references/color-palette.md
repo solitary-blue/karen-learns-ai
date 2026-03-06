@@ -1,4 +1,4 @@
-# Color Palette & Brand Style
+# Color Palette & Brand Style (Dracula Theme)
 
 **This is the single source of truth for all colors and brand-specific styles.** To customize diagrams for your own brand, edit this file — everything else in the skill is universal.
 
@@ -10,18 +10,18 @@ Colors encode meaning, not decoration. Each semantic purpose has a fill/stroke p
 
 | Semantic Purpose | Fill | Stroke |
 |------------------|------|--------|
-| Primary/Neutral | `#3b82f6` | `#1e3a5f` |
-| Secondary | `#60a5fa` | `#1e3a5f` |
-| Tertiary | `#93c5fd` | `#1e3a5f` |
-| Start/Trigger | `#fed7aa` | `#c2410c` |
-| End/Success | `#a7f3d0` | `#047857` |
-| Warning/Reset | `#fee2e2` | `#dc2626` |
-| Decision | `#fef3c7` | `#b45309` |
-| AI/LLM | `#ddd6fe` | `#6d28d9` |
-| Inactive/Disabled | `#dbeafe` | `#1e40af` (use dashed stroke) |
-| Error | `#fecaca` | `#b91c1c` |
+| Primary/Neutral | `#bd93f9` | `#282a36` |
+| Secondary | `#44475a` | `#f8f8f2` |
+| Tertiary | `#6272a4` | `#f8f8f2` |
+| Start/Trigger | `#50fa7b` | `#282a36` |
+| End/Success | `#8be9fd` | `#282a36` |
+| Warning/Reset | `#ffb86c` | `#282a36` |
+| Decision | `#f1fa8c` | `#282a36` |
+| AI/LLM | `#ff79c6` | `#282a36` |
+| Inactive/Disabled | `#282a36` | `#6272a4` (use dashed stroke) |
+| Error | `#ff5555` | `#282a36` |
 
-**Rule**: Always pair a darker stroke with a lighter fill for contrast.
+**Rule**: Always pair a darker stroke with a lighter fill (or vice versa for dark themes) for contrast.
 
 ---
 
@@ -31,11 +31,11 @@ Use color on free-floating text to create visual hierarchy without containers.
 
 | Level | Color | Use For |
 |-------|-------|---------|
-| Title | `#1e40af` | Section headings, major labels |
-| Subtitle | `#3b82f6` | Subheadings, secondary labels |
-| Body/Detail | `#64748b` | Descriptions, annotations, metadata |
-| On light fills | `#374151` | Text inside light-colored shapes |
-| On dark fills | `#ffffff` | Text inside dark-colored shapes |
+| Title | `#bd93f9` | Section headings, major labels |
+| Subtitle | `#ff79c6` | Subheadings, secondary labels |
+| Body/Detail | `#f8f8f2` | Descriptions, annotations, metadata |
+| On light fills | `#282a36` | Text inside light-colored shapes |
+| On dark fills | `#f8f8f2` | Text inside dark-colored shapes |
 
 ---
 
@@ -45,8 +45,8 @@ Used for code snippets, data examples, and other concrete evidence inside techni
 
 | Artifact | Background | Text Color |
 |----------|-----------|------------|
-| Code snippet | `#1e293b` | Syntax-colored (language-appropriate) |
-| JSON/data example | `#1e293b` | `#22c55e` (green) |
+| Code snippet | `#44475a` | Syntax-colored (language-appropriate) |
+| JSON/data example | `#44475a` | `#50fa7b` (green) |
 
 ---
 
@@ -55,8 +55,8 @@ Used for code snippets, data examples, and other concrete evidence inside techni
 | Element | Color |
 |---------|-------|
 | Arrows | Use the stroke color of the source element's semantic purpose |
-| Structural lines (dividers, trees, timelines) | Primary stroke (`#1e3a5f`) or Slate (`#64748b`) |
-| Marker dots (fill + stroke) | Primary fill (`#3b82f6`) |
+| Structural lines (dividers, trees, timelines) | Comment/Muted (`#6272a4`) or Foreground (`#f8f8f2`) |
+| Marker dots (fill + stroke) | Primary fill (`#bd93f9`) |
 
 ---
 
@@ -64,4 +64,4 @@ Used for code snippets, data examples, and other concrete evidence inside techni
 
 | Property | Value |
 |----------|-------|
-| Canvas background | `#ffffff` |
+| Canvas background | `#282a36` |
