@@ -10,6 +10,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useSettings, FontOption } from '@/hooks/use-settings';
+import { WeightPicker } from '@/components/WeightPicker';
 
 const DEFAULT_MAIN_FONTS = [
   { name: 'Avenir Next', value: '"Avenir Next", Avenir, "Seravek", system-ui, sans-serif' },
@@ -27,7 +28,7 @@ export function SettingsMenu() {
   const [availableMainFonts, setAvailableMainFonts] = React.useState<FontOption[]>(DEFAULT_MAIN_FONTS);
   const [availableTitleFonts, setAvailableTitleFonts] = React.useState<FontOption[]>(DEFAULT_TITLE_FONTS);
 
-  const { mainFont, titleFont, updateMainFont, updateTitleFont } = useSettings(DEFAULT_MAIN_FONTS[0], DEFAULT_TITLE_FONTS[0]);
+  const { mainFont, titleFont, updateMainFont, updateTitleFont, updateMainFontWeight, updateTitleFontWeight } = useSettings(DEFAULT_MAIN_FONTS[0], DEFAULT_TITLE_FONTS[0]);
 
   React.useEffect(() => {
     async function loadFonts() {
@@ -48,6 +49,9 @@ export function SettingsMenu() {
     }
     loadFonts();
   }, []);
+
+  const selectedMainFont = availableMainFonts.find((font) => font.name === mainFont.name) || mainFont;
+  const selectedTitleFont = availableTitleFonts.find((font) => font.name === titleFont.name) || titleFont;
 
   const uiFontStyle = { fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' };
 
@@ -82,6 +86,12 @@ export function SettingsMenu() {
                   <option key={f.name} value={f.name}>{f.name}</option>
                 ))}
               </select>
+              <WeightPicker
+                fontName={mainFont.name}
+                availableWeights={selectedMainFont.availableWeights}
+                selectedWeight={mainFont.weight || 400}
+                onWeightChange={updateMainFontWeight}
+              />
             </div>
 
             <div className="space-y-2">
@@ -99,6 +109,12 @@ export function SettingsMenu() {
                   <option key={f.name} value={f.name}>{f.name}</option>
                 ))}
               </select>
+              <WeightPicker
+                fontName={titleFont.name}
+                availableWeights={selectedTitleFont.availableWeights}
+                selectedWeight={titleFont.weight || 400}
+                onWeightChange={updateTitleFontWeight}
+              />
             </div>
           </div>
         </SheetContent>

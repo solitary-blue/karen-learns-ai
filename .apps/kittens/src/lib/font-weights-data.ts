@@ -1,0 +1,32 @@
+export const WEIGHT_NAMES: Record<number, string> = {
+  100: 'Thin',
+  200: 'Extra Light',
+  300: 'Light',
+  400: 'Regular',
+  500: 'Medium',
+  600: 'Semi Bold',
+  700: 'Bold',
+  800: 'Extra Bold',
+  900: 'Black',
+};
+
+export const GOOGLE_FONT_WEIGHTS: Record<string, number[]> = {
+  'Playfair Display': [400, 500, 600, 700, 800, 900],
+  'Inter': [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  'Crimson Pro': [200, 300, 400, 500, 600, 700, 800, 900],
+  'JetBrains Mono': [100, 200, 300, 400, 500, 600, 700, 800],
+  'Space Grotesk': [300, 400, 500, 600, 700],
+  'IBM Plex Mono': [100, 200, 300, 400, 500, 600, 700],
+  'Cormorant Garamond': [300, 400, 500, 600, 700],
+  'EB Garamond': [400, 500, 600, 700, 800],
+  'Lexend': [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  'Bitter': [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  'Outfit': [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  'Lora': [400, 500, 600, 700],
+  'DM Serif Display': [400],
+  'Fraunces': [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  'Averia Libre': [300, 400, 700],
+  'Bliss': [300, 400, 500, 700, 800, 900],
+  'Charter': [400, 700],
+  'Candara': [400, 700],
+};

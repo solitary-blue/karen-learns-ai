@@ -43,15 +43,29 @@
 
     --font-main: 'Avenir Next', Avenir, 'Seravek', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-title: Georgia, Cambria, 'Times New Roman', Times, serif;
+    --font-main-weight: 400;
+    --font-title-weight: 400;
   }
 
   body {
     @apply bg-background text-foreground font-sans;
     font-family: var(--font-main);
+    font-weight: var(--font-main-weight);
   }
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-title);
+    font-weight: var(--font-title-weight);
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    font-family: var(--font-title);
+    font-weight: var(--font-title-weight);
   }
 
   /* Slide images — diagrams and figures */

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSettings, FontOption } from '@/hooks/use-settings';
+import { useDynamicFontLoader } from '@/lib/dynamic-font-loader';
 
 // --- Theme Definitions ---
 
@@ -296,9 +297,6 @@ const THEMES = [
   },
 ];
 
-// Preload all Google Fonts so the font chooser works across themes
-const ALL_GOOGLE_FONTS = [...new Set(THEMES.map(t => t.googleFonts))];
-
 // Map each theme to its default title/body font for the font chooser
 const THEME_FONTS: Record<string, { title: FontOption; body: FontOption }> = {
   'midnight-montessori': {
@@ -453,6 +451,15 @@ export default function MockupsPage() {
     defaultFonts?.title || { name: 'Georgia', value: 'Georgia, serif' },
   );
 
+  // Debug logging
+  useEffect(() => {
+    console.log('Current fonts:', { mainFont, titleFont });
+  }, [mainFont, titleFont]);
+
+  // Dynamically load fonts as needed
+  useDynamicFontLoader(mainFont.name, mainFont.weight || 400);
+  useDynamicFontLoader(titleFont.name, titleFont.weight || 400);
+
   // Reset fonts to theme defaults when switching themes
   useEffect(() => {
     const fonts = THEME_FONTS[theme.id];
@@ -468,11 +475,6 @@ export default function MockupsPage() {
 
   return (
     <div className={cn("min-h-screen transition-colors duration-700 p-4 md:p-8 flex flex-col items-center", theme.styles.background)}>
-      {/* Preload all Google Fonts so font chooser works across themes */}
-      {ALL_GOOGLE_FONTS.map(gf => (
-        <link key={gf} rel="stylesheet" href={`https://fonts.googleapis.com/css2?family=${gf}&display=swap`} />
-      ))}
-      
       {/* Navigation Widget */}
       <div className={cn(
         "fixed top-6 z-50 backdrop-blur-md rounded-full px-2 py-2 flex items-center gap-2 shadow-2xl",
@@ -525,12 +527,12 @@ export default function MockupsPage() {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             className={cn("w-full h-full", theme.styles.foreground)}
-            style={{ fontFamily: mainFont.value }}
+            style={{ fontFamily: mainFont.value, fontWeight: mainFont.weight || 400 }}
           >
             {/* Slide Header */}
             <div className="mb-12">
               <h1 className={cn("text-4xl md:text-6xl mb-6", theme.styles.titleFont)}
-                  style={{ fontFamily: titleFont.value }}>
+                  style={{ fontFamily: titleFont.value, fontWeight: titleFont.weight || 400 }}>
                 The Cosmic Education of Karen
               </h1>
               <div className={cn("h-1 w-32 rounded-full bg-gradient-to-r", theme.styles.headerGradient)} />

@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { SettingsMenu } from '@/components/SettingsMenu';
 import { ThemePicker } from '@/components/ThemePicker';
 import { FontLoader } from '@/components/FontLoader';
+import { AppFontManager } from '@/components/AppFontManager';
 
 export const metadata: Metadata = {
   title: 'Kittens - Montessori AI Lessons',
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className="antialiased font-sans text-foreground bg-background selection:bg-primary selection:text-primary-foreground">
         <ThemeProvider>
           <FontLoader />
+          <AppFontManager />
           {children}
           <SettingsMenu />
           <ThemePicker />
