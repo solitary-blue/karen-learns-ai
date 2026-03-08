@@ -4,7 +4,7 @@ import path from 'path';
 import { parseMarkdownToSlides } from '@/lib/markdown';
 import { parseLessonFrontmatter } from '@/lib/frontmatter';
 import type { LessonResponse } from '@/lib/types';
-import { getProjectRoot } from '@/lib/server-utils';
+import { getCurriculumDir, getDefaultRootId, getRootById } from '@/lib/curriculum-roots';
 
 interface LessonError {
   error: string;
@@ -21,13 +21,24 @@ export async function GET(
   
   const url = new URL(request.url);
   const theme = url.searchParams.get('theme') || undefined;
+  const rootParam = url.searchParams.get('root');
 
   if (!VALID_SLUG_PATTERN.test(slug)) {
     return NextResponse.json<LessonError>({ error: 'Invalid lesson slug' }, { status: 400 });
   }
 
-  const curriculumDir = process.env.CURRICULUM_DIR
-    ?? path.resolve(getProjectRoot(), '../../curriculum');
+  let rootId: string;
+  if (rootParam) {
+    const root = getRootById(rootParam);
+    if (!root) {
+      return NextResponse.json<LessonError>({ error: `Invalid root: ${rootParam}` }, { status: 400 });
+    }
+    rootId = rootParam;
+  } else {
+    rootId = getDefaultRootId();
+  }
+
+  const curriculumDir = getCurriculumDir(rootId);
   const filePath = path.join(curriculumDir, slug + '.md');
 
   try {
@@ -36,7 +47,7 @@ export async function GET(
     }
     const content = fs.readFileSync(filePath, 'utf-8');
     const parsedLesson = parseLessonFrontmatter(content);
-    const slides = await parseMarkdownToSlides(parsedLesson.body, theme, slug);
+    const slides = await parseMarkdownToSlides(parsedLesson.body, theme, slug, rootId);
     return NextResponse.json<LessonResponse>({
       content,
       slides,

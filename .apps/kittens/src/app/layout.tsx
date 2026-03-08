@@ -3,7 +3,6 @@ import './globals.css';
 import ThemeStyles from '@/components/ThemeStyles';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { SettingsMenu } from '@/components/SettingsMenu';
-import { ThemePicker } from '@/components/ThemePicker';
 import { FontLoader } from '@/components/FontLoader';
 import { AppFontManager } from '@/components/AppFontManager';
 
@@ -28,7 +27,6 @@ export default function RootLayout({
           <AppFontManager />
           {children}
           <SettingsMenu />
-          <ThemePicker />
         </ThemeProvider>
       </body>
     </html>

@@ -5,11 +5,27 @@ vi.mock('@/lib/server-utils', () => ({
   getProjectRoot: () => '/mock/project',
 }));
 
+vi.mock('@/lib/curriculum-roots', () => ({
+  getCurriculumDir: (rootId: string) => {
+    if (rootId === 'current') return '/mock/curriculum';
+    if (rootId === 'workspace') return '/mock/workspace/curriculum';
+    throw new Error(`Unknown curriculum root id: ${rootId}`);
+  },
+  getDefaultRootId: () => 'current',
+  getRootById: (rootId: string) => {
+    if (rootId === 'current') return { id: 'current', label: 'Current', 'path-segments': [''], 'enclosing-dir': 'current' };
+    if (rootId === 'workspace') return { id: 'workspace', label: 'Workspace', 'path-segments': ['workspace'], 'enclosing-dir': 'workspace' };
+    return null;
+  },
+  validateCurriculumDir: (rootId: string) => rootId === 'current' || rootId === 'workspace',
+}));
+
 import { GET } from './route';
 
-function makeRequest(folder?: string): Request {
+function makeRequest(folder?: string, root?: string): Request {
   const url = new URL('http://localhost:3000/api/lessons');
   if (folder) url.searchParams.set('folder', folder);
+  if (root) url.searchParams.set('root', root);
   return new Request(url.toString());
 }
 
@@ -107,6 +123,31 @@ describe('GET /api/lessons', () => {
     vi.spyOn(fs, 'readdirSync').mockReturnValue([] as any);
 
     const res = await GET(makeRequest('01_basics/02_advanced'));
+    expect(res.status).toBe(200);
+  });
+
+  it('uses root query param to select curriculum directory', async () => {
+    vi.spyOn(fs, 'existsSync').mockReturnValue(true);
+    vi.spyOn(fs, 'statSync').mockReturnValue({ isDirectory: () => true } as any);
+    vi.spyOn(fs, 'readdirSync').mockReturnValue([] as any);
+
+    const res = await GET(makeRequest('', 'workspace'));
+    expect(res.status).toBe(200);
+  });
+
+  it('returns 400 for invalid root id', async () => {
+    const res = await GET(makeRequest('', 'invalid-root'));
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error).toContain('Invalid root');
+  });
+
+  it('falls back to default root when root param is missing', async () => {
+    vi.spyOn(fs, 'existsSync').mockReturnValue(true);
+    vi.spyOn(fs, 'statSync').mockReturnValue({ isDirectory: () => true } as any);
+    vi.spyOn(fs, 'readdirSync').mockReturnValue([] as any);
+
+    const res = await GET(makeRequest());
     expect(res.status).toBe(200);
   });
 });

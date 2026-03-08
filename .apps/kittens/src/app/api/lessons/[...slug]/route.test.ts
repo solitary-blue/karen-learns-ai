@@ -6,6 +6,20 @@ vi.mock('@/lib/callout-config', () => ({
   loadCalloutConfig: () => TEST_CALLOUT_CONFIG,
 }));
 
+vi.mock('@/lib/curriculum-roots', () => ({
+  getCurriculumDir: (rootId: string) => {
+    if (rootId === 'current') return '/mock/curriculum';
+    if (rootId === 'workspace') return '/mock/workspace/curriculum';
+    throw new Error(`Unknown curriculum root id: ${rootId}`);
+  },
+  getDefaultRootId: () => 'current',
+  getRootById: (rootId: string) => {
+    if (rootId === 'current') return { id: 'current', label: 'Current', 'path-segments': [''], 'enclosing-dir': 'current' };
+    if (rootId === 'workspace') return { id: 'workspace', label: 'Workspace', 'path-segments': ['workspace'], 'enclosing-dir': 'workspace' };
+    return null;
+  },
+}));
+
 const mockParseMarkdownToSlides = vi.fn().mockResolvedValue([]);
 
 vi.mock('@/lib/markdown', () => ({
@@ -80,6 +94,37 @@ describe('GET /api/lessons/[slug]', () => {
     const res = await GET(req, makeParams('test-theme'));
     
     expect(res.status).toBe(200);
-    expect(mockParseMarkdownToSlides).toHaveBeenCalledWith('# Theme Test', 'dracula', 'test-theme');
+    expect(mockParseMarkdownToSlides).toHaveBeenCalledWith('# Theme Test', 'dracula', 'test-theme', 'current');
+  });
+
+  it('passes root query parameter to curriculum directory resolver', async () => {
+    vi.spyOn(fs, 'existsSync').mockReturnValue(true);
+    vi.spyOn(fs, 'readFileSync').mockReturnValue('# Root Test');
+    
+    const req = new Request('http://localhost:3000/api/lessons/test-root?root=workspace');
+    const res = await GET(req, makeParams('test-root'));
+    
+    expect(res.status).toBe(200);
+    expect(mockParseMarkdownToSlides).toHaveBeenCalledWith('# Root Test', undefined, 'test-root', 'workspace');
+  });
+
+  it('returns 400 for invalid root id', async () => {
+    const req = new Request('http://localhost:3000/api/lessons/test?root=invalid');
+    const res = await GET(req, makeParams('test'));
+    
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error).toContain('Invalid root');
+  });
+
+  it('falls back to default root when root param is missing', async () => {
+    vi.spyOn(fs, 'existsSync').mockReturnValue(true);
+    vi.spyOn(fs, 'readFileSync').mockReturnValue('# Default Root Test');
+    
+    const req = new Request('http://localhost:3000/api/lessons/test-default');
+    const res = await GET(req, makeParams('test-default'));
+    
+    expect(res.status).toBe(200);
+    expect(mockParseMarkdownToSlides).toHaveBeenCalledWith('# Default Root Test', undefined, 'test-default', 'current');
   });
 });

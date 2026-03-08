@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { getProjectRoot } from '@/lib/server-utils';
+import { getCurriculumDir, getDefaultRootId, getRootById } from '@/lib/curriculum-roots';
 
 const CONTENT_TYPES: Record<string, string> = {
   '.png': 'image/png',
@@ -13,7 +13,7 @@ const CONTENT_TYPES: Record<string, string> = {
 };
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ path: string[] }> }
 ) {
   const { path: pathParts } = await params;
@@ -28,8 +28,21 @@ export async function GET(
     return NextResponse.json({ error: 'Unsupported file type' }, { status: 400 });
   }
 
-  const curriculumDir = process.env.CURRICULUM_DIR
-    ?? path.resolve(getProjectRoot(), '../../curriculum');
+  const url = new URL(request.url);
+  const rootParam = url.searchParams.get('root');
+
+  let rootId: string;
+  if (rootParam) {
+    const root = getRootById(rootParam);
+    if (!root) {
+      return NextResponse.json({ error: `Invalid root: ${rootParam}` }, { status: 400 });
+    }
+    rootId = rootParam;
+  } else {
+    rootId = getDefaultRootId();
+  }
+
+  const curriculumDir = getCurriculumDir(rootId);
   const fullPath = path.resolve(curriculumDir, imagePath);
 
   if (!fullPath.startsWith(path.resolve(curriculumDir))) {

@@ -4,10 +4,15 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import SlideShow from '@/components/SlideShow';
-import type { LessonResponse, Slide } from '@/lib/types';
+import type { LessonResponse, Slide, ClientCurriculumRoot } from '@/lib/types';
 import type { LessonMetadata } from '@/lib/frontmatter';
 
-function LessonLoader() {
+interface LessonLoaderProps {
+  rootId: string;
+  curriculumRoots: ClientCurriculumRoot[];
+}
+
+function LessonLoaderInner({ rootId, curriculumRoots }: LessonLoaderProps) {
   const searchParams = useSearchParams();
   const slug = searchParams.get('lesson') || '00_roadmap_KAREN';
   const slideIndex = parseInt(searchParams.get('slide') || '0', 10);
@@ -20,8 +25,11 @@ function LessonLoader() {
   useEffect(() => {
     async function loadLesson() {
       try {
-        const themeQuery = resolvedTheme ? `?theme=${resolvedTheme}` : '';
-        const res = await fetch(`/api/lessons/${slug}${themeQuery}`);
+        const params = new URLSearchParams();
+        if (resolvedTheme) params.set('theme', resolvedTheme);
+        params.set('root', rootId);
+        
+        const res = await fetch(`/api/lessons/${slug}?${params.toString()}`);
         if (!res.ok) throw new Error('Failed to load lesson');
         const data: LessonResponse = await res.json();
         setSlides(data.slides);
@@ -31,7 +39,7 @@ function LessonLoader() {
       }
     }
     loadLesson();
-  }, [slug, resolvedTheme]);
+  }, [slug, resolvedTheme, rootId]);
 
   if (error) return (
     <div className="flex h-screen items-center justify-center bg-background">
@@ -48,13 +56,13 @@ function LessonLoader() {
     </div>
   );
 
-  return <SlideShow slides={slides} metadata={metadata} currentSlug={slug} initialSlide={slideIndex} />;
+  return <SlideShow slides={slides} metadata={metadata} currentSlug={slug} initialSlide={slideIndex} rootId={rootId} curriculumRoots={curriculumRoots} />;
 }
 
-export default function Home() {
+export default function LessonLoader({ rootId, curriculumRoots }: LessonLoaderProps) {
   return (
     <Suspense fallback={null}>
-      <LessonLoader />
+      <LessonLoaderInner rootId={rootId} curriculumRoots={curriculumRoots} />
     </Suspense>
   );
 }

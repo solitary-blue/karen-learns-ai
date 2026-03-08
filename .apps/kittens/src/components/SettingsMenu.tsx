@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Settings } from 'lucide-react';
+import { Settings, Check } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/sheet';
 import { useSettings, FontOption } from '@/hooks/use-settings';
 import { WeightPicker } from '@/components/WeightPicker';
+import { useTheme } from 'next-themes';
 
 const DEFAULT_MAIN_FONTS = [
   { name: 'Avenir Next', value: '"Avenir Next", Avenir, "Seravek", system-ui, sans-serif' },
@@ -24,11 +25,28 @@ const DEFAULT_TITLE_FONTS = [
   { name: 'Times New Roman', value: '"Times New Roman", Times, serif' },
 ];
 
+const THEMES = [
+  { id: 'montessori', label: 'Montessori Classic' },
+  { id: 'dracula', label: 'Dracula' },
+  { id: 'midnight-montessori', label: 'Midnight Montessori' },
+  { id: 'dusk-gradient', label: 'Dusk Gradient' },
+  { id: 'parchment-ink', label: 'Parchment & Ink' },
+  { id: 'sunlit-studio', label: 'Sunlit Studio' },
+  { id: 'nordic-frost', label: 'Nordic Frost' },
+];
+
 export function SettingsMenu() {
   const [availableMainFonts, setAvailableMainFonts] = React.useState<FontOption[]>(DEFAULT_MAIN_FONTS);
   const [availableTitleFonts, setAvailableTitleFonts] = React.useState<FontOption[]>(DEFAULT_TITLE_FONTS);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
 
   const { mainFont, titleFont, updateMainFont, updateTitleFont, updateMainFontWeight, updateTitleFontWeight } = useSettings(DEFAULT_MAIN_FONTS[0], DEFAULT_TITLE_FONTS[0]);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   React.useEffect(() => {
     async function loadFonts() {
@@ -71,6 +89,25 @@ export function SettingsMenu() {
           </SheetHeader>
 
           <div className="space-y-6 mt-8">
+            {mounted && (
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-muted-foreground block" style={uiFontStyle}>Theme</label>
+                <div className="space-y-1">
+                  {THEMES.map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => setTheme(t.id)}
+                      className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-muted text-foreground text-sm transition-colors"
+                      style={uiFontStyle}
+                    >
+                      <span>{t.label}</span>
+                      {theme === t.id && <Check size={16} className="text-primary" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="space-y-2">
               <label className="text-sm font-medium text-muted-foreground block" style={uiFontStyle}>Main Font</label>
               <select

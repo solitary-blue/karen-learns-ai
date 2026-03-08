@@ -148,6 +148,21 @@ describe('parseMarkdownToSlides', () => {
 
     expect(slides[0].html).toContain('src="/api/curriculum-images/diagrams/test.png"');
   });
+
+  it('rewrites image paths with root query param when rootId is provided', async () => {
+    const md = '# Diagram Slide\n\n![Overview](diagrams/overview.png)';
+    const slides = await parseMarkdownToSlides(md, undefined, 'section-1/01_lesson_KAREN', 'workspace');
+
+    expect(slides[0].html).toContain('src="/api/curriculum-images/section-1/diagrams/overview.png?root=workspace"');
+  });
+
+  it('does not add root query param when rootId is not provided', async () => {
+    const md = '# Diagram Slide\n\n![Overview](diagrams/overview.png)';
+    const slides = await parseMarkdownToSlides(md, undefined, 'section-1/01_lesson_KAREN');
+
+    expect(slides[0].html).toContain('src="/api/curriculum-images/section-1/diagrams/overview.png"');
+    expect(slides[0].html).not.toContain('?root=');
+  });
 });
 
 describe('analyzeSlideContent', () => {

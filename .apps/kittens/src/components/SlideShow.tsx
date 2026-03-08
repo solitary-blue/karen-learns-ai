@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { List, ChevronLeft, ChevronRight, Folder, FileText } from 'lucide-react';
+import { List, ChevronLeft, ChevronRight, Folder, FileText, ChevronDown, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Sheet,
@@ -10,9 +10,15 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import type { Slide, LessonListingResponse } from '@/lib/types';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
+import type { Slide, LessonListingResponse, ClientCurriculumRoot } from '@/lib/types';
 import type { LessonMetadata, LessonMetadataValue } from '@/lib/frontmatter';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import SlideContent from './SlideContent';
 
 interface SlideShowProps {
@@ -20,6 +26,8 @@ interface SlideShowProps {
   metadata?: LessonMetadata;
   currentSlug: string;
   initialSlide?: number;
+  rootId: string;
+  curriculumRoots?: ClientCurriculumRoot[];
 }
 
 type MenuMode = 'overview' | 'curriculum';
@@ -52,13 +60,15 @@ function formatFolderName(name: string): string {
     .replace(/\b\w/g, l => l.toUpperCase());
 }
 
-export default function SlideShow({ slides, metadata = {}, currentSlug, initialSlide = 0 }: SlideShowProps) {
+export default function SlideShow({ slides, metadata = {}, currentSlug, initialSlide = 0, rootId, curriculumRoots }: SlideShowProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const [current, setCurrent] = useState(initialSlide);
   const [showList, setShowList] = useState(false);
   const [menuMode, setMenuMode] = useState<MenuMode>('overview');
   const [listing, setListing] = useState<LessonListingResponse | null>(null);
   const [currentFolder, setCurrentFolder] = useState<string>('');
+  const [roots, setRoots] = useState<ClientCurriculumRoot[]>(curriculumRoots || []);
 
   const metadataEntries = Object.entries(metadata).filter(([, value]) => {
     const formatted = formatMetadataValue(value);
@@ -80,22 +90,39 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
   }, [slides.length]);
 
   useEffect(() => {
-    // Initial load of the listing for the current lesson's folder
-    const folder = currentSlug.includes('/') 
-      ? currentSlug.split('/').slice(0, -1).join('/')
-      : '';
-    fetchListing(folder);
-  }, [currentSlug]);
-
-  useEffect(() => {
-    if (initialSlide >= 0 && initialSlide < slides.length) {
-      setCurrent(initialSlide);
+    const abortController = new AbortController();
+    
+    async function loadListing() {
+      const folder = currentSlug.includes('/') 
+        ? currentSlug.split('/').slice(0, -1).join('/')
+        : '';
+      
+      try {
+        const res = await fetch(`/api/lessons?folder=${encodeURIComponent(folder)}&root=${rootId}`, {
+          signal: abortController.signal
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setListing(data);
+          setCurrentFolder(folder);
+        }
+      } catch (e) {
+        if (e instanceof Error && e.name !== 'AbortError') {
+          console.error('Failed to fetch listing', e);
+        }
+      }
     }
-  }, [initialSlide, slides.length]);
+    
+    loadListing();
+    
+    return () => {
+      abortController.abort();
+    };
+  }, [currentSlug, rootId]);
 
   const fetchListing = async (folder: string) => {
     try {
-      const res = await fetch(`/api/lessons?folder=${encodeURIComponent(folder)}`);
+      const res = await fetch(`/api/lessons?folder=${encodeURIComponent(folder)}&root=${rootId}`);
       if (res.ok) {
         const data = await res.json();
         setListing(data);
@@ -108,7 +135,24 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
 
   const navigateToLesson = (slug: string) => {
     setShowList(false);
-    router.push(`/?lesson=${slug}`);
+    const params = new URLSearchParams();
+    params.set('lesson', slug);
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const getRootPath = (targetRootId: string) => {
+    const targetRoot = roots.find(r => r.id === targetRootId);
+    if (!targetRoot) return '/';
+    
+    const nonEmptySegments = targetRoot.pathSegments.filter(s => s !== '');
+    return nonEmptySegments.length > 0 ? `/${nonEmptySegments[0]}` : '/';
+  };
+
+  const switchRoot = (targetRootId: string) => {
+    setShowList(false);
+    const rootPath = getRootPath(targetRootId);
+    const params = new URLSearchParams();
+    router.push(`${rootPath}?${params.toString()}`);
   };
 
   return (
@@ -186,7 +230,7 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
 
       {/* Sidebar — Curriculum & TOC */}
       <Sheet open={showList} onOpenChange={setShowList}>
-        <SheetContent side="left" className="w-80 p-0 flex flex-col overflow-hidden">
+        <SheetContent side="left" className="w-80 p-0 flex flex-col h-full">
           <AnimatePresence mode="wait" initial={false}>
             {menuMode === 'overview' ? (
               <motion.div
@@ -303,6 +347,32 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
               </motion.div>
             )}
           </AnimatePresence>
+          
+          {roots.length > 1 && (
+            <div className="border-t border-border p-3 pb-[70px] bg-background">
+              <h4 className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2">Curriculum</h4>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="w-full flex items-center justify-between p-2 rounded-lg bg-primary/10 text-primary font-medium text-sm transition-colors hover:bg-primary/15">
+                    <span>{roots.find(r => r.id === rootId)?.label || 'Select Curriculum'}</span>
+                    <ChevronDown size={16} className="text-primary/60" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent side="top" align="start" className="min-w-[200px]">
+                  {roots.map((root) => (
+                    <DropdownMenuItem
+                      key={root.id}
+                      onClick={() => switchRoot(root.id)}
+                      className="flex items-center justify-between cursor-pointer"
+                    >
+                      <span>{root.label}</span>
+                      {rootId === root.id && <Check size={16} className="text-primary" />}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
         </SheetContent>
       </Sheet>
 

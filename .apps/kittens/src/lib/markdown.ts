@@ -74,18 +74,19 @@ function resolveKittenForSlide(analysis: SlideAnalysis, themeName?: string): { n
   return undefined;
 }
 
-function remarkRewriteImages(options: { basePath: string }) {
+function remarkRewriteImages(options: { basePath: string; rootId?: string }) {
   return (tree: any) => {
     visit(tree, 'image', (node: any) => {
       if (node.url && !node.url.startsWith('http') && !node.url.startsWith('/')) {
         const prefix = options.basePath ? `${options.basePath}/` : '';
-        node.url = `/api/curriculum-images/${prefix}${node.url}`;
+        const rootQuery = options.rootId ? `?root=${options.rootId}` : '';
+        node.url = `/api/curriculum-images/${prefix}${node.url}${rootQuery}`;
       }
     });
   };
 }
 
-export async function parseMarkdownToSlides(markdown: string, themeName?: string, lessonSlug?: string): Promise<Slide[]> {
+export async function parseMarkdownToSlides(markdown: string, themeName?: string, lessonSlug?: string, rootId?: string): Promise<Slide[]> {
   // Split by horizontal rule: ---
   const rawSlides = markdown.split(/\n---\n/);
 
@@ -99,7 +100,7 @@ export async function parseMarkdownToSlides(markdown: string, themeName?: string
     .use(remarkGfm)
     .use(remarkQA)
     .use(remarkCallout)
-    .use(remarkRewriteImages, { basePath })
+    .use(remarkRewriteImages, { basePath, rootId })
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeStringify, { allowDangerousHtml: true });
 

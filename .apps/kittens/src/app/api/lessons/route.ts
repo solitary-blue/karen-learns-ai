@@ -3,20 +3,31 @@ import fs from 'fs';
 import path from 'path';
 import { parseLessonFrontmatter } from '@/lib/frontmatter';
 import type { LessonListingResponse, LessonEntry, FolderEntry } from '@/lib/types';
-import { getProjectRoot } from '@/lib/server-utils';
+import { getCurriculumDir, getDefaultRootId, getRootById } from '@/lib/curriculum-roots';
 
 const VALID_FOLDER_PATTERN = /^[a-z0-9_\-\/]*$/i;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const folderParam = searchParams.get('folder') || '';
+  const rootParam = searchParams.get('root');
 
   if (!VALID_FOLDER_PATTERN.test(folderParam)) {
     return NextResponse.json({ error: 'Invalid folder path' }, { status: 400 });
   }
 
-  const curriculumDir = process.env.CURRICULUM_DIR
-    ?? path.resolve(getProjectRoot(), '../../curriculum');
+  let rootId: string;
+  if (rootParam) {
+    const root = getRootById(rootParam);
+    if (!root) {
+      return NextResponse.json({ error: `Invalid root: ${rootParam}` }, { status: 400 });
+    }
+    rootId = rootParam;
+  } else {
+    rootId = getDefaultRootId();
+  }
+
+  const curriculumDir = getCurriculumDir(rootId);
 
   const currentPath = path.join(curriculumDir, folderParam);
 

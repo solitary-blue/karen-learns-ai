@@ -1,5 +1,23 @@
 import type { LessonMetadata } from './frontmatter';
 
+export interface CurriculumRoot {
+  id: string;
+  label: string;
+  'path-segments': string[];
+  'enclosing-dir': string;
+}
+
+export interface CurriculumRootsConfig {
+  'curriculum-root-default': string;
+  'curriculum-roots': CurriculumRoot[];
+}
+
+export interface ClientCurriculumRoot {
+  id: string;
+  label: string;
+  pathSegments: string[];
+}
+
 export interface QAItem {
   question: string;
   answer: string;

@@ -1,3 +1,14 @@
 kitten-size: 400px
 callout-kitten-size: 250px
 kitten-min-other-lines: 3
+
+curriculum-root-default: current
+curriculum-roots:
+  - id: current
+    label: Karen Learns AI
+    path-segments: ['', 'karen-learns-ai']
+    enclosing-dir: karen-learns-ai
+  - id: workspace
+    label: Workspace
+    path-segments: ['workspace', 'work']
+    enclosing-dir: workspace
