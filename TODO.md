@@ -33,6 +33,7 @@
 - [x] update Excalidraw color palette with Dracula theme
 - [x] create curriculum roadmap diagram (`curriculum/roadmap.excalidraw`)
 - [x] fix Kittens main app font-weight selectors
+- [ ] add configurable multi-root curriculum switching to Kittens
 
 ## Karen
 - [ ] Explore the `.agents/skills/teach-me-about-ai.md` skill.
