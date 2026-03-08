@@ -7,23 +7,23 @@ tags:
   - ai-literacy
   - section-1-foundations
 audience: Karen
-duration_minutes: 15
+duration_minutes: 25
 section: "Meeting Your AI"
 lesson_number: 1
 ---
 
 # The Chat Room
 
-Welcome to your first real lesson, Karen! Last night you typed your first message into iTerm — today we're going to make that room yours, meet both of your AI agents, and watch them do some real work.
+Welcome to your first real lesson, Karen! A few nights ago you typed your first message into iTerm — today we're going to make that room yours, meet both of your AI agents, and watch them do some real work.
 
 ---
 
 ## Your Chat Room
 
-You already know this window. It's got:
+Let's get used to this window—you will be spending a lot of time in it. It's got:
 
-- A **dark background** with one of your kitten mascots faded behind the text
-- A **"Karen learns AI"** watermark in the top right corner — so you always know you're in _your_ space
+- A **dark background** with one of your kitten mascots faded behind the text—later we'll learn how to customize the background
+- A **"Karen learns AI"** watermark in the top right corner — so you always know you're in _your_ space.
 - Big, readable text in a friendly font
 
 This is **The Chat Room** — the place where your AI agents live. It looks different from most apps, but it works the same way: you type, someone responds.
@@ -66,9 +66,25 @@ These agents are most powerful in a text window because they can **do things** h
 
 ---
 
+## The Bigger Picture
+
+The Chat Room is where AI is most powerful _right now_ — but it won't always look like this. Companies are already building regular apps with these same agents inside:
+
+- **Claude Cowork** (by Anthropic) — Claude in a normal desktop app with windows and buttons
+- **Codex** (by OpenAI) — an agent that works on code projects for you
+
+We'll trial new tools as they arrive and fold the best ones into your workflow. For now, The Chat Room gives you the most control and flexibility — and everything you learn here transfers to those future apps.
+
+> [!NOTE] Looking Ahead
+> Down the road, you'll want your own Apple-chip Mac (something like a Mac mini) so you can run these tools independently. No rush — we'll get there when it makes sense.
+
+---
+
 ## Let's Start with Claude
 
-**Action:** Open iTerm (you know how — it's in the Dock, or `Cmd + Space` and type "iTerm").
+![iTerm icon](diagrams/iterm-icon.png)
+
+**Action:** Open iTerm — look for this icon in the Dock, or press `Cmd + Space` and type "iTerm".
 
 You should see your kitten background and the blinking cursor. Type:
 
@@ -80,6 +96,17 @@ Press Enter. After a moment, Claude will introduce itself.
 
 > [!SUCCESS] You Just Launched an AI Agent
 > That one word started up one of the most capable AI tools available today. Everything in this curriculum happens right here.
+
+---
+
+## Come Back to the Lesson
+
+Now switch back to this lesson so you can follow along.
+
+> [!TIP] Switching Windows
+> Press `Cmd + Tab` to flip between apps. You'll use this constantly — iTerm for your agents, Safari for lessons and browsing. Try it now: `Cmd + Tab` back to Safari, then `Cmd + Tab` back to iTerm.
+
+Keep Claude running in iTerm — you'll come back to it in a moment.
 
 ---
 
@@ -118,6 +145,21 @@ Watch what happens. Claude will ask for permission, then actually create those f
 
 > [!EXAMPLE] What Just Happened?
 > You described what you wanted in plain English. Claude figured out a sensible folder structure and built it — folders, subfolders, README files, all organized. A chatbot would have _described_ a folder structure. An agent _built_ one.
+
+---
+
+## Finding What Claude Built
+
+Those folders Claude just created? They're real files on the computer, sitting inside a **workspace** directory. You can open it just like any other folder.
+
+**Action:** Type this to Claude:
+
+```
+open @workspace in Finder
+```
+
+> [!TIP] The @ Trick
+> When you type `@` in a message to Claude, it means "look for a file or folder with this name." You don't have to be exact — Claude uses fuzzy matching, so `@work` would find `workspace` too. You'll use this a lot to point Claude at specific files.
 
 ---
 
@@ -164,8 +206,10 @@ You just tried the same kind of task with two different agents. You probably not
 
 Neither is "better" — they're different tools. Over time you'll develop preferences for which agent you reach for in different situations.
 
-> [!WARNING] One Thing to Remember
-> You can't break anything by typing the wrong thing. The worst that happens is an error message — and you just try again. The Chat Room is a safe space to experiment.
+> [!NOTE] How Safe Is This?
+> - **Always safe:** Chatting, asking questions, brainstorming — you can type anything and nothing bad happens.
+> - **Needs a little care:** When agents create, move, or delete files, they'll ask your permission first. Read the prompt before saying yes.
+> - **Easy to recover:** Everything is tracked by git (a safety net for files). If something goes sideways, Michael can roll it back. When in doubt, just ask him.
 
 ---
 
@@ -187,7 +231,7 @@ The skills transfer. If you can text, you can use The Chat Room.
 ## Handy Things to Know
 
 - **Scroll up** to re-read earlier messages (mouse scroll or trackpad)
-- **Copy text** the same way as anywhere: select it and `Cmd + C`
+- **Copy text** by selecting it — iTerm auto-copies whatever you highlight (no `Cmd + C` needed, though it still works)
 - **If things look stuck**, just wait — the agent is thinking
 - **To leave** a conversation: type `/exit` or press `Ctrl + C` a couple times
 - **To start fresh**: just type `claude` or `gemini` again after exiting

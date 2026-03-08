@@ -1,3 +1,8 @@
+---
+name: lesson-for-karen
+description: Create lessons for Karen's AI literacy curriculum following Montessori-informed pedagogy, rendered as slideshows by the kittens app.
+---
+
 # Skill: Lesson for Karen
 
 ## Purpose

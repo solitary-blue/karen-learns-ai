@@ -1,12 +1,13 @@
 # Lesson 01: The Chat Room (GUIDE PLAN)
 
 **Goal:** Karen can open iTerm, launch both Claude and Gemini, and have her first real conversations — including watching agents create files.
-**Duration:** 15–20 minutes.
+**Duration:** 20–25 minutes.
 **Prerequisites:** None (though she typed something in iTerm last night).
 **Materials:**
 - Michael's laptop with Karen's iTerm profile configured
 - Claude CLI and Gemini CLI installed and authenticated
 - A `workspace/` directory at the project root (agents will create it if missing)
+- iTerm icon diagram (`diagrams/iterm-icon.png`) — 128×128 version of iTerm's app icon
 
 ## Key Concepts
 - **The Chat Room = iTerm:** Just a text window where you type and the AI responds. Karen already knows how to text — same skill.
@@ -24,11 +25,21 @@
 - Make it feel like _her_ space: "This is yours. I set it up for you."
 - If she wants the font bigger (she probably will): bump it to 20pt. `Cmd +` works, or change it in the profile.
 
+### 2b. The Bigger Picture (1–2 mins)
+- Briefly mention Claude Cowork and Codex so she knows the terminal isn't the end state.
+- Keep it light — the goal is reassurance, not a deep dive.
+- If she asks about getting her own Mac, acknowledge it positively but redirect: "That's a 'down the road' thing — right now you have everything you need."
+- **Redirect danger:** She may want to explore those apps now. Steer back: "We'll try them when they're ready. Today, let's get comfortable here."
+
 ### 3. Launch Claude (2–3 mins)
 - Have Karen type `claude` herself.
 - Celebrate the moment lightly. Let her read the welcome message.
 - Let her choose her first prompt. If she freezes, suggest the Montessori one — it's on her turf.
 - Watch her reaction to the first response. This is the magic moment.
+
+### 3b. Come Back to the Lesson (30 secs)
+- Teach `Cmd + Tab` for switching between iTerm and Safari. Have her practice it once or twice.
+- This is a practical skill she'll use every session — worth the 30 seconds.
 
 ### 4. The Folder Scaffolding Task (3–5 mins)
 - Guide her to the "create folders in workspace" prompt.
@@ -36,6 +47,12 @@
 - After it creates the folders, open Finder or SourceTree and show her the result. "You described what you wanted. It built it."
 - Don't go deep into the file system — just let her see that real files appeared.
 - If she wants to explore what was created, let her ask Claude: "What did you just create? Show me the structure."
+
+### 4b. Finding What Claude Built (1–2 mins)
+- After the folder task, have her ask Claude to open `@workspace` in Finder.
+- Use this as a natural intro to `@` references — keep it brief: "The @ sign tells Claude to look for a file or folder. You don't have to be exact."
+- If she asks about fuzzy matching, show a quick example (`@work` → `workspace`). Don't go deep.
+- The point is she can see real files that the agent created — tangible proof.
 
 ### 5. Switch to Gemini (2–3 mins)
 - Guide her through `/exit` to leave Claude.
@@ -67,6 +84,9 @@
 - **Permission prompts:** When Claude asks to create files, she may hesitate. Reassure: "It's asking because you're in charge. Say yes — we're experimenting in the workspace folder, that's what it's for."
 - **Gemini differences:** Gemini CLI may have different UX conventions (different permission flow, different formatting). Don't compare in detail — just "different agent, same idea."
 - **Shared machine worry:** If she asks about messing up your stuff: "You have your own profile, and we're working in a project folder just for you. You can't accidentally touch my work."
+- **Safety concern anxiety:** The updated safety note is honest about file operations needing care. If she seems nervous: "The agents always ask first, and git keeps a backup of everything. You'd have to work pretty hard to cause a real problem."
+- **@ reference confusion:** She may not grasp fuzzy matching right away. Keep it simple: "Just type @ and the name, and Claude will figure it out." She'll learn by doing.
+- **Future-apps rabbit hole:** Mentioning Claude Cowork and Codex might spark a lot of questions. Redirect gently: "Those are coming — for now this is the most powerful way to work. We'll try the new stuff together when it's ready."
 
 ## After the Lesson
 

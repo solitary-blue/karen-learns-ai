@@ -65,7 +65,9 @@
       "Bash(npx tsc:*)",
       "Bash(tee /tmp/qa-test-output.txt)",
       "Read(//tmp/**)",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Bash(grep -E '\\\\.\\(icns|png|jpg|svg\\)$')",
+      "Bash(sips:*)"
     ]
   },
   "enabledPlugins": {},
