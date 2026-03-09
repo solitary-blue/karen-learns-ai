@@ -9,6 +9,8 @@ if (( BASH_VERSINFO[0] < min_major || (BASH_VERSINFO[0] == min_major && BASH_VER
   exit 1
 fi
 
+set -euo pipefail
+
 # Launch the Kittens lesson viewer in production mode and open it in your browser.
 
 KITTENS_DIR="$(cd "$(dirname "$0")/../.apps/kittens" && pwd)"
