@@ -34,6 +34,7 @@
 - [x] create curriculum roadmap diagram (`curriculum/roadmap.excalidraw`)
 - [x] fix Kittens main app font-weight selectors
 - [ ] add configurable multi-root curriculum switching to Kittens
+- [x] fix Kittens multi-root regressions (stale slide state, empty root fallback)
 
 ## Karen
 - [ ] Explore the `.agents/skills/teach-me-about-ai.md` skill.
