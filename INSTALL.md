@@ -24,3 +24,7 @@ You can run the installation script to ensure all dependencies are present:
 ## Manual Configuration
 1. **Secrets**: Ensure your `age` master key is present in `~/.config/sops/age/keys.txt`. See [Secrets Documentation](docs/secrets.md) for usage.
 2. **Environment**: Run `direnv allow` in the project root.
+
+## Launching Kittens
+- Use `apps/kittens` for normal lesson viewing. It runs a production build and avoids the `next-env.d.ts` churn caused by the dev server.
+- Use `apps/kittens-dev` only when you are actively editing the Kittens app and need hot reload.

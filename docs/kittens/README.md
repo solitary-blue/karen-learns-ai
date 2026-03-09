@@ -28,7 +28,15 @@ In your terminal, from the project folder, run:
 apps/kittens
 ```
 
-It will install anything it needs (on first run), start the server, and open your browser automatically.
+This is the everyday presentation launcher. It will install anything it needs (on first run), build the app in production mode, start the server, and open your browser automatically.
+
+If you are actively editing the Kittens app itself and want hot reload, use:
+
+```
+apps/kittens-dev
+```
+
+Use `apps/kittens-dev` only for Kittens development work. It runs `next dev`, which can regenerate local framework files such as `next-env.d.ts`.
 
 It will load the default lesson automatically. To open a different lesson, add its name to the URL:
 
@@ -55,7 +63,7 @@ The controls stay hidden until you need them so nothing distracts from the conte
 
 | Problem | What to try |
 |---|---|
-| Page is blank or says "Preparing the environment..." forever | Check the terminal — is the dev server still running? Try stopping it (Ctrl+C) and running `npm run dev` again. |
+| Page is blank or says "Preparing the environment..." forever | Check the terminal. If you launched with `apps/kittens`, stop it (`Ctrl+C`) and run `apps/kittens` again so it rebuilds and restarts cleanly. If you are developing Kittens itself, use `apps/kittens-dev`. |
 | "Oops! Failed to load lesson" | Make sure the lesson file exists in the `curriculum/` folder and the filename matches what's in the URL. |
-| Styling looks off (no cream background, no gold accents) | Run `npm install` to make sure all dependencies are installed, then restart the dev server. |
+| Styling looks off (no cream background, no gold accents) | Run `npm install` to make sure all dependencies are installed, then restart Kittens. For normal use, prefer `apps/kittens`. |
 | Arrow keys aren't working | Click somewhere on the page first so the browser knows you're focused on the lesson. |

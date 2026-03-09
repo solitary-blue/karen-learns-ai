@@ -31,6 +31,11 @@ Common types: tech: 🙈 | ai: 🧠 | docs: 📝 | learn: 📓 | write: ✍️ |
 4. **Micro-Projects:** Break down complex skills into tiny, achievable micro-projects.
 3. **Collaboration:** Treat `GUIDE` as the architect/facilitator and `Karen` as the primary learner.
 
+## Kittens Launcher Guidance
+- Use `apps/kittens` for normal lesson viewing, demos, and curriculum QA. It runs the Kittens app in production mode.
+- Use `apps/kittens-dev` only when actively changing code inside `.apps/kittens` and you specifically need hot reload.
+- Avoid using `apps/kittens-dev` for routine lesson viewing because `next dev` can regenerate `.apps/kittens/next-env.d.ts` and create noisy git churn.
+
 ## Key references
 - `.agents/skills/` — agent skill definitions (directory style with SKILL.md, or flat .md)
 - `docs/conventions/commits.md` — full commit type/emoji table and attribution rules
