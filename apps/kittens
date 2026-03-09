@@ -14,7 +14,8 @@ set -euo pipefail
 # Launch the Kittens lesson viewer in production mode and open it in your browser.
 
 KITTENS_DIR="$(cd "$(dirname "$0")/../.apps/kittens" && pwd)"
-KITTENS_URL="http://localhost:3000"
+PORT="${PORT:-3000}"
+KITTENS_URL="http://localhost:${PORT}"
 
 cd "$KITTENS_DIR" || {
   echo "Could not find kittens app at $KITTENS_DIR" >&2
@@ -31,5 +32,5 @@ npm run build
 
 (sleep 2 && open "$KITTENS_URL") &
 
-echo "Starting Kittens in production mode..."
-exec npm run start
+echo "Starting Kittens in production mode on port ${PORT}..."
+exec npm run start -- --port "$PORT"
