@@ -31,9 +31,14 @@ async function fetchLesson(
 
 async function findFirstAvailableLessonSlug(rootId: string, signal: AbortSignal): Promise<string | null> {
   const visitedFolders = new Set<string>();
-  let folder = '';
+  const pendingFolders: string[] = [''];
 
-  while (!visitedFolders.has(folder)) {
+  while (pendingFolders.length > 0) {
+    const folder = pendingFolders.shift();
+    if (folder === undefined || visitedFolders.has(folder)) {
+      continue;
+    }
+
     visitedFolders.add(folder);
 
     const listingRes = await fetch(`/api/lessons?folder=${encodeURIComponent(folder)}&root=${encodeURIComponent(rootId)}`, {
@@ -49,11 +54,11 @@ async function findFirstAvailableLessonSlug(rootId: string, signal: AbortSignal)
       return listing.lessons[0].slug;
     }
 
-    if (listing.folders.length === 0) {
-      return null;
+    for (const childFolder of listing.folders) {
+      if (!visitedFolders.has(childFolder.path)) {
+        pendingFolders.push(childFolder.path);
+      }
     }
-
-    folder = listing.folders[0].path;
   }
 
   return null;

@@ -97,6 +97,115 @@ describe('LessonLoader', () => {
     expect(replaceMock).toHaveBeenCalledWith('/workspace?lesson=01-kitten-fun-facts');
   });
 
+  it('traverses sibling folders when resolving a fallback lesson slug', async () => {
+    fetchMock.mockImplementation((input: string | URL | Request) => {
+      const url = new URL(String(input), 'http://localhost');
+
+      if (url.pathname.includes('/api/lessons/00_roadmap_KAREN')) {
+        return Promise.resolve(
+          new Response(JSON.stringify({ error: 'Lesson not found' }), {
+            status: 404,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        );
+      }
+
+      if (url.pathname === '/api/lessons') {
+        const folder = url.searchParams.get('folder') || '';
+
+        if (folder === '') {
+          return Promise.resolve(
+            new Response(
+              JSON.stringify({
+                lessons: [],
+                folders: [
+                  { name: '01_empty_branch', label: 'Empty Branch', path: '01_empty_branch' },
+                  { name: '02_filled_branch', label: 'Filled Branch', path: '02_filled_branch' },
+                ],
+                currentPath: '',
+                parentPath: null,
+                parentLabel: null,
+              }),
+              {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+              }
+            )
+          );
+        }
+
+        if (folder === '01_empty_branch') {
+          return Promise.resolve(
+            new Response(
+              JSON.stringify({
+                lessons: [],
+                folders: [],
+                currentPath: '01_empty_branch',
+                parentPath: '',
+                parentLabel: 'Curriculum',
+              }),
+              {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+              }
+            )
+          );
+        }
+
+        if (folder === '02_filled_branch') {
+          return Promise.resolve(
+            new Response(
+              JSON.stringify({
+                lessons: [
+                  {
+                    slug: '02_filled_branch/01_intro',
+                    title: 'Intro',
+                    label: 'Intro',
+                  },
+                ],
+                folders: [],
+                currentPath: '02_filled_branch',
+                parentPath: '',
+                parentLabel: 'Curriculum',
+              }),
+              {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+              }
+            )
+          );
+        }
+      }
+
+      if (url.pathname.includes('/api/lessons/02_filled_branch/01_intro')) {
+        return Promise.resolve(
+          new Response(
+            JSON.stringify({
+              slides: [{ title: 'Loaded', html: '<p>Loaded</p>', hideTitle: false }],
+              metadata: { title: 'Intro' },
+            }),
+            {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            }
+          )
+        );
+      }
+
+      throw new Error(`Unexpected fetch: ${url.toString()}`);
+    });
+
+    render(
+      <LessonLoader
+        rootId="workspace"
+        curriculumRoots={[{ id: 'workspace', label: 'Workspace', pathSegments: ['workspace'] }]}
+      />
+    );
+
+    expect(await screen.findByTestId('slideshow')).toHaveTextContent('02_filled_branch/01_intro');
+    expect(replaceMock).toHaveBeenCalledWith('/workspace?lesson=02_filled_branch%2F01_intro');
+  });
+
   it('shows an empty state when the selected curriculum root has no lessons at all', async () => {
     fetchMock.mockImplementation((input: string | URL | Request) => {
       const url = String(input);
