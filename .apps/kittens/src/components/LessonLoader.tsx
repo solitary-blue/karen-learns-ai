@@ -14,32 +14,78 @@ interface LessonLoaderProps {
 
 function LessonLoaderInner({ rootId, curriculumRoots }: LessonLoaderProps) {
   const searchParams = useSearchParams();
-  const slug = searchParams.get('lesson') || '00_roadmap_KAREN';
-  const slideIndex = parseInt(searchParams.get('slide') || '0', 10);
+  const requestedLesson = searchParams.get('lesson');
+  const slug = requestedLesson || '00_roadmap_KAREN';
+  const parsedSlideIndex = Number.parseInt(searchParams.get('slide') || '0', 10);
+  const slideIndex = Number.isFinite(parsedSlideIndex) ? parsedSlideIndex : 0;
   const { resolvedTheme } = useTheme();
+  const rootLabel = curriculumRoots.find((root) => root.id === rootId)?.label || 'This curriculum';
   
   const [slides, setSlides] = useState<Slide[]>([]);
   const [metadata, setMetadata] = useState<LessonMetadata>({});
   const [error, setError] = useState<string | null>(null);
+  const [isEmptyRoot, setIsEmptyRoot] = useState(false);
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     async function loadLesson() {
+      setError(null);
+      setIsEmptyRoot(false);
+
       try {
         const params = new URLSearchParams();
         if (resolvedTheme) params.set('theme', resolvedTheme);
         params.set('root', rootId);
         
-        const res = await fetch(`/api/lessons/${slug}?${params.toString()}`);
-        if (!res.ok) throw new Error('Failed to load lesson');
+        const res = await fetch(`/api/lessons/${slug}?${params.toString()}`, {
+          signal: abortController.signal,
+        });
+
+        if (!res.ok) {
+          if (res.status === 404 && !requestedLesson) {
+            setSlides([]);
+            setMetadata({});
+            setIsEmptyRoot(true);
+            return;
+          }
+
+          throw new Error('Failed to load lesson');
+        }
+
         const data: LessonResponse = await res.json();
         setSlides(data.slides);
         setMetadata(data.metadata || {});
+        setError(null);
       } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') {
+          return;
+        }
+
+        setSlides([]);
+        setMetadata({});
+        setIsEmptyRoot(false);
         setError(err instanceof Error ? err.message : 'Unknown error');
       }
     }
+
     loadLesson();
-  }, [slug, resolvedTheme, rootId]);
+
+    return () => {
+      abortController.abort();
+    };
+  }, [slug, resolvedTheme, rootId, requestedLesson]);
+
+  if (isEmptyRoot) return (
+    <div className="flex h-screen items-center justify-center bg-background px-6">
+      <div className="max-w-xl text-center">
+        <h1 className="text-3xl font-serif text-primary mb-4">No lessons available yet</h1>
+        <p className="text-foreground/60">
+          {rootLabel} does not have a starter lesson yet. Switch curricula or add the first lesson when you are ready.
+        </p>
+      </div>
+    </div>
+  );
 
   if (error) return (
     <div className="flex h-screen items-center justify-center bg-background">
@@ -56,7 +102,17 @@ function LessonLoaderInner({ rootId, curriculumRoots }: LessonLoaderProps) {
     </div>
   );
 
-  return <SlideShow slides={slides} metadata={metadata} currentSlug={slug} initialSlide={slideIndex} rootId={rootId} curriculumRoots={curriculumRoots} />;
+  return (
+    <SlideShow
+      key={`${rootId}:${slug}:${slideIndex}`}
+      slides={slides}
+      metadata={metadata}
+      currentSlug={slug}
+      initialSlide={slideIndex}
+      rootId={rootId}
+      curriculumRoots={curriculumRoots}
+    />
+  );
 }
 
 export default function LessonLoader({ rootId, curriculumRoots }: LessonLoaderProps) {

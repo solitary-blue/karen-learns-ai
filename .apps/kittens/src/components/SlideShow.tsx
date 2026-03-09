@@ -68,7 +68,8 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
   const [menuMode, setMenuMode] = useState<MenuMode>('overview');
   const [listing, setListing] = useState<LessonListingResponse | null>(null);
   const [currentFolder, setCurrentFolder] = useState<string>('');
-  const [roots, setRoots] = useState<ClientCurriculumRoot[]>(curriculumRoots || []);
+  const roots = curriculumRoots || [];
+  const safeCurrent = Math.min(current, Math.max(slides.length - 1, 0));
 
   const metadataEntries = Object.entries(metadata).filter(([, value]) => {
     const formatted = formatMetadataValue(value);
@@ -151,8 +152,7 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
   const switchRoot = (targetRootId: string) => {
     setShowList(false);
     const rootPath = getRootPath(targetRootId);
-    const params = new URLSearchParams();
-    router.push(`${rootPath}?${params.toString()}`);
+    router.push(rootPath);
   };
 
   return (
@@ -178,7 +178,7 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
         <div className="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center">
           <span className="text-xs uppercase tracking-widest text-primary/60 mb-1">Previous</span>
           <span className="text-sm font-serif text-foreground/40">
-            {current > 0 ? slides[current - 1].title : 'Start of Lesson'}
+            {safeCurrent > 0 ? slides[safeCurrent - 1].title : 'Start of Lesson'}
           </span>
         </div>
       </div>
@@ -189,7 +189,7 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
       >
         <div className="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center">
           <span className="text-sm font-serif text-foreground/40 mb-1">
-            {current < slides.length - 1 ? slides[current + 1].title : 'End of Lesson'}
+            {safeCurrent < slides.length - 1 ? slides[safeCurrent + 1].title : 'End of Lesson'}
           </span>
           <span className="text-xs uppercase tracking-widest text-primary/60">Next</span>
         </div>
@@ -199,31 +199,31 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
       <div className="absolute inset-0 flex items-center justify-center p-12 md:p-24">
         <AnimatePresence mode="wait">
           <motion.div
-            key={current}
+            key={safeCurrent}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
             className="prose prose-lg md:prose-2xl max-w-4xl w-full mx-auto text-center"
           >
-             <SlideContent html={slides[current].html} />
+             <SlideContent html={slides[safeCurrent].html} />
           </motion.div>
         </AnimatePresence>
       </div>
 
       {/* Kitten Mascot */}
       <AnimatePresence mode="wait">
-        {slides[current].kitten && (
+        {slides[safeCurrent].kitten && (
           <motion.img
-            key={`kitten-${current}`}
-            src={`/api/kittens/${slides[current].kitten!.name}`}
+            key={`kitten-${safeCurrent}`}
+            src={`/api/kittens/${slides[safeCurrent].kitten!.name}`}
             alt=""
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
             className="absolute bottom-28 right-8 z-30 pointer-events-none"
-            style={{ height: slides[current].kitten!.height, width: 'auto' }}
+            style={{ height: slides[safeCurrent].kitten!.height, width: 'auto' }}
           />
         )}
       </AnimatePresence>
@@ -272,14 +272,14 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
                   {slides.map((slide, i) => (
                     <button
                       key={i}
-                      aria-current={current === i ? 'page' : undefined}
+                      aria-current={safeCurrent === i ? 'page' : undefined}
                       onClick={() => {
                         setCurrent(i);
                         setShowList(false);
                       }}
                       className={cn(
                         "w-full text-left p-2 rounded-lg transition-colors text-sm font-medium",
-                        current === i
+                        safeCurrent === i
                           ? "bg-primary/10 text-primary border border-primary/20"
                           : "hover:bg-muted text-muted-foreground"
                       )}
@@ -378,7 +378,7 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
 
       {/* Progress Dot */}
       <div className="absolute bottom-8 right-8 text-[10px] tracking-[0.2em] font-medium text-primary/30 uppercase">
-        {current + 1} / {slides.length}
+        {safeCurrent + 1} / {slides.length}
       </div>
     </div>
   );
