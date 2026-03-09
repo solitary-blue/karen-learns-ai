@@ -46,7 +46,7 @@ async function findFirstAvailableLessonSlug(rootId: string, signal: AbortSignal)
     });
 
     if (!listingRes.ok) {
-      return null;
+      throw new Error('Failed to list lessons');
     }
 
     const listing: LessonListingResponse = await listingRes.json();

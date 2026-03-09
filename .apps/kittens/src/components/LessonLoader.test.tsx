@@ -251,6 +251,42 @@ describe('LessonLoader', () => {
     expect(screen.getByText(/Workspace does not have a starter lesson yet/i)).toBeInTheDocument();
   });
 
+  it('shows an error when fallback lesson listing fails', async () => {
+    fetchMock.mockImplementation((input: string | URL | Request) => {
+      const url = String(input);
+
+      if (url.includes('/api/lessons/00_roadmap_KAREN')) {
+        return Promise.resolve(
+          new Response(JSON.stringify({ error: 'Lesson not found' }), {
+            status: 404,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        );
+      }
+
+      if (url.includes('/api/lessons?')) {
+        return Promise.resolve(
+          new Response(JSON.stringify({ error: 'Failed to list lessons' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        );
+      }
+
+      throw new Error(`Unexpected fetch: ${url}`);
+    });
+
+    render(
+      <LessonLoader
+        rootId="workspace"
+        curriculumRoots={[{ id: 'workspace', label: 'Workspace', pathSegments: ['workspace'] }]}
+      />
+    );
+
+    expect(await screen.findByText('Oops!')).toBeInTheDocument();
+    expect(screen.getByText('Failed to list lessons')).toBeInTheDocument();
+  });
+
   it('renders the slideshow when a lesson loads successfully', async () => {
     currentSearchParams = new URLSearchParams('lesson=custom_lesson');
     fetchMock.mockResolvedValue(

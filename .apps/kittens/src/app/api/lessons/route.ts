@@ -7,6 +7,7 @@ import { getCurriculumDir, getDefaultRootId, getRootById } from '@/lib/curriculu
 
 const VALID_FOLDER_PATTERN = /^[a-z0-9_\-\/]*$/i;
 const ORDERED_LESSON_PREFIX_PATTERN = /^\d{2}[_-]/;
+const GUIDE_LESSON_PATTERN = /(?:^|[_-])GUIDE(?:[_-]|$)/i;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -63,7 +64,7 @@ export async function GET(request: Request) {
         if (!ORDERED_LESSON_PREFIX_PATTERN.test(entry.name)) continue;
         
         // Skip guide lessons
-        if (entry.name.includes('_GUIDE')) continue;
+        if (GUIDE_LESSON_PATTERN.test(entry.name.replace(/\.md$/, ''))) continue;
 
         const fullPath = path.join(currentPath, entry.name);
         const content = fs.readFileSync(fullPath, 'utf-8');

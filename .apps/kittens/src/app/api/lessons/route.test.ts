@@ -123,6 +123,23 @@ describe('GET /api/lessons', () => {
     expect(body.lessons).toHaveLength(0);
   });
 
+  it('skips hyphenated GUIDE lessons', async () => {
+    vi.spyOn(fs, 'existsSync').mockReturnValue(true);
+    vi.spyOn(fs, 'statSync').mockReturnValue({ isDirectory: () => true } as any);
+    vi.spyOn(fs, 'readdirSync').mockReturnValue([
+      { name: '01-GUIDE-for-teachers.md', isDirectory: () => false, isFile: () => true },
+      { name: '02-student-lesson.md', isDirectory: () => false, isFile: () => true },
+    ] as any);
+    vi.spyOn(fs, 'readFileSync').mockReturnValue('---\ntitle: Student Lesson\n---\n# Hello');
+
+    const res = await GET(makeRequest('', 'workspace'));
+    expect(res.status).toBe(200);
+
+    const body = await res.json();
+    expect(body.lessons).toHaveLength(1);
+    expect(body.lessons[0].slug).toBe('02-student-lesson');
+  });
+
   it('computes parentPath and parentLabel for subfolder', async () => {
     vi.spyOn(fs, 'existsSync').mockReturnValue(true);
     vi.spyOn(fs, 'statSync').mockReturnValue({ isDirectory: () => true } as any);
