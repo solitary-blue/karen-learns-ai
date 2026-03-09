@@ -44,6 +44,7 @@
 - [x] switch Kittens launcher to production mode and add separate dev launcher guidance
 - [x] make Kittens launchers fail fast on build or setup errors
 - [x] fix Kittens mockups hydration mismatch caused by client-only font state
+- [x] make oversized Kittens slides scroll from the top and reset scroll on slide change
 
 ## Karen
 - [x] Create a practice slideshow about kittens in the `workspace/` folder.
@@ -55,3 +56,4 @@
 - [ ] Track all tasks in this `TODO.md` file.
 - [ ] Act as a mentor and guide for Karen, maintaining a "Montessori" pedagogical style.
 - [ ] Help organize research materials in the `projects/` directory.
+- [x] Capture a clean handoff note for the interrupted Kittens theme rework session (`tmp/theme-rework-continue.md`).
