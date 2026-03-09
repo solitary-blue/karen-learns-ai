@@ -39,6 +39,7 @@
 - [x] fix Kittens fallback lesson traversal to search sibling folders
 - [x] fix Kittens GUIDE filtering for hyphenated filenames and surface fallback listing errors
 - [x] switch Kittens launcher to production mode and add separate dev launcher guidance
+- [x] make Kittens launchers fail fast on build or setup errors
 
 ## Karen
 - [x] Create a practice slideshow about kittens in the `workspace/` folder.
