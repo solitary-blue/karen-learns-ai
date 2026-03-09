@@ -35,6 +35,10 @@ Common types: tech: 🙈 | ai: 🧠 | docs: 📝 | learn: 📓 | write: ✍️ |
 - Use `apps/kittens` for normal lesson viewing, demos, and curriculum QA. It runs the Kittens app in production mode.
 - Use `apps/kittens-dev` only when actively changing code inside `.apps/kittens` and you specifically need hot reload.
 - Avoid using `apps/kittens-dev` for routine lesson viewing because `next dev` can regenerate `.apps/kittens/next-env.d.ts` and create noisy git churn.
+- AGENTS MUST NOT run `apps/kittens-dev` on port `3000` when Karen or the GUIDE may already be using `apps/kittens`.
+- AGENTS MUST default to port `3001` for Kittens development work. Use exactly: `PORT=3001 apps/kittens-dev`.
+- Treat `PORT=3001 apps/kittens-dev` as the standard safe command for agent-run Kittens dev sessions. Do not improvise with `3000` unless the user explicitly asks for it.
+- If port `3001` is already occupied, choose another non-`3000` port such as `3002` and state that clearly in your update.
 
 ## Key references
 - `.agents/skills/` — agent skill definitions (directory style with SKILL.md, or flat .md)

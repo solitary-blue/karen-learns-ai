@@ -36,6 +36,14 @@ If you are actively editing the Kittens app itself and want hot reload, use:
 apps/kittens-dev
 ```
 
+If Karen or the GUIDE is already using `apps/kittens` on port `3000`, agents should use:
+
+```
+PORT=3001 apps/kittens-dev
+```
+
+This is the default safe development command for agent-run Kittens work. Avoid `apps/kittens-dev` on port `3000` unless someone explicitly asks for it.
+
 Use `apps/kittens-dev` only for Kittens development work. It runs `next dev`, which can regenerate local framework files such as `next-env.d.ts`.
 
 It will load the default lesson automatically. To open a different lesson, add its name to the URL:

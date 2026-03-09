@@ -46,6 +46,7 @@
 - [x] fix Kittens mockups hydration mismatch caused by client-only font state
 - [x] make oversized Kittens slides scroll from the top and reset scroll on slide change
 - [x] finish Kittens callout token layering with per-variant theme overrides
+- [x] document safe agent default for Kittens dev port (`PORT=3001`)
 
 ## Karen
 - [x] Create a practice slideshow about kittens in the `workspace/` folder.
