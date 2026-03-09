@@ -60,7 +60,8 @@
 - If Gemini's interface differs from Claude's, acknowledge it: "Different agent, same room."
 
 ### 6. The Kittens Slideshow Task (3–5 mins)
-- Guide her to ask Gemini for the slideshow.
+- Guide her to ask Gemini for the slideshow. The prompt is intentionally simple ("Make a slideshow about kittens and save it in the workspace folder") — the agent's slideshow skill handles the format details.
+- Point out the "Magic Phrases" callout: certain phrases ("make a slideshow", "build a lesson", etc.) trigger special skills the agents have learned. She doesn't need to explain file formats or slide structure.
 - When the file is created, consider opening it in the kittens app if convenient — seeing the slideshow she just requested rendered as actual slides is a powerful moment.
 - If Gemini struggles with the format, don't sweat it — just note "different agents have different strengths" and move on.
 

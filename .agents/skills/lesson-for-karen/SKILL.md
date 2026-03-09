@@ -1,6 +1,6 @@
 ---
 name: lesson-for-karen
-description: Create lessons for Karen's AI literacy curriculum following Montessori-informed pedagogy, rendered as slideshows by the kittens app.
+description: Create formal curriculum lessons for Karen's AI literacy course. Only trigger when Karen is explicitly mentioned (e.g. "build a lesson for Karen", "create Karen's next lesson"). For general slideshow requests without mentioning Karen, use the kittens-slideshow skill instead.
 ---
 
 # Skill: Lesson for Karen

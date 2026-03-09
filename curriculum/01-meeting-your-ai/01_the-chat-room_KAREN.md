@@ -186,11 +186,20 @@ You've seen slideshows in this app already — they're just markdown files with 
 **Action:** Type:
 
 ```
-Can you create a fun slideshow about kittens? Make it a markdown file
-called workspace/kittens-slideshow.md with slides separated by ---
-on their own lines. Include a title slide, at least 5 content slides
-with interesting kitten facts, and use headings and bullet points.
+Make a slideshow about kittens and save it in the workspace folder.
+Include fun facts that most people don't know!
 ```
+
+Gemini knows how to build slideshows — it has a special skill for it. You don't need to explain the file format or where to put it. Just say what you want the slideshow to be _about_.
+
+> [!TIP] Magic Phrases
+> Certain phrases wake up special skills your agents have learned. Any of these will trigger the slideshow skill:
+> - "Make a slideshow about..."
+> - "Build a presentation on..."
+> - "Create slides about..."
+> - "Build a lesson about..."
+>
+> Just describe the topic and your agent handles the rest — file format, slide structure, even the kitten mascots!
 
 Gemini will create a real slideshow file — one you could actually open and present in the kittens app!
 
