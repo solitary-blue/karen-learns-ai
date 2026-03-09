@@ -22,6 +22,15 @@ export interface ThemeMascots {
   callouts?: Record<string, string | string[]>;
 }
 
+export interface ThemeComponentTokens {
+  [key: string]: string | ThemeComponentTokens;
+}
+
+export interface ThemeComponents {
+  bullets?: ThemeComponentTokens;
+  callouts?: ThemeComponentTokens;
+}
+
 export interface ThemeDefinition {
   name: string;
   label: string;
@@ -29,6 +38,7 @@ export interface ThemeDefinition {
   semantics: ThemeSemantics;
   fonts?: ThemeFonts;
   mascots?: ThemeMascots;
+  components?: ThemeComponents;
   googleFonts?: string;
 }
 
@@ -115,6 +125,35 @@ function flattenSemantics(semantics: ThemeSemantics, colors: ThemeColors, prefix
   return result;
 }
 
+function kebabCase(value: string): string {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase();
+}
+
+function flattenComponentTokens(
+  tokens: ThemeComponentTokens,
+  colors: ThemeColors,
+  prefix = ''
+): Record<string, string> {
+  const result: Record<string, string> = {};
+
+  for (const [rawKey, rawValue] of Object.entries(tokens)) {
+    const key = kebabCase(rawKey);
+    const tokenName = prefix ? `${prefix}-${key}` : key;
+
+    if (typeof rawValue === 'string') {
+      result[`--${tokenName}`] = resolveColor(rawValue, colors);
+      continue;
+    }
+
+    Object.assign(result, flattenComponentTokens(rawValue, colors, tokenName));
+  }
+
+  return result;
+}
+
 export function loadThemeConfig(): ThemeConfig {
   if (cachedThemeConfig) return cachedThemeConfig;
 
@@ -139,6 +178,13 @@ export function loadThemeConfig(): ThemeConfig {
             const cssVariables = themeDef.semantics 
               ? flattenSemantics(themeDef.semantics, themeDef.colors || {}) 
               : {};
+
+            if (themeDef.components) {
+              Object.assign(
+                cssVariables,
+                flattenComponentTokens(themeDef.components as ThemeComponentTokens, themeDef.colors || {})
+              );
+            }
               
             // Add font variables
             if (themeDef.fonts?.title) {

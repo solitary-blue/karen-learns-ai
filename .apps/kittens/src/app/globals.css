@@ -45,6 +45,39 @@
     --font-title: Georgia, Cambria, 'Times New Roman', Times, serif;
     --font-main-weight: 400;
     --font-title-weight: 400;
+
+    --bullets-color: hsl(var(--primary));
+    --bullets-size: 0.5rem;
+    --bullets-radius: 999px;
+    --bullets-offset-y: 0.78em;
+    --bullets-shadow: none;
+
+    --callouts-radius: 0.75rem;
+    --callouts-shadow: none;
+    --callouts-backdrop-filter: none;
+    --callouts-title-background: transparent;
+    --callouts-title-border-width: 1px;
+    --callouts-kitten-opacity: 0.9;
+
+    --callouts-types-info-surface: #eff6ff;
+    --callouts-types-info-border: #bfdbfe;
+    --callouts-types-info-title: #2563eb;
+
+    --callouts-types-success-surface: #f0fdf4;
+    --callouts-types-success-border: #bbf7d0;
+    --callouts-types-success-title: #16a34a;
+
+    --callouts-types-warning-surface: #fffbeb;
+    --callouts-types-warning-border: #fde68a;
+    --callouts-types-warning-title: #d97706;
+
+    --callouts-types-danger-surface: #fef2f2;
+    --callouts-types-danger-border: #fecaca;
+    --callouts-types-danger-title: #dc2626;
+
+    --callouts-types-example-surface: #faf5ff;
+    --callouts-types-example-border: #ddd6fe;
+    --callouts-types-example-title: #9333ea;
   }
 
   body {
@@ -107,6 +140,36 @@
     background: hsl(var(--muted) / 0.4);
   }
 
+  /* Themeable bullet markers */
+  .prose ul {
+    list-style: none;
+    padding-left: 0;
+    text-align: left;
+  }
+
+  .prose li > ul {
+    margin-top: 0.65em;
+    padding-left: 1.15em;
+  }
+
+  .prose ul > li {
+    position: relative;
+    padding-left: 1.45em;
+  }
+
+  .prose ul > li::before {
+    content: '';
+    position: absolute;
+    left: 0.15em;
+    top: var(--bullets-offset-y);
+    width: var(--bullets-size);
+    height: var(--bullets-size);
+    border-radius: var(--bullets-radius);
+    background: var(--bullets-color);
+    box-shadow: var(--bullets-shadow);
+    transform: translateY(-50%);
+  }
+
   /* Dracula table overrides */
   [data-theme="dracula"] .prose thead th {
     background: #44475a;
@@ -142,6 +205,64 @@
 
   .callout .callout-content > *:not(:first-child) {
     margin-top: 0.5rem;
+  }
+
+  .callout {
+    text-align: left;
+    border-radius: var(--callouts-radius);
+    box-shadow: var(--callouts-shadow);
+    -webkit-backdrop-filter: var(--callouts-backdrop-filter);
+    backdrop-filter: var(--callouts-backdrop-filter);
+    background-color: var(--callout-surface, transparent);
+    border-color: var(--callout-border, hsl(var(--border)));
+  }
+
+  .callout-title {
+    background: var(--callouts-title-background);
+    color: var(--callout-title-color, inherit);
+    border-bottom-width: var(--callouts-title-border-width);
+    border-bottom-color: var(--callout-border, currentColor);
+  }
+
+  .callout img[src^="/api/kittens/"] {
+    opacity: var(--callouts-kitten-opacity);
+  }
+
+  .callout-note,
+  .callout-info,
+  .callout-todo,
+  .callout-quote {
+    --callout-surface: var(--callouts-types-info-surface);
+    --callout-border: var(--callouts-types-info-border);
+    --callout-title-color: var(--callouts-types-info-title);
+  }
+
+  .callout-tip,
+  .callout-success {
+    --callout-surface: var(--callouts-types-success-surface);
+    --callout-border: var(--callouts-types-success-border);
+    --callout-title-color: var(--callouts-types-success-title);
+  }
+
+  .callout-warning,
+  .callout-question {
+    --callout-surface: var(--callouts-types-warning-surface);
+    --callout-border: var(--callouts-types-warning-border);
+    --callout-title-color: var(--callouts-types-warning-title);
+  }
+
+  .callout-failure,
+  .callout-danger,
+  .callout-bug {
+    --callout-surface: var(--callouts-types-danger-surface);
+    --callout-border: var(--callouts-types-danger-border);
+    --callout-title-color: var(--callouts-types-danger-title);
+  }
+
+  .callout-example {
+    --callout-surface: var(--callouts-types-example-surface);
+    --callout-border: var(--callouts-types-example-border);
+    --callout-title-color: var(--callouts-types-example-title);
   }
 
   /* Dracula Callout Overrides */

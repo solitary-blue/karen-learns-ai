@@ -8,6 +8,10 @@ colors:
   slate-border: "#334155"
   blue: "#3b82f6"
   red: "#ef4444"
+  emerald: "#34d399"
+  amber: "#f59e0b"
+  rose: "#fb7185"
+  violet: "#a78bfa"
   muted-gray: "#475569"
   muted-fg: "#94a3b8"
   indigo: "#4f46e5"
@@ -48,5 +52,41 @@ semantics:
 fonts:
   title: '"Outfit", sans-serif'
   main: '"Lexend", sans-serif'
+
+components:
+  bullets:
+    color: blue
+    size: "0.58rem"
+    radius: "999px"
+    offsetY: "0.72em"
+    shadow: "0 0 0.55rem rgba(59, 130, 246, 0.34)"
+  callouts:
+    radius: "1rem"
+    shadow: "0 18px 40px rgba(15, 23, 42, 0.22)"
+    backdropFilter: "blur(12px)"
+    titleBackground: "rgba(51, 65, 85, 0.35)"
+    titleBorderWidth: "1px"
+    kittenOpacity: "0.82"
+    types:
+      info:
+        surface: "rgba(59, 130, 246, 0.1)"
+        border: "rgba(59, 130, 246, 0.45)"
+        title: "#60a5fa"
+      success:
+        surface: "rgba(52, 211, 153, 0.1)"
+        border: "rgba(52, 211, 153, 0.45)"
+        title: "#6ee7b7"
+      warning:
+        surface: "rgba(245, 158, 11, 0.1)"
+        border: "rgba(245, 158, 11, 0.45)"
+        title: "#fbbf24"
+      danger:
+        surface: "rgba(251, 113, 133, 0.1)"
+        border: "rgba(251, 113, 133, 0.45)"
+        title: "#fda4af"
+      example:
+        surface: "rgba(167, 139, 250, 0.1)"
+        border: "rgba(167, 139, 250, 0.45)"
+        title: "#c4b5fd"
 
 googleFonts: "Lexend:wght@300;400;500;600;700&family=Outfit:wght@400;600;700"

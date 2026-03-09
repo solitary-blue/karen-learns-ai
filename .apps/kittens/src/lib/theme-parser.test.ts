@@ -48,11 +48,23 @@ label: Test Theme
 colors:
   red: "#ff0000"
   blue: "#0000ff"
+  ink: "#111827"
 semantics:
   background: "#ffffff"
   primary:
     DEFAULT: red
     foreground: blue
+components:
+  bullets:
+    color: red
+    shadow: "0 0 8px rgba(255, 0, 0, 0.35)"
+  callouts:
+    titleBackground: "rgba(17, 24, 39, 0.35)"
+    types:
+      info:
+        surface: "rgba(0, 0, 255, 0.12)"
+        border: blue
+        title: red
 fonts:
   title: "Test Serif"
     `;
@@ -75,5 +87,13 @@ fonts:
     
     // Fonts
     expect(cssVars['--font-title']).toBe('Test Serif');
+
+    // Component tokens
+    expect(cssVars['--bullets-color']).toBe('#ff0000');
+    expect(cssVars['--bullets-shadow']).toBe('0 0 8px rgba(255, 0, 0, 0.35)');
+    expect(cssVars['--callouts-title-background']).toBe('rgba(17, 24, 39, 0.35)');
+    expect(cssVars['--callouts-types-info-surface']).toBe('rgba(0, 0, 255, 0.12)');
+    expect(cssVars['--callouts-types-info-border']).toBe('#0000ff');
+    expect(cssVars['--callouts-types-info-title']).toBe('#ff0000');
   });
 });
