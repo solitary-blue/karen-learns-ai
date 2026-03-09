@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { List, ChevronLeft, ChevronRight, Folder, FileText, ChevronDown, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -63,6 +63,7 @@ function formatFolderName(name: string): string {
 export default function SlideShow({ slides, metadata = {}, currentSlug, initialSlide = 0, rootId, curriculumRoots }: SlideShowProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const slideViewportRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState(initialSlide);
   const [showList, setShowList] = useState(false);
   const [menuMode, setMenuMode] = useState<MenuMode>('overview');
@@ -120,6 +121,12 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
       abortController.abort();
     };
   }, [currentSlug, rootId]);
+
+  useEffect(() => {
+    if (slideViewportRef.current) {
+      slideViewportRef.current.scrollTop = 0;
+    }
+  }, [safeCurrent, currentSlug]);
 
   const fetchListing = async (folder: string) => {
     try {
@@ -196,19 +203,25 @@ export default function SlideShow({ slides, metadata = {}, currentSlug, initialS
       </div>
 
       {/* Slide Content */}
-      <div className="absolute inset-0 flex items-center justify-center p-12 md:p-24">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={safeCurrent}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="prose prose-lg md:prose-2xl max-w-4xl w-full mx-auto text-center"
-          >
-             <SlideContent html={slides[safeCurrent].html} />
-          </motion.div>
-        </AnimatePresence>
+      <div
+        ref={slideViewportRef}
+        data-testid="slide-scroll-container"
+        className="absolute inset-0 overflow-y-auto overscroll-y-contain"
+      >
+        <div className="min-h-full flex flex-col px-12 py-12 md:px-24 md:py-24">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={safeCurrent}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="prose prose-lg md:prose-2xl max-w-4xl w-full mx-auto my-auto text-center"
+            >
+               <SlideContent html={slides[safeCurrent].html} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* Kitten Mascot */}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import * as matchers from '@testing-library/jest-dom/matchers';
 import SlideShow from './SlideShow';
 
@@ -99,5 +99,28 @@ describe('SlideShow', () => {
 
     expect(screen.getByTestId('slide-html')).toHaveTextContent('lesson-b-1');
     expect(screen.getByText('1 / 1')).toBeInTheDocument();
+  });
+
+  it('resets the slide scroll position when moving to another slide', () => {
+    render(
+      <SlideShow
+        slides={[
+          { title: 'Lesson A 1', html: 'lesson-a-1', hideTitle: false },
+          { title: 'Lesson A 2', html: 'lesson-a-2', hideTitle: false },
+        ]}
+        currentSlug="lesson-a"
+        initialSlide={0}
+        rootId="current"
+        curriculumRoots={[]}
+      />
+    );
+
+    const viewport = screen.getByTestId('slide-scroll-container');
+    viewport.scrollTop = 180;
+
+    fireEvent.keyDown(window, { key: 'ArrowRight' });
+
+    expect(screen.getByTestId('slide-html')).toHaveTextContent('lesson-a-2');
+    expect(viewport.scrollTop).toBe(0);
   });
 });
