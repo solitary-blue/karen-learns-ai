@@ -35,6 +35,7 @@
 - [x] fix Kittens main app font-weight selectors
 - [ ] add configurable multi-root curriculum switching to Kittens
 - [x] fix Kittens multi-root regressions (stale slide state, empty root fallback)
+- [x] fix Kittens workspace root starter lesson discovery when roadmap lesson is absent
 
 ## Karen
 - [x] Create a practice slideshow about kittens in the `workspace/` folder.
