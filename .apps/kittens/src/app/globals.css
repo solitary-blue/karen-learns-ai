@@ -57,6 +57,8 @@
     --callouts-backdrop-filter: none;
     --callouts-title-background: transparent;
     --callouts-title-border-width: 1px;
+    --callouts-title-divider-width: var(--callouts-title-border-width);
+    --callouts-title-divider-color: currentColor;
     --callouts-kitten-opacity: 0.9;
 
     --callouts-types-info-surface: #eff6ff;
@@ -78,6 +80,58 @@
     --callouts-types-example-surface: #faf5ff;
     --callouts-types-example-border: #ddd6fe;
     --callouts-types-example-title: #9333ea;
+
+    --callouts-variants-note-surface: var(--callouts-types-info-surface);
+    --callouts-variants-note-border: var(--callouts-types-info-border);
+    --callouts-variants-note-title: var(--callouts-types-info-title);
+
+    --callouts-variants-abstract-surface: var(--callouts-types-example-surface);
+    --callouts-variants-abstract-border: var(--callouts-types-example-border);
+    --callouts-variants-abstract-title: var(--callouts-types-example-title);
+
+    --callouts-variants-info-surface: var(--callouts-types-info-surface);
+    --callouts-variants-info-border: var(--callouts-types-info-border);
+    --callouts-variants-info-title: var(--callouts-types-info-title);
+
+    --callouts-variants-todo-surface: var(--callouts-types-success-surface);
+    --callouts-variants-todo-border: var(--callouts-types-success-border);
+    --callouts-variants-todo-title: var(--callouts-types-success-title);
+
+    --callouts-variants-tip-surface: var(--callouts-types-success-surface);
+    --callouts-variants-tip-border: var(--callouts-types-success-border);
+    --callouts-variants-tip-title: var(--callouts-types-success-title);
+
+    --callouts-variants-success-surface: var(--callouts-types-success-surface);
+    --callouts-variants-success-border: var(--callouts-types-success-border);
+    --callouts-variants-success-title: var(--callouts-types-success-title);
+
+    --callouts-variants-question-surface: var(--callouts-types-warning-surface);
+    --callouts-variants-question-border: var(--callouts-types-warning-border);
+    --callouts-variants-question-title: var(--callouts-types-warning-title);
+
+    --callouts-variants-warning-surface: var(--callouts-types-warning-surface);
+    --callouts-variants-warning-border: var(--callouts-types-warning-border);
+    --callouts-variants-warning-title: var(--callouts-types-warning-title);
+
+    --callouts-variants-failure-surface: var(--callouts-types-danger-surface);
+    --callouts-variants-failure-border: var(--callouts-types-danger-border);
+    --callouts-variants-failure-title: var(--callouts-types-danger-title);
+
+    --callouts-variants-danger-surface: var(--callouts-types-danger-surface);
+    --callouts-variants-danger-border: var(--callouts-types-danger-border);
+    --callouts-variants-danger-title: var(--callouts-types-danger-title);
+
+    --callouts-variants-bug-surface: var(--callouts-types-danger-surface);
+    --callouts-variants-bug-border: var(--callouts-types-danger-border);
+    --callouts-variants-bug-title: var(--callouts-types-danger-title);
+
+    --callouts-variants-example-surface: var(--callouts-types-example-surface);
+    --callouts-variants-example-border: var(--callouts-types-example-border);
+    --callouts-variants-example-title: var(--callouts-types-example-title);
+
+    --callouts-variants-quote-surface: var(--callouts-types-info-surface);
+    --callouts-variants-quote-border: var(--callouts-types-info-border);
+    --callouts-variants-quote-title: var(--callouts-types-info-title);
   }
 
   body {
@@ -220,48 +274,89 @@
   .callout-title {
     background: var(--callouts-title-background);
     color: var(--callout-title-color, inherit);
-    border-bottom-width: var(--callouts-title-border-width);
-    border-bottom-color: var(--callout-border, currentColor);
+    border-bottom-width: var(--callouts-title-divider-width, var(--callouts-title-border-width));
+    border-bottom-color: var(--callouts-title-divider-color, var(--callout-border, currentColor));
   }
 
   .callout img[src^="/api/kittens/"] {
     opacity: var(--callouts-kitten-opacity);
   }
 
-  .callout-variant-note,
-  .callout-variant-info,
-  .callout-variant-todo,
-  .callout-variant-quote {
-    --callout-surface: var(--callouts-types-info-surface);
-    --callout-border: var(--callouts-types-info-border);
-    --callout-title-color: var(--callouts-types-info-title);
+  .callout-variant-note {
+    --callout-surface: var(--callouts-variants-note-surface);
+    --callout-border: var(--callouts-variants-note-border);
+    --callout-title-color: var(--callouts-variants-note-title);
   }
 
-  .callout-variant-tip,
+  .callout-variant-abstract {
+    --callout-surface: var(--callouts-variants-abstract-surface);
+    --callout-border: var(--callouts-variants-abstract-border);
+    --callout-title-color: var(--callouts-variants-abstract-title);
+  }
+
+  .callout-variant-info {
+    --callout-surface: var(--callouts-variants-info-surface);
+    --callout-border: var(--callouts-variants-info-border);
+    --callout-title-color: var(--callouts-variants-info-title);
+  }
+
+  .callout-variant-todo {
+    --callout-surface: var(--callouts-variants-todo-surface);
+    --callout-border: var(--callouts-variants-todo-border);
+    --callout-title-color: var(--callouts-variants-todo-title);
+  }
+
+  .callout-variant-tip {
+    --callout-surface: var(--callouts-variants-tip-surface);
+    --callout-border: var(--callouts-variants-tip-border);
+    --callout-title-color: var(--callouts-variants-tip-title);
+  }
+
   .callout-variant-success {
-    --callout-surface: var(--callouts-types-success-surface);
-    --callout-border: var(--callouts-types-success-border);
-    --callout-title-color: var(--callouts-types-success-title);
+    --callout-surface: var(--callouts-variants-success-surface);
+    --callout-border: var(--callouts-variants-success-border);
+    --callout-title-color: var(--callouts-variants-success-title);
   }
 
-  .callout-variant-warning,
   .callout-variant-question {
-    --callout-surface: var(--callouts-types-warning-surface);
-    --callout-border: var(--callouts-types-warning-border);
-    --callout-title-color: var(--callouts-types-warning-title);
+    --callout-surface: var(--callouts-variants-question-surface);
+    --callout-border: var(--callouts-variants-question-border);
+    --callout-title-color: var(--callouts-variants-question-title);
   }
 
-  .callout-variant-failure,
-  .callout-variant-danger,
+  .callout-variant-warning {
+    --callout-surface: var(--callouts-variants-warning-surface);
+    --callout-border: var(--callouts-variants-warning-border);
+    --callout-title-color: var(--callouts-variants-warning-title);
+  }
+
+  .callout-variant-failure {
+    --callout-surface: var(--callouts-variants-failure-surface);
+    --callout-border: var(--callouts-variants-failure-border);
+    --callout-title-color: var(--callouts-variants-failure-title);
+  }
+
+  .callout-variant-danger {
+    --callout-surface: var(--callouts-variants-danger-surface);
+    --callout-border: var(--callouts-variants-danger-border);
+    --callout-title-color: var(--callouts-variants-danger-title);
+  }
+
   .callout-variant-bug {
-    --callout-surface: var(--callouts-types-danger-surface);
-    --callout-border: var(--callouts-types-danger-border);
-    --callout-title-color: var(--callouts-types-danger-title);
+    --callout-surface: var(--callouts-variants-bug-surface);
+    --callout-border: var(--callouts-variants-bug-border);
+    --callout-title-color: var(--callouts-variants-bug-title);
   }
 
   .callout-variant-example {
-    --callout-surface: var(--callouts-types-example-surface);
-    --callout-border: var(--callouts-types-example-border);
-    --callout-title-color: var(--callouts-types-example-title);
+    --callout-surface: var(--callouts-variants-example-surface);
+    --callout-border: var(--callouts-variants-example-border);
+    --callout-title-color: var(--callouts-variants-example-title);
+  }
+
+  .callout-variant-quote {
+    --callout-surface: var(--callouts-variants-quote-surface);
+    --callout-border: var(--callouts-variants-quote-border);
+    --callout-title-color: var(--callouts-variants-quote-title);
   }
 }

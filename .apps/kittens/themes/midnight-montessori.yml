@@ -66,6 +66,8 @@ components:
     backdropFilter: "blur(12px)"
     titleBackground: "rgba(51, 65, 85, 0.35)"
     titleBorderWidth: "1px"
+    titleDividerWidth: "1px"
+    titleDividerColor: "rgba(148, 163, 184, 0.22)"
     kittenOpacity: "0.82"
     types:
       info:
@@ -88,5 +90,34 @@ components:
         surface: "rgba(167, 139, 250, 0.1)"
         border: "rgba(167, 139, 250, 0.45)"
         title: "#c4b5fd"
+    variants:
+      abstract:
+        surface: "rgba(167, 139, 250, 0.1)"
+        border: "rgba(167, 139, 250, 0.45)"
+        title: "#c4b5fd"
+      example:
+        surface: "rgba(167, 139, 250, 0.1)"
+        border: "rgba(167, 139, 250, 0.45)"
+        title: "#c4b5fd"
+      todo:
+        surface: "rgba(52, 211, 153, 0.1)"
+        border: "rgba(52, 211, 153, 0.45)"
+        title: "#6ee7b7"
+      question:
+        surface: "rgba(245, 158, 11, 0.1)"
+        border: "rgba(245, 158, 11, 0.45)"
+        title: "#fbbf24"
+      warning:
+        surface: "rgba(245, 158, 11, 0.1)"
+        border: "rgba(245, 158, 11, 0.45)"
+        title: "#fbbf24"
+      failure:
+        surface: "rgba(251, 113, 133, 0.1)"
+        border: "rgba(251, 113, 133, 0.45)"
+        title: "#fda4af"
+      bug:
+        surface: "rgba(251, 113, 133, 0.1)"
+        border: "rgba(251, 113, 133, 0.45)"
+        title: "#fda4af"
 
 googleFonts: "Lexend:wght@300;400;500;600;700&family=Outfit:wght@400;600;700"

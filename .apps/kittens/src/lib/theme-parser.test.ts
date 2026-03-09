@@ -60,11 +60,18 @@ components:
     shadow: "0 0 8px rgba(255, 0, 0, 0.35)"
   callouts:
     titleBackground: "rgba(17, 24, 39, 0.35)"
+    titleDividerWidth: "2px"
+    titleDividerColor: ink
     types:
       info:
         surface: "rgba(0, 0, 255, 0.12)"
         border: blue
         title: red
+    variants:
+      abstract:
+        surface: "rgba(255, 0, 0, 0.08)"
+        border: red
+        title: blue
 fonts:
   title: "Test Serif"
     `;
@@ -92,8 +99,13 @@ fonts:
     expect(cssVars['--bullets-color']).toBe('#ff0000');
     expect(cssVars['--bullets-shadow']).toBe('0 0 8px rgba(255, 0, 0, 0.35)');
     expect(cssVars['--callouts-title-background']).toBe('rgba(17, 24, 39, 0.35)');
+    expect(cssVars['--callouts-title-divider-width']).toBe('2px');
+    expect(cssVars['--callouts-title-divider-color']).toBe('#111827');
     expect(cssVars['--callouts-types-info-surface']).toBe('rgba(0, 0, 255, 0.12)');
     expect(cssVars['--callouts-types-info-border']).toBe('#0000ff');
     expect(cssVars['--callouts-types-info-title']).toBe('#ff0000');
+    expect(cssVars['--callouts-variants-abstract-surface']).toBe('rgba(255, 0, 0, 0.08)');
+    expect(cssVars['--callouts-variants-abstract-border']).toBe('#ff0000');
+    expect(cssVars['--callouts-variants-abstract-title']).toBe('#0000ff');
   });
 });
