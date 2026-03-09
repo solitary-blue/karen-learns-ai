@@ -36,6 +36,7 @@
 - [ ] add configurable multi-root curriculum switching to Kittens
 - [x] fix Kittens multi-root regressions (stale slide state, empty root fallback)
 - [x] fix Kittens workspace root starter lesson discovery when roadmap lesson is absent
+- [x] fix Kittens fallback lesson traversal to search sibling folders
 
 ## Karen
 - [x] Create a practice slideshow about kittens in the `workspace/` folder.
