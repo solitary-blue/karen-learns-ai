@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import SlideShow from '@/components/SlideShow';
-import type { LessonResponse, Slide, ClientCurriculumRoot } from '@/lib/types';
+import type { LessonResponse, LessonListingResponse, Slide, ClientCurriculumRoot } from '@/lib/types';
 import type { LessonMetadata } from '@/lib/frontmatter';
 
 interface LessonLoaderProps {
@@ -12,10 +12,66 @@ interface LessonLoaderProps {
   curriculumRoots: ClientCurriculumRoot[];
 }
 
+const DEFAULT_LESSON_SLUG = '00_roadmap_KAREN';
+
+async function fetchLesson(
+  slug: string,
+  rootId: string,
+  resolvedTheme: string | undefined,
+  signal: AbortSignal
+) {
+  const params = new URLSearchParams();
+  if (resolvedTheme) params.set('theme', resolvedTheme);
+  params.set('root', rootId);
+
+  return fetch(`/api/lessons/${slug}?${params.toString()}`, {
+    signal,
+  });
+}
+
+async function findFirstAvailableLessonSlug(rootId: string, signal: AbortSignal): Promise<string | null> {
+  const visitedFolders = new Set<string>();
+  let folder = '';
+
+  while (!visitedFolders.has(folder)) {
+    visitedFolders.add(folder);
+
+    const listingRes = await fetch(`/api/lessons?folder=${encodeURIComponent(folder)}&root=${encodeURIComponent(rootId)}`, {
+      signal,
+    });
+
+    if (!listingRes.ok) {
+      return null;
+    }
+
+    const listing: LessonListingResponse = await listingRes.json();
+    if (listing.lessons.length > 0) {
+      return listing.lessons[0].slug;
+    }
+
+    if (listing.folders.length === 0) {
+      return null;
+    }
+
+    folder = listing.folders[0].path;
+  }
+
+  return null;
+}
+
+function replaceWithLesson(pathname: string, router: ReturnType<typeof useRouter>, searchParams: URLSearchParams, slug: string) {
+  const nextParams = new URLSearchParams(searchParams.toString());
+  nextParams.set('lesson', slug);
+  nextParams.delete('slide');
+  router.replace(`${pathname}?${nextParams.toString()}`);
+}
+
 function LessonLoaderInner({ rootId, curriculumRoots }: LessonLoaderProps) {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const requestedLesson = searchParams.get('lesson');
-  const slug = requestedLesson || '00_roadmap_KAREN';
+  const slug = requestedLesson || DEFAULT_LESSON_SLUG;
   const parsedSlideIndex = Number.parseInt(searchParams.get('slide') || '0', 10);
   const slideIndex = Number.isFinite(parsedSlideIndex) ? parsedSlideIndex : 0;
   const { resolvedTheme } = useTheme();
@@ -25,38 +81,52 @@ function LessonLoaderInner({ rootId, curriculumRoots }: LessonLoaderProps) {
   const [metadata, setMetadata] = useState<LessonMetadata>({});
   const [error, setError] = useState<string | null>(null);
   const [isEmptyRoot, setIsEmptyRoot] = useState(false);
+  const [resolvedSlug, setResolvedSlug] = useState(slug);
+
+  useEffect(() => {
+    setResolvedSlug(slug);
+  }, [slug]);
 
   useEffect(() => {
     const abortController = new AbortController();
+    const currentSearchParams = new URLSearchParams(searchParams.toString());
 
     async function loadLesson() {
       setError(null);
       setIsEmptyRoot(false);
 
       try {
-        const params = new URLSearchParams();
-        if (resolvedTheme) params.set('theme', resolvedTheme);
-        params.set('root', rootId);
-        
-        const res = await fetch(`/api/lessons/${slug}?${params.toString()}`, {
-          signal: abortController.signal,
-        });
+        let activeSlug = slug;
+        let res = await fetchLesson(activeSlug, rootId, resolvedTheme, abortController.signal);
 
-        if (!res.ok) {
-          if (res.status === 404 && !requestedLesson) {
+        if (!res.ok && res.status === 404 && !requestedLesson) {
+          const fallbackSlug = await findFirstAvailableLessonSlug(rootId, abortController.signal);
+
+          if (!fallbackSlug) {
             setSlides([]);
             setMetadata({});
+            setResolvedSlug(slug);
             setIsEmptyRoot(true);
             return;
           }
 
+          activeSlug = fallbackSlug;
+          res = await fetchLesson(activeSlug, rootId, resolvedTheme, abortController.signal);
+        }
+
+        if (!res.ok) {
           throw new Error('Failed to load lesson');
         }
 
         const data: LessonResponse = await res.json();
         setSlides(data.slides);
         setMetadata(data.metadata || {});
+        setResolvedSlug(activeSlug);
         setError(null);
+
+        if (!requestedLesson && activeSlug !== slug) {
+          replaceWithLesson(pathname, router, currentSearchParams, activeSlug);
+        }
       } catch (err) {
         if (err instanceof Error && err.name === 'AbortError') {
           return;
@@ -64,6 +134,7 @@ function LessonLoaderInner({ rootId, curriculumRoots }: LessonLoaderProps) {
 
         setSlides([]);
         setMetadata({});
+        setResolvedSlug(slug);
         setIsEmptyRoot(false);
         setError(err instanceof Error ? err.message : 'Unknown error');
       }
@@ -74,7 +145,7 @@ function LessonLoaderInner({ rootId, curriculumRoots }: LessonLoaderProps) {
     return () => {
       abortController.abort();
     };
-  }, [slug, resolvedTheme, rootId, requestedLesson]);
+  }, [slug, resolvedTheme, rootId, requestedLesson, pathname, router, searchParams]);
 
   if (isEmptyRoot) return (
     <div className="flex h-screen items-center justify-center bg-background px-6">
@@ -104,10 +175,10 @@ function LessonLoaderInner({ rootId, curriculumRoots }: LessonLoaderProps) {
 
   return (
     <SlideShow
-      key={`${rootId}:${slug}:${slideIndex}`}
+      key={`${rootId}:${resolvedSlug}:${slideIndex}`}
       slides={slides}
       metadata={metadata}
-      currentSlug={slug}
+      currentSlug={resolvedSlug}
       initialSlide={slideIndex}
       rootId={rootId}
       curriculumRoots={curriculumRoots}

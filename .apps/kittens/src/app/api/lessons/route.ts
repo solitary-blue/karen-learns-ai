@@ -6,6 +6,7 @@ import type { LessonListingResponse, LessonEntry, FolderEntry } from '@/lib/type
 import { getCurriculumDir, getDefaultRootId, getRootById } from '@/lib/curriculum-roots';
 
 const VALID_FOLDER_PATTERN = /^[a-z0-9_\-\/]*$/i;
+const ORDERED_LESSON_PREFIX_PATTERN = /^\d{2}[_-]/;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -58,8 +59,8 @@ export async function GET(request: Request) {
           path: relativePath
         });
       } else if (entry.isFile() && entry.name.endsWith('.md')) {
-        // Only lessons starting with 00_, 01_, etc.
-        if (!/^\d{2}_/.test(entry.name)) continue;
+        // Only lessons starting with 00_, 01_, 00-, 01-, etc.
+        if (!ORDERED_LESSON_PREFIX_PATTERN.test(entry.name)) continue;
         
         // Skip guide lessons
         if (entry.name.includes('_GUIDE')) continue;
@@ -103,8 +104,8 @@ export async function GET(request: Request) {
 }
 
 function formatLabel(name: string): string {
-  // Remove numeric prefix like 00_, 01_ from both folders and lessons
-  const label = name.replace(/^\d{2}_/, '');
+  // Remove numeric prefix like 00_, 01_, 00-, 01- from folders and lessons.
+  const label = name.replace(/^\d{2}[_-]/, '');
   
   return label
     .replace(/[_-]+/g, ' ')

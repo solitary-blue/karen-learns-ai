@@ -83,10 +83,25 @@ export function getCurriculumDir(rootId: string): string {
   }
 
   const projectRoot = getProjectRoot();
-  const parentDir = path.dirname(path.dirname(path.dirname(projectRoot)));
-  const curriculumDir = path.join(parentDir, root['enclosing-dir'], 'curriculum');
+  const repoRoot = path.dirname(path.dirname(projectRoot));
+  const parentDir = path.dirname(repoRoot);
+  const repoName = path.basename(repoRoot);
 
-  return curriculumDir;
+  if (root['enclosing-dir'] === repoName) {
+    return path.join(repoRoot, 'curriculum');
+  }
+
+  const repoLocalDir = path.join(repoRoot, root['enclosing-dir'], 'curriculum');
+  if (fs.existsSync(repoLocalDir)) {
+    return repoLocalDir;
+  }
+
+  const siblingDir = path.join(parentDir, root['enclosing-dir'], 'curriculum');
+  if (fs.existsSync(siblingDir)) {
+    return siblingDir;
+  }
+
+  return repoLocalDir;
 }
 
 export function validateCurriculumDir(rootId: string): boolean {

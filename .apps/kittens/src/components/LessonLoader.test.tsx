@@ -8,9 +8,12 @@ expect.extend(matchers);
 
 let currentSearchParams = new URLSearchParams();
 const fetchMock = vi.fn();
+const replaceMock = vi.fn();
 
 vi.mock('next/navigation', () => ({
   useSearchParams: () => currentSearchParams,
+  useRouter: () => ({ replace: replaceMock }),
+  usePathname: () => '/workspace',
 }));
 
 vi.mock('next-themes', () => ({
@@ -24,6 +27,7 @@ vi.mock('@/components/SlideShow', () => ({
 beforeEach(() => {
   currentSearchParams = new URLSearchParams();
   fetchMock.mockReset();
+  replaceMock.mockReset();
   vi.stubGlobal('fetch', fetchMock);
 });
 
@@ -33,13 +37,99 @@ afterEach(() => {
 });
 
 describe('LessonLoader', () => {
-  it('shows an empty state when the default lesson is missing for a curriculum root', async () => {
-    fetchMock.mockResolvedValue(
-      new Response(JSON.stringify({ error: 'Lesson not found' }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json' },
-      })
+  it('loads the first available lesson when the default lesson is missing for a curriculum root', async () => {
+    fetchMock.mockImplementation((input: string | URL | Request) => {
+      const url = String(input);
+
+      if (url.includes('/api/lessons/00_roadmap_KAREN')) {
+        return Promise.resolve(
+          new Response(JSON.stringify({ error: 'Lesson not found' }), {
+            status: 404,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        );
+      }
+
+      if (url.includes('/api/lessons?')) {
+        return Promise.resolve(
+          new Response(
+            JSON.stringify({
+              lessons: [{ slug: '01-kitten-fun-facts', title: 'Kitten Fun Facts', label: 'Kitten Fun Facts' }],
+              folders: [],
+              currentPath: '',
+              parentPath: null,
+              parentLabel: null,
+            }),
+            {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            }
+          )
+        );
+      }
+
+      if (url.includes('/api/lessons/01-kitten-fun-facts')) {
+        return Promise.resolve(
+          new Response(
+            JSON.stringify({
+              slides: [{ title: 'Loaded', html: '<p>Loaded</p>', hideTitle: false }],
+              metadata: { title: 'Kitten Fun Facts' },
+            }),
+            {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            }
+          )
+        );
+      }
+
+      throw new Error(`Unexpected fetch: ${url}`);
+    });
+
+    render(
+      <LessonLoader
+        rootId="workspace"
+        curriculumRoots={[{ id: 'workspace', label: 'Workspace', pathSegments: ['workspace'] }]}
+      />
     );
+
+    expect(await screen.findByTestId('slideshow')).toHaveTextContent('01-kitten-fun-facts');
+    expect(replaceMock).toHaveBeenCalledWith('/workspace?lesson=01-kitten-fun-facts');
+  });
+
+  it('shows an empty state when the selected curriculum root has no lessons at all', async () => {
+    fetchMock.mockImplementation((input: string | URL | Request) => {
+      const url = String(input);
+
+      if (url.includes('/api/lessons/00_roadmap_KAREN')) {
+        return Promise.resolve(
+          new Response(JSON.stringify({ error: 'Lesson not found' }), {
+            status: 404,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        );
+      }
+
+      if (url.includes('/api/lessons?')) {
+        return Promise.resolve(
+          new Response(
+            JSON.stringify({
+              lessons: [],
+              folders: [],
+              currentPath: '',
+              parentPath: null,
+              parentLabel: null,
+            }),
+            {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            }
+          )
+        );
+      }
+
+      throw new Error(`Unexpected fetch: ${url}`);
+    });
 
     render(
       <LessonLoader

@@ -124,7 +124,29 @@ curriculum-roots:
       expect(dir).toBe('/Users/lasto/clients/lastobelus-2025/karen-learns-ai/curriculum');
     });
 
-    it('computes curriculum dir for sibling workspace', () => {
+    it('prefers an in-repo workspace curriculum when it exists', () => {
+      const dir = curriculumRoots.getCurriculumDir('workspace');
+      expect(dir).toBe('/Users/lasto/clients/lastobelus-2025/karen-learns-ai/workspace/curriculum');
+    });
+
+    it('falls back to a sibling workspace curriculum when the in-repo one is missing', () => {
+      vi.mocked(fs.existsSync).mockImplementation((candidate) => {
+        const filePath = String(candidate);
+        if (filePath.endsWith('app-config.yml')) {
+          return true;
+        }
+
+        if (filePath === '/Users/lasto/clients/lastobelus-2025/karen-learns-ai/workspace/curriculum') {
+          return false;
+        }
+
+        if (filePath === '/Users/lasto/clients/lastobelus-2025/workspace/curriculum') {
+          return true;
+        }
+
+        return true;
+      });
+
       const dir = curriculumRoots.getCurriculumDir('workspace');
       expect(dir).toBe('/Users/lasto/clients/lastobelus-2025/workspace/curriculum');
     });

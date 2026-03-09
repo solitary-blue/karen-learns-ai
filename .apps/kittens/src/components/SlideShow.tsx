@@ -55,7 +55,7 @@ function humanizeMetadataKey(key: string): string {
 
 function formatFolderName(name: string): string {
   return name
-    .replace(/^\d{2}_/, '')
+    .replace(/^\d{2}[_-]/, '')
     .replace(/[_-]+/g, ' ')
     .replace(/\b\w/g, l => l.toUpperCase());
 }
