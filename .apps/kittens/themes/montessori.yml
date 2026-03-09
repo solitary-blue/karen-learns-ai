@@ -51,6 +51,11 @@ fonts:
   title: "Georgia, Cambria, 'Times New Roman', serif"
   main: "'Avenir Next', Avenir, 'Seravek', system-ui, sans-serif"
 
+components:
+  callouts:
+    titleDividerWidth: "0"
+    titleDividerColor: "transparent"
+
 # Mascot Overrides (Optional)
 mascots:
   # header: ['concerned-chemist']
