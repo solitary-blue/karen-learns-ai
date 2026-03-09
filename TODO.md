@@ -37,6 +37,7 @@
 - [x] fix Kittens multi-root regressions (stale slide state, empty root fallback)
 
 ## Karen
+- [x] Create a practice slideshow about kittens in the `workspace/` folder.
 - [ ] Explore the `.agents/skills/teach-me-about-ai.md` skill.
 - [ ] Brainstorm potential topics for the 10-20% research project.
 - [ ] Identify current pain points in Montessori record-keeping or lesson planning.
