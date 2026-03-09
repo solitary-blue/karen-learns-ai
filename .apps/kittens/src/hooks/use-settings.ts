@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/globals */
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -41,9 +40,33 @@ function resolveStoredFont(storageKey: string, fallback: FontOption): FontOption
   return fallback;
 }
 
+function withResolvedWeight(font: FontOption): FontOption {
+  return {
+    ...font,
+    weight: font.weight || 400,
+  };
+}
+
+function syncCssVariables() {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  if (sharedMainFont) {
+    document.documentElement.style.setProperty('--font-main', sharedMainFont.value);
+    document.documentElement.style.setProperty('--font-main-weight', String(sharedMainFont.weight || 400));
+  }
+
+  if (sharedTitleFont) {
+    document.documentElement.style.setProperty('--font-title', sharedTitleFont.value);
+    document.documentElement.style.setProperty('--font-title-weight', String(sharedTitleFont.weight || 400));
+  }
+}
+
 // Shared state so all useSettings consumers stay in sync
 let sharedMainFont: FontOption | null = null;
 let sharedTitleFont: FontOption | null = null;
+let hasHydratedStoredFonts = false;
 const listeners = new Set<() => void>();
 
 function notify() {
@@ -51,23 +74,13 @@ function notify() {
 }
 
 export function useSettings(defaultMain: FontOption, defaultTitle: FontOption) {
-  // Initialize shared state from localStorage on first use
-  // This is a valid pattern for sharing state across components
+  // Initialize shared state with deterministic defaults so server and client
+  // render the same markup before localStorage is applied after hydration.
   if (!sharedMainFont) {
-    const stored = resolveStoredFont(STORAGE_KEY_MAIN_FONT, defaultMain);
-    // Ensure weight is always set
-    sharedMainFont = {
-      ...stored,
-      weight: stored.weight || 400
-    };
+    sharedMainFont = withResolvedWeight(defaultMain);
   }
   if (!sharedTitleFont) {
-    const stored = resolveStoredFont(STORAGE_KEY_TITLE_FONT, defaultTitle);
-    // Ensure weight is always set
-    sharedTitleFont = {
-      ...stored,
-      weight: stored.weight || 400
-    };
+    sharedTitleFont = withResolvedWeight(defaultTitle);
   }
 
   const [, rerender] = useState(0);
@@ -79,16 +92,23 @@ export function useSettings(defaultMain: FontOption, defaultTitle: FontOption) {
     return () => { listeners.delete(listener); };
   }, []);
 
-  // Keep CSS variables in sync on mount
   useEffect(() => {
-    if (sharedMainFont) {
-      document.documentElement.style.setProperty('--font-main', sharedMainFont.value);
-      document.documentElement.style.setProperty('--font-main-weight', String(sharedMainFont.weight || 400));
+    if (!hasHydratedStoredFonts) {
+      hasHydratedStoredFonts = true;
+
+      sharedMainFont = withResolvedWeight(resolveStoredFont(STORAGE_KEY_MAIN_FONT, sharedMainFont || defaultMain));
+      sharedTitleFont = withResolvedWeight(resolveStoredFont(STORAGE_KEY_TITLE_FONT, sharedTitleFont || defaultTitle));
+
+      syncCssVariables();
+      notify();
+
+      return;
     }
-    if (sharedTitleFont) {
-      document.documentElement.style.setProperty('--font-title', sharedTitleFont.value);
-      document.documentElement.style.setProperty('--font-title-weight', String(sharedTitleFont.weight || 400));
-    }
+
+    syncCssVariables();
+    // This hydration sync is intentionally one-time so shared settings are restored
+    // from storage without re-applying later default values.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateMainFont = useCallback((font: FontOption) => {
@@ -98,8 +118,7 @@ export function useSettings(defaultMain: FontOption, defaultTitle: FontOption) {
     
     const fontWithWeight = { ...font, weight: closestWeight };
     sharedMainFont = fontWithWeight;
-    document.documentElement.style.setProperty('--font-main', fontWithWeight.value);
-    document.documentElement.style.setProperty('--font-main-weight', String(closestWeight));
+    syncCssVariables();
     localStorage.setItem(STORAGE_KEY_MAIN_FONT, JSON.stringify(fontWithWeight));
     notify();
   }, []);
@@ -111,8 +130,7 @@ export function useSettings(defaultMain: FontOption, defaultTitle: FontOption) {
     
     const fontWithWeight = { ...font, weight: closestWeight };
     sharedTitleFont = fontWithWeight;
-    document.documentElement.style.setProperty('--font-title', fontWithWeight.value);
-    document.documentElement.style.setProperty('--font-title-weight', String(closestWeight));
+    syncCssVariables();
     localStorage.setItem(STORAGE_KEY_TITLE_FONT, JSON.stringify(fontWithWeight));
     notify();
   }, []);
@@ -121,7 +139,7 @@ export function useSettings(defaultMain: FontOption, defaultTitle: FontOption) {
     if (sharedMainFont) {
       const fontWithWeight = { ...sharedMainFont, weight };
       sharedMainFont = fontWithWeight;
-      document.documentElement.style.setProperty('--font-main-weight', String(weight));
+      syncCssVariables();
       localStorage.setItem(STORAGE_KEY_MAIN_FONT, JSON.stringify(fontWithWeight));
       console.log('Updated main font weight:', fontWithWeight);
       notify();
@@ -132,7 +150,7 @@ export function useSettings(defaultMain: FontOption, defaultTitle: FontOption) {
     if (sharedTitleFont) {
       const fontWithWeight = { ...sharedTitleFont, weight };
       sharedTitleFont = fontWithWeight;
-      document.documentElement.style.setProperty('--font-title-weight', String(weight));
+      syncCssVariables();
       localStorage.setItem(STORAGE_KEY_TITLE_FONT, JSON.stringify(fontWithWeight));
       console.log('Updated title font weight:', fontWithWeight);
       notify();

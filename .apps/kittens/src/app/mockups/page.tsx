@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FileText, List, Info, CheckCircle, Flame, HelpCircle, 
@@ -9,7 +10,6 @@ import {
   Mountain, Waves, Leaf, Snowflake, Sunset
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useSettings, FontOption } from '@/hooks/use-settings';
 import { useDynamicFontLoader } from '@/lib/dynamic-font-loader';
 
 // --- Theme Definitions ---
@@ -298,46 +298,52 @@ const THEMES = [
 ];
 
 // Map each theme to its default title/body font for the font chooser
-const THEME_FONTS: Record<string, { title: FontOption; body: FontOption }> = {
+type ThemeFont = {
+  name: string;
+  value: string;
+  weight: number;
+};
+
+const THEME_FONTS: Record<string, { title: ThemeFont; body: ThemeFont }> = {
   'midnight-montessori': {
-    title: { name: 'Playfair Display', value: '"Playfair Display", serif' },
-    body: { name: 'Inter', value: '"Inter", system-ui, sans-serif' },
+    title: { name: 'Playfair Display', value: '"Playfair Display", serif', weight: 700 },
+    body: { name: 'Inter', value: '"Inter", system-ui, sans-serif', weight: 400 },
   },
   'draculas-library': {
-    title: { name: 'Crimson Pro', value: '"Crimson Pro", serif' },
-    body: { name: 'JetBrains Mono', value: '"JetBrains Mono", monospace' },
+    title: { name: 'Crimson Pro', value: '"Crimson Pro", serif', weight: 700 },
+    body: { name: 'JetBrains Mono', value: '"JetBrains Mono", monospace', weight: 400 },
   },
   'cyber-scholar': {
-    title: { name: 'Space Grotesk', value: '"Space Grotesk", sans-serif' },
-    body: { name: 'IBM Plex Mono', value: '"IBM Plex Mono", monospace' },
+    title: { name: 'Space Grotesk', value: '"Space Grotesk", sans-serif', weight: 700 },
+    body: { name: 'IBM Plex Mono', value: '"IBM Plex Mono", monospace', weight: 400 },
   },
   'parchment-ink': {
-    title: { name: 'Cormorant Garamond', value: '"Cormorant Garamond", serif' },
-    body: { name: 'EB Garamond', value: '"EB Garamond", serif' },
+    title: { name: 'Cormorant Garamond', value: '"Cormorant Garamond", serif', weight: 600 },
+    body: { name: 'EB Garamond', value: '"EB Garamond", serif', weight: 400 },
   },
   'sunlit-studio': {
-    title: { name: 'Lexend', value: '"Lexend", sans-serif' },
-    body: { name: 'Lexend', value: '"Lexend", sans-serif' },
+    title: { name: 'Lexend', value: '"Lexend", sans-serif', weight: 700 },
+    body: { name: 'Lexend', value: '"Lexend", sans-serif', weight: 400 },
   },
   'obsidian-forge': {
-    title: { name: 'Bitter', value: '"Bitter", serif' },
-    body: { name: 'Charter', value: 'Charter, "Bitstream Charter", Georgia, serif' },
+    title: { name: 'Bitter', value: '"Bitter", serif', weight: 700 },
+    body: { name: 'Charter', value: 'Charter, "Bitstream Charter", Georgia, serif', weight: 400 },
   },
   'aurora-borealis': {
-    title: { name: 'Outfit', value: '"Outfit", sans-serif' },
-    body: { name: 'Bliss', value: 'Bliss, system-ui, sans-serif' },
+    title: { name: 'Outfit', value: '"Outfit", sans-serif', weight: 700 },
+    body: { name: 'Bliss', value: 'Bliss, system-ui, sans-serif', weight: 400 },
   },
   'botanical-press': {
-    title: { name: 'Lora', value: '"Lora", serif' },
-    body: { name: 'Bliss', value: 'Bliss, system-ui, sans-serif' },
+    title: { name: 'Lora', value: '"Lora", serif', weight: 600 },
+    body: { name: 'Bliss', value: 'Bliss, system-ui, sans-serif', weight: 400 },
   },
   'nordic-frost': {
-    title: { name: 'DM Serif Display', value: '"DM Serif Display", serif' },
-    body: { name: 'Candara', value: 'Candara, sans-serif' },
+    title: { name: 'DM Serif Display', value: '"DM Serif Display", serif', weight: 700 },
+    body: { name: 'Candara', value: 'Candara, sans-serif', weight: 400 },
   },
   'dusk-gradient': {
-    title: { name: 'Fraunces', value: '"Fraunces", serif' },
-    body: { name: 'Averia Libre', value: '"Averia Libre", cursive' },
+    title: { name: 'Fraunces', value: '"Fraunces", serif', weight: 700 },
+    body: { name: 'Averia Libre', value: '"Averia Libre", cursive', weight: 400 },
   },
 };
 
@@ -430,9 +436,12 @@ const Callout = ({ type, title, children, theme, kitten }: any) => {
         {children}
       </div>
       {kitten && (
-        <img 
+        <Image
           src={`/api/kittens/${kitten}`} 
           alt="Kitten" 
+          width={96}
+          height={96}
+          unoptimized
           className="absolute bottom-1 right-1 h-24 w-auto opacity-80 pointer-events-none select-none"
         />
       )}
@@ -444,31 +453,14 @@ export default function MockupsPage() {
   const [currentThemeIndex, setCurrentThemeIndex] = useState(0);
   const theme = THEMES[currentThemeIndex];
   const isDark = theme.type === 'dark';
-
-  const defaultFonts = THEME_FONTS[theme.id];
-  const { mainFont, titleFont, updateMainFont, updateTitleFont } = useSettings(
-    defaultFonts?.body || { name: 'Avenir Next', value: '"Avenir Next", Avenir, system-ui, sans-serif' },
-    defaultFonts?.title || { name: 'Georgia', value: 'Georgia, serif' },
-  );
-
-  // Debug logging
-  useEffect(() => {
-    console.log('Current fonts:', { mainFont, titleFont });
-  }, [mainFont, titleFont]);
+  const currentFonts = THEME_FONTS[theme.id] || {
+    body: { name: 'Avenir Next', value: '"Avenir Next", Avenir, "Seravek", system-ui, sans-serif', weight: 400 },
+    title: { name: 'Georgia', value: 'Georgia, serif', weight: 400 },
+  };
 
   // Dynamically load fonts as needed
-  useDynamicFontLoader(mainFont.name, mainFont.weight || 400);
-  useDynamicFontLoader(titleFont.name, titleFont.weight || 400);
-
-  // Reset fonts to theme defaults when switching themes
-  useEffect(() => {
-    const fonts = THEME_FONTS[theme.id];
-    if (fonts) {
-      updateMainFont(fonts.body);
-      updateTitleFont(fonts.title);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentThemeIndex]);
+  useDynamicFontLoader(currentFonts.body.name, currentFonts.body.weight);
+  useDynamicFontLoader(currentFonts.title.name, currentFonts.title.weight);
 
   const nextTheme = () => setCurrentThemeIndex((prev) => (prev + 1) % THEMES.length);
   const prevTheme = () => setCurrentThemeIndex((prev) => (prev - 1 + THEMES.length) % THEMES.length);
@@ -527,12 +519,12 @@ export default function MockupsPage() {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             className={cn("w-full h-full", theme.styles.foreground)}
-            style={{ fontFamily: mainFont.value, fontWeight: mainFont.weight || 400 }}
+            style={{ fontFamily: currentFonts.body.value, fontWeight: currentFonts.body.weight }}
           >
             {/* Slide Header */}
             <div className="mb-12">
               <h1 className={cn("text-4xl md:text-6xl mb-6", theme.styles.titleFont)}
-                  style={{ fontFamily: titleFont.value, fontWeight: titleFont.weight || 400 }}>
+                  style={{ fontFamily: currentFonts.title.value, fontWeight: currentFonts.title.weight }}>
                 The Cosmic Education of Karen
               </h1>
               <div className={cn("h-1 w-32 rounded-full bg-gradient-to-r", theme.styles.headerGradient)} />
@@ -562,11 +554,11 @@ export default function MockupsPage() {
             {/* Callouts Section - Grid for Mockup visibility */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-32">
               <Callout type="note" title="Philosophy Note" theme={theme}>
-                "The child is both a hope and a promise for mankind." - Maria Montessori. This quote reminds us why we build these tools.
+                &ldquo;The child is both a hope and a promise for mankind.&rdquo; - Maria Montessori. This quote reminds us why we build these tools.
               </Callout>
 
               <Callout type="tip" title="Pro Tip" theme={theme} kitten="shows-book">
-                Try using the "Whole-Parts" strategy when explaining complex LLM concepts to Karen. It reduces cognitive load significantly.
+                Try using the &ldquo;Whole-Parts&rdquo; strategy when explaining complex LLM concepts to Karen. It reduces cognitive load significantly.
               </Callout>
 
               <Callout type="success" title="Milestone Reached" theme={theme} kitten="excited-chemist">
@@ -578,7 +570,7 @@ export default function MockupsPage() {
               </Callout>
 
               <Callout type="question" title="Reflection Question" theme={theme}>
-                How might we adapt the concept of "The Prepared Environment" to a digital workspace? What does a "prepared" terminal look like?
+                How might we adapt the concept of &ldquo;The Prepared Environment&rdquo; to a digital workspace? What does a &ldquo;prepared&rdquo; terminal look like?
               </Callout>
 
               <Callout type="danger" title="Critical Warning" theme={theme}>
@@ -587,12 +579,12 @@ export default function MockupsPage() {
 
               <Callout type="example" title="Code Example" theme={theme} kitten="suit-arms-crossed">
                 <code className="block mt-2 font-mono text-xs opacity-80">
-                  git commit -m "tech: 🙈 setup direnv and sops"
+                  git commit -m &quot;tech: 🙈 setup direnv and sops&quot;
                 </code>
               </Callout>
 
               <Callout type="quote" title="Montessori Insight" theme={theme}>
-                "Help me to do it by myself." This is the core mandate of an effective AI agent designed for education.
+                &ldquo;Help me to do it by myself.&rdquo; This is the core mandate of an effective AI agent designed for education.
               </Callout>
             </div>
           </motion.div>
