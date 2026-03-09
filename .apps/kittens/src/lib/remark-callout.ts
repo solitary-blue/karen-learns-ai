@@ -40,6 +40,7 @@ export function remarkCallout() {
       const configData = loadCalloutConfig();
       const configMap = configData.callouts || {};
       const config = configMap[type] || configMap['note'] || { title: 'Note', icon: 'FileText' }; 
+      const variantType = config.type || 'note';
       
       const title = titleRaw ? titleRaw.trim() : (config.title || type.charAt(0).toUpperCase() + type.slice(1));
       
@@ -83,10 +84,8 @@ export function remarkCallout() {
               'font-bold', 
               'px-4', 
               'py-2', 
-              config.color, 
               // Only add border if there is content below
               hasContent ? 'border-b' : '',
-              config.borderColor,
               // Vertical center title if single line
               !hasContent ? 'flex-1' : '',
               // Padding for kitten
@@ -156,6 +155,7 @@ export function remarkCallout() {
           className: [
             'callout', 
             `callout-${type}`, 
+            `callout-variant-${variantType}`,
             'my-4', 
             'rounded-md', 
             'border', 
@@ -164,9 +164,7 @@ export function remarkCallout() {
             'not-prose', 
             'flex',
             'flex-col',
-            'text-foreground', 
-            config.backgroundColor, 
-            config.borderColor
+            'text-foreground'
           ].join(' '),
           style: minHeightCss
         }

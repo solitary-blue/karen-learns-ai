@@ -8,9 +8,6 @@ export interface CalloutConfig {
   type: string;
   title?: string;
   icon?: string;
-  color?: string;
-  backgroundColor?: string;
-  borderColor?: string;
   aliases?: string[];
   kittens?: string | string[];
   minHeight?: string;

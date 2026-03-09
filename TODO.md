@@ -34,6 +34,7 @@
 - [x] create curriculum roadmap diagram (`curriculum/roadmap.excalidraw`)
 - [x] fix Kittens main app font-weight selectors
 - [x] start theme-driven bullet and callout styling for Midnight Montessori in Kittens
+- [x] move Kittens callout visuals into theme tokens and add Dracula token support
 - [ ] add configurable multi-root curriculum switching to Kittens
 - [x] fix Kittens multi-root regressions (stale slide state, empty root fallback)
 - [x] fix Kittens workspace root starter lesson discovery when roadmap lesson is absent

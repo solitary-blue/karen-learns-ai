@@ -48,7 +48,7 @@ describe('remarkCallout', () => {
 
     // "important" is an alias for "tip" — should get tip's styling
     expect(html).toContain('callout-important');
-    expect(html).toContain('bg-teal-50');
+    expect(html).toContain('callout-variant-tip');
     expect(html).toContain('Aliased content.');
   });
 
@@ -58,7 +58,7 @@ describe('remarkCallout', () => {
 
     expect(html).toContain('callout-custom');
     // Falls back to note config
-    expect(html).toContain('bg-blue-50');
+    expect(html).toContain('callout-variant-note');
     expect(html).toContain('Unknown type content.');
   });
 
