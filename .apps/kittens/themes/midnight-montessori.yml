@@ -91,6 +91,10 @@ components:
         border: "rgba(167, 139, 250, 0.45)"
         title: "#c4b5fd"
     variants:
+      note:
+        surface: "rgba(244, 63, 94, 0.16)"
+        border: "rgba(244, 63, 94, 0.62)"
+        title: "#fda4af"
       abstract:
         surface: "rgba(167, 139, 250, 0.1)"
         border: "rgba(167, 139, 250, 0.45)"

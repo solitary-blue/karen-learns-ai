@@ -54,6 +54,10 @@ export interface ThemeConfig {
 
 let cachedThemeConfig: ThemeConfig | null = null;
 
+function shouldUseThemeCache() {
+  return process.env.NODE_ENV === 'production';
+}
+
 /**
  * Converts a hex color (e.g. #RRGGBB) to HSL values (H S% L%)
  */
@@ -155,7 +159,9 @@ function flattenComponentTokens(
 }
 
 export function loadThemeConfig(): ThemeConfig {
-  if (cachedThemeConfig) return cachedThemeConfig;
+  if (shouldUseThemeCache() && cachedThemeConfig) {
+    return cachedThemeConfig;
+  }
 
   const themesDir = path.join(getProjectRoot(), 'themes');
   const config: ThemeConfig = {
@@ -213,6 +219,9 @@ export function loadThemeConfig(): ThemeConfig {
     config.defaultTheme = Object.keys(config.themes)[0];
   }
 
-  cachedThemeConfig = config;
+  if (shouldUseThemeCache()) {
+    cachedThemeConfig = config;
+  }
+
   return config;
 }
