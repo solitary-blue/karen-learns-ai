@@ -29,6 +29,7 @@ function splitSlideLayoutSegments(content: string): SlideLayoutSegment[] {
   const segments: SlideLayoutSegment[] = [];
   let currentLayout: SlideLayoutMode = 'normal';
   let buffer: string[] = [];
+  let activeFence: '`' | '~' | null = null;
 
   const flushBuffer = () => {
     const segmentContent = buffer.join('\n');
@@ -39,6 +40,24 @@ function splitSlideLayoutSegments(content: string): SlideLayoutSegment[] {
   };
 
   for (const line of lines) {
+    const fenceMatch = line.match(/^\s*(```+|~~~+)/);
+    if (fenceMatch) {
+      const fenceChar = fenceMatch[1][0] as '`' | '~';
+      if (!activeFence) {
+        activeFence = fenceChar;
+      } else if (activeFence === fenceChar) {
+        activeFence = null;
+      }
+
+      buffer.push(line);
+      continue;
+    }
+
+    if (activeFence) {
+      buffer.push(line);
+      continue;
+    }
+
     const layoutMatch = line.match(/^\s*%%\s*layout:\s*(compact|normal)\s*%%\s*$/i);
     if (layoutMatch) {
       flushBuffer();
