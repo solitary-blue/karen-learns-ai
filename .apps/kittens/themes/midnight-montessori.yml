@@ -64,7 +64,7 @@ components:
     radius: "1rem"
     shadow: "0 18px 40px rgba(15, 23, 42, 0.22)"
     backdropFilter: "blur(12px)"
-    titleBackground: "rgba(51, 65, 85, 0.35)"
+    titleBackground: "transparent"
     titleBorderWidth: "0"
     titleDividerWidth: "0"
     titleDividerColor: "transparent"
