@@ -31,8 +31,8 @@ function splitSlideLayoutSegments(content: string): SlideLayoutSegment[] {
   let buffer: string[] = [];
 
   const flushBuffer = () => {
-    const segmentContent = buffer.join('\n').trim();
-    if (segmentContent) {
+    const segmentContent = buffer.join('\n');
+    if (segmentContent.trim()) {
       segments.push({ layout: currentLayout, content: segmentContent });
     }
     buffer = [];
