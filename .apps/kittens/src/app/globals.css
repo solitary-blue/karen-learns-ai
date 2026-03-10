@@ -56,9 +56,9 @@
     --callouts-shadow: none;
     --callouts-backdrop-filter: none;
     --callouts-title-background: transparent;
-    --callouts-title-border-width: 1px;
-    --callouts-title-divider-width: var(--callouts-title-border-width);
-    --callouts-title-divider-color: currentColor;
+    --callouts-title-border-width: 0;
+    --callouts-title-divider-width: 0;
+    --callouts-title-divider-color: transparent;
     --callouts-kitten-opacity: 0.9;
 
     --callouts-types-info-surface: #eff6ff;
@@ -275,8 +275,8 @@
     background: var(--callouts-title-background);
     color: var(--callout-title-color, inherit);
     border-bottom-style: solid;
-    border-bottom-width: var(--callouts-title-divider-width, var(--callouts-title-border-width));
-    border-bottom-color: var(--callouts-title-divider-color, var(--callout-border, currentColor));
+    border-bottom-width: var(--callouts-title-divider-width, 0);
+    border-bottom-color: var(--callouts-title-divider-color, transparent);
   }
 
   .callout img[src^="/api/kittens/"] {
