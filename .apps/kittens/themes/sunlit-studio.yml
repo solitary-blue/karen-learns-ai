@@ -6,6 +6,16 @@ colors:
   slate-700: "#334155"
   slate-50: "#f8fafc"
   slate-200: "#e2e8f0"
+  sky-50: "#f4fbfb"
+  mint-50: "#f1fcf8"
+  amber-50: "#fff7ed"
+  rose-50: "#fff1f2"
+  violet-50: "#f7f3ff"
+  teal-deep: "#0f766e"
+  mint-deep: "#047857"
+  amber-deep: "#b45309"
+  rose-deep: "#be123c"
+  violet-deep: "#7c3aed"
   teal: "#2dd4bf"
   orange: "#fb923c"
   muted: "#f1f5f9"
@@ -47,3 +57,39 @@ semantics:
 fonts:
   title: "system-ui, -apple-system, sans-serif"
   main: "system-ui, -apple-system, sans-serif"
+
+components:
+  bullets:
+    color: teal
+    size: "0.54rem"
+    radius: "999px"
+    offsetY: "0.74em"
+    shadow: "none"
+  callouts:
+    radius: "1.25rem"
+    shadow: "0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 20, 60, 0.06)"
+    titleBackground: "transparent"
+    titleDividerWidth: "0"
+    titleDividerColor: "transparent"
+    kittenOpacity: "0.9"
+    types:
+      info:
+        surface: sky-50
+        border: teal
+        title: teal-deep
+      success:
+        surface: mint-50
+        border: "#34d399"
+        title: mint-deep
+      warning:
+        surface: amber-50
+        border: orange
+        title: amber-deep
+      danger:
+        surface: rose-50
+        border: "#fb7185"
+        title: rose-deep
+      example:
+        surface: violet-50
+        border: "#a78bfa"
+        title: violet-deep

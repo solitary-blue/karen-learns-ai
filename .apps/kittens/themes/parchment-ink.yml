@@ -8,6 +8,8 @@ colors:
   warm-border: "#dcd3bc"
   deep-red: "#991b1b"
   deep-blue: "#1e3a8a"
+  forest: "#3a6e4a"
+  umber: "#8b5e3c"
   muted: "#c8bfa8"
   muted-fg: "#6b6355"
 
@@ -47,3 +49,39 @@ semantics:
 fonts:
   title: "Georgia, Cambria, 'Times New Roman', serif"
   main: "'Avenir Next', Avenir, system-ui, sans-serif"
+
+components:
+  bullets:
+    color: forest
+    size: "0.54rem"
+    radius: "999px"
+    offsetY: "0.74em"
+    shadow: "none"
+  callouts:
+    radius: "0.75rem"
+    shadow: "inset 0 1px 4px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04)"
+    titleBackground: "transparent"
+    titleDividerWidth: "1px"
+    titleDividerColor: "rgba(26, 26, 26, 0.12)"
+    kittenOpacity: "0.9"
+    types:
+      info:
+        surface: "#eef0f6"
+        border: "#3a5090"
+        title: "#2e4478"
+      success:
+        surface: "#eef4ee"
+        border: forest
+        title: "#2a5a3a"
+      warning:
+        surface: "#f6f0e4"
+        border: "#a07030"
+        title: "#7a5420"
+      danger:
+        surface: "#f6eeee"
+        border: "#903a3a"
+        title: "#782e2e"
+      example:
+        surface: "#f2eef6"
+        border: "#5a4080"
+        title: "#4a3468"

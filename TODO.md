@@ -52,6 +52,7 @@
 - [x] add Nordic Frost callout radius and elevation tokens
 - [x] add slide-level compact layout directive for markdown content
 - [x] align Dusk Gradient live theme with mockup callout styling
+- [x] align remaining Parchment & Ink and Sunlit Studio callout themes
 
 ## Karen
 - [x] Create a practice slideshow about kittens in the `workspace/` folder.
