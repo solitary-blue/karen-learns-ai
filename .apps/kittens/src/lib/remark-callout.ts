@@ -155,7 +155,6 @@ export function remarkCallout() {
             `callout-${type}`, 
             `callout-variant-${variantType}`,
             'my-4', 
-            'rounded-md', 
             'border', 
             'overflow-hidden',
             'relative',
