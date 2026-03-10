@@ -14,7 +14,34 @@ set -euo pipefail
 # Launch the Kittens lesson viewer in development mode and open it in your browser.
 
 KITTENS_DIR="$(cd "$(dirname "$0")/../.apps/kittens" && pwd)"
-PORT="${PORT:-3000}"
+PORT_WAS_SET=0
+if [[ -n "${PORT+x}" ]]; then
+  PORT_WAS_SET=1
+fi
+
+REQUESTED_PORT="${PORT:-3001}"
+PORT="$REQUESTED_PORT"
+KITTENS_URL="http://localhost:${PORT}"
+
+port_in_use() {
+  lsof -nP -iTCP:"$1" -sTCP:LISTEN >/dev/null 2>&1
+}
+
+if port_in_use "$PORT"; then
+  if (( PORT_WAS_SET )); then
+    echo "Port ${PORT} is already in use. Try a different non-3000 port, for example: PORT=3002 apps/kittens-dev" >&2
+    exit 1
+  fi
+
+  candidate_port=3001
+  while port_in_use "$candidate_port" || [[ "$candidate_port" == "3000" ]]; do
+    candidate_port=$((candidate_port + 1))
+  done
+
+  PORT="$candidate_port"
+  echo "Port ${REQUESTED_PORT} is busy; using port ${PORT} for Kittens dev instead."
+fi
+
 KITTENS_URL="http://localhost:${PORT}"
 
 cd "$KITTENS_DIR" || {

@@ -58,30 +58,30 @@ components:
     offsetY: "0.74em"
     shadow: "none"
   callouts:
-    radius: "0.75rem"
+    radius: "0.25rem"
     shadow: "inset 0 1px 4px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04)"
     titleBackground: "transparent"
     titleDividerWidth: "1px"
-    titleDividerColor: "rgba(26, 26, 26, 0.12)"
+    titleDividerColor: "var(--callout-border)"
     kittenOpacity: "0.9"
     types:
       info:
         surface: "#eef0f6"
-        border: "#3a5090"
-        title: "#2e4478"
+        border: "#3730a3"
+        title: "#3730a3"
       success:
         surface: "#eef4ee"
         border: forest
-        title: "#2a5a3a"
+        title: forest
       warning:
-        surface: "#f6f0e4"
-        border: "#a07030"
-        title: "#7a5420"
+        surface: "#fffbeb"
+        border: "#92400e"
+        title: "#92400e"
       danger:
-        surface: "#f6eeee"
-        border: "#903a3a"
-        title: "#782e2e"
+        surface: "#fef2f2"
+        border: "#991b1b"
+        title: "#991b1b"
       example:
         surface: "#f2eef6"
-        border: "#5a4080"
-        title: "#4a3468"
+        border: "#5b21b6"
+        title: "#5b21b6"

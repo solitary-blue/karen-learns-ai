@@ -6,7 +6,7 @@ colors:
   slate-700: "#334155"
   slate-50: "#f8fafc"
   slate-200: "#e2e8f0"
-  sky-50: "#f4fbfb"
+  sky-50: "#edf8ff"
   mint-50: "#f1fcf8"
   amber-50: "#fff7ed"
   rose-50: "#fff1f2"
@@ -67,7 +67,6 @@ components:
     shadow: "none"
   callouts:
     radius: "1.25rem"
-    shadow: "0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 20, 60, 0.06)"
     titleBackground: "transparent"
     titleDividerWidth: "0"
     titleDividerColor: "transparent"
@@ -75,21 +74,21 @@ components:
     types:
       info:
         surface: sky-50
-        border: teal
-        title: teal-deep
+        border: sky-50
+        title: "#0f70ba"
       success:
         surface: mint-50
-        border: "#34d399"
+        border: mint-50
         title: mint-deep
       warning:
         surface: amber-50
-        border: orange
+        border: amber-50
         title: amber-deep
       danger:
         surface: rose-50
-        border: "#fb7185"
+        border: rose-50
         title: rose-deep
       example:
         surface: violet-50
-        border: "#a78bfa"
+        border: violet-50
         title: violet-deep

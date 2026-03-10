@@ -56,7 +56,7 @@ components:
     offsetY: "0.74em"
     shadow: "none"
   callouts:
-    radius: "1.5rem"
+    radius: "0.9rem"
     shadow: "0 0 0 1px rgba(0, 20, 60, 0.03), 0 1px 2px rgba(0, 20, 60, 0.04), 0 4px 8px rgba(0, 20, 60, 0.04), 0 8px 16px rgba(0, 20, 60, 0.03), 0 16px 32px rgba(0, 20, 60, 0.03)"
     titleBackground: "transparent"
     titleDividerWidth: "1px"
