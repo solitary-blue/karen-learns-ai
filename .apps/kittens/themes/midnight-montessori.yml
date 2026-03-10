@@ -64,7 +64,7 @@ components:
     radius: "1rem"
     shadow: "0 18px 40px rgba(15, 23, 42, 0.22)"
     backdropFilter: "blur(12px)"
-    titleBackground: "transparent"
+    titleBackground: "rgba(255, 255, 255, 0.03)"
     titleBorderWidth: "0"
     titleDividerWidth: "0"
     titleDividerColor: "transparent"
@@ -91,10 +91,6 @@ components:
         border: "rgba(167, 139, 250, 0.45)"
         title: "#c4b5fd"
     variants:
-      note:
-        surface: "rgba(244, 63, 94, 0.16)"
-        border: "rgba(244, 63, 94, 0.62)"
-        title: "#fda4af"
       abstract:
         surface: "rgba(167, 139, 250, 0.1)"
         border: "rgba(167, 139, 250, 0.45)"
