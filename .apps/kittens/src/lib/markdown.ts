@@ -52,10 +52,13 @@ function remarkSlideLayouts() {
     };
 
     for (const node of tree.children) {
-      const isDirective = node.type === 'paragraph'
-        && /^\s*%%\s*layout:\s*(compact|normal)\s*%%\s*$/i.test(flattenText(node).trim());
+      const isPlainTextDirective = node.type === 'paragraph'
+        && Array.isArray(node.children)
+        && node.children.length === 1
+        && node.children[0]?.type === 'text'
+        && /^\s*%%\s*layout:\s*(compact|normal)\s*%%\s*$/i.test(node.children[0].value.trim());
 
-      if (isDirective) {
+      if (isPlainTextDirective) {
         closeWrapper();
         const match = flattenText(node).trim().match(/^%%\s*layout:\s*(compact|normal)\s*%%$/i);
         currentLayout = (match?.[1].toLowerCase() as SlideLayoutMode) || 'normal';

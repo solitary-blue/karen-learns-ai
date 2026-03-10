@@ -218,6 +218,15 @@ describe('parseMarkdownToSlides', () => {
     expect(slides[0].html).toContain('href="https://openai.com"');
     expect(slides[0].html).toContain('slide-layout slide-layout-compact');
   });
+
+  it('does not treat formatted directive-like paragraphs as layout markers', async () => {
+    const md = '# Literal Directive\n\n**%% layout: compact %%**\n\nParagraph after literal text.';
+    const slides = await parseMarkdownToSlides(md);
+
+    expect(slides[0].html).not.toContain('slide-layout-compact');
+    expect(slides[0].html).toContain('<strong>%% layout: compact %%</strong>');
+    expect(slides[0].html).toContain('<p>Paragraph after literal text.</p>');
+  });
 });
 
 describe('analyzeSlideContent', () => {
