@@ -229,11 +229,12 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem 1.5rem;
-    align-items: start;
+    align-items: stretch;
     text-align: left;
   }
 
   .prose .slide-layout-compact > * {
+    align-self: stretch;
     margin-top: 0;
     margin-bottom: 0;
   }
@@ -245,6 +246,10 @@
 
   .prose .slide-layout-compact > :is(p, ul, ol, .callout) {
     font-size: 0.65em;
+  }
+
+  .prose .slide-layout-compact > .callout {
+    height: 100%;
   }
 
   .prose .slide-layout-compact .callout:has(img[src^="/api/kittens/"]) {
