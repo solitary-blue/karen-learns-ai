@@ -54,7 +54,7 @@ fonts:
 components:
   callouts:
     titleDividerWidth: "1px"
-    titleDividerColor: "rgba(212, 165, 116, 0.45)"
+    titleDividerColor: "var(--callout-border)"
 
 # Mascot Overrides (Optional)
 mascots:
