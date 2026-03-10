@@ -47,6 +47,7 @@
 - [x] make oversized Kittens slides scroll from the top and reset scroll on slide change
 - [x] finish Kittens callout token layering with per-variant theme overrides
 - [x] document safe agent default for Kittens dev port (`PORT=3001`)
+- [x] fix Kittens production CSS pruning for markdown callout variants
 
 ## Karen
 - [x] Create a practice slideshow about kittens in the `workspace/` folder.

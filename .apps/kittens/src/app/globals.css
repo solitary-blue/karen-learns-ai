@@ -274,6 +274,7 @@
   .callout-title {
     background: var(--callouts-title-background);
     color: var(--callout-title-color, inherit);
+    border-bottom-style: solid;
     border-bottom-width: var(--callouts-title-divider-width, var(--callouts-title-border-width));
     border-bottom-color: var(--callouts-title-divider-color, var(--callout-border, currentColor));
   }

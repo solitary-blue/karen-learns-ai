@@ -84,8 +84,6 @@ export function remarkCallout() {
               'font-bold', 
               'px-4', 
               'py-2', 
-              // Only add border if there is content below
-              hasContent ? 'border-b' : '',
               // Vertical center title if single line
               !hasContent ? 'flex-1' : '',
               // Padding for kitten
