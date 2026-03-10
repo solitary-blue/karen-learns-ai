@@ -19,66 +19,63 @@ export interface SlideAnalysis {
 
 type SlideLayoutMode = 'normal' | 'compact';
 
-interface SlideLayoutSegment {
-  layout: SlideLayoutMode;
-  content: string;
+function flattenText(node: any): string {
+  if (!node) return '';
+  if (typeof node.value === 'string') return node.value;
+  if (!Array.isArray(node.children)) return '';
+
+  return node.children.map(flattenText).join('');
 }
 
-interface ActiveFence {
-  char: '`' | '~';
-  length: number;
-}
-
-function splitSlideLayoutSegments(content: string): SlideLayoutSegment[] {
-  const lines = content.split('\n');
-  const segments: SlideLayoutSegment[] = [];
-  let currentLayout: SlideLayoutMode = 'normal';
-  let buffer: string[] = [];
-  let activeFence: ActiveFence | null = null;
-
-  const flushBuffer = () => {
-    const segmentContent = buffer.join('\n');
-    if (segmentContent.trim()) {
-      segments.push({ layout: currentLayout, content: segmentContent });
+function remarkSlideLayouts() {
+  return (tree: any) => {
+    if (!tree || !Array.isArray(tree.children)) {
+      return;
     }
-    buffer = [];
-  };
 
-  for (const line of lines) {
-    const fenceMatch = line.match(/^\s*(```+|~~~+)/);
-    if (fenceMatch) {
-      const fenceSequence = fenceMatch[1];
-      const fenceChar = fenceSequence[0] as '`' | '~';
-      const fenceLength = fenceSequence.length;
+    const nextChildren: any[] = [];
+    let currentLayout: SlideLayoutMode = 'normal';
+    let wrapperOpen = false;
 
-      if (!activeFence) {
-        activeFence = { char: fenceChar, length: fenceLength };
-      } else if (activeFence.char === fenceChar && fenceLength >= activeFence.length) {
-        activeFence = null;
+    const closeWrapper = () => {
+      if (wrapperOpen) {
+        nextChildren.push({ type: 'html', value: '</div>' });
+        wrapperOpen = false;
+      }
+    };
+
+    const openWrapper = () => {
+      if (!wrapperOpen && currentLayout === 'compact') {
+        nextChildren.push({ type: 'html', value: '<div class="slide-layout slide-layout-compact">' });
+        wrapperOpen = true;
+      }
+    };
+
+    for (const node of tree.children) {
+      const isDirective = node.type === 'paragraph'
+        && /^\s*%%\s*layout:\s*(compact|normal)\s*%%\s*$/i.test(flattenText(node).trim());
+
+      if (isDirective) {
+        closeWrapper();
+        const match = flattenText(node).trim().match(/^%%\s*layout:\s*(compact|normal)\s*%%$/i);
+        currentLayout = (match?.[1].toLowerCase() as SlideLayoutMode) || 'normal';
+        continue;
       }
 
-      buffer.push(line);
-      continue;
+      const isDefinitionLike = node.type === 'definition' || node.type === 'footnoteDefinition';
+      if (isDefinitionLike) {
+        closeWrapper();
+        nextChildren.push(node);
+        continue;
+      }
+
+      openWrapper();
+      nextChildren.push(node);
     }
 
-    if (activeFence) {
-      buffer.push(line);
-      continue;
-    }
-
-    const layoutMatch = line.match(/^\s*%%\s*layout:\s*(compact|normal)\s*%%\s*$/i);
-    if (layoutMatch) {
-      flushBuffer();
-      currentLayout = layoutMatch[1].toLowerCase() as SlideLayoutMode;
-      continue;
-    }
-
-    buffer.push(line);
-  }
-
-  flushBuffer();
-
-  return segments;
+    closeWrapper();
+    tree.children = nextChildren;
+  };
 }
 
 export function analyzeSlideContent(rawMarkdown: string): SlideAnalysis {
@@ -165,24 +162,13 @@ export async function parseMarkdownToSlides(markdown: string, themeName?: string
     .use(remarkQA)
     .use(remarkCallout)
     .use(remarkRewriteImages, { basePath, rootId })
+    .use(remarkSlideLayouts)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeStringify, { allowDangerousHtml: true });
 
   const slides = await Promise.all(
     rawSlides.map(async (content) => {
-      const segments = splitSlideLayoutSegments(content);
-      const htmlSegments = await Promise.all(
-        segments.map(async (segment) => {
-          const result = await processor.process(segment.content);
-          const html = result.toString();
-
-          if (segment.layout === 'compact') {
-            return `<div class="slide-layout slide-layout-compact">${html}</div>`;
-          }
-
-          return html;
-        })
-      );
+      const result = await processor.process(content);
 
       // Extract first heading as title
       const titleMatch = content.match(/^#+\s+(.*)$/m);
@@ -192,7 +178,7 @@ export async function parseMarkdownToSlides(markdown: string, themeName?: string
       const kitten = resolveKittenForSlide(analysis, themeName);
       
       return {
-        html: htmlSegments.join('\n'),
+        html: result.toString(),
         title: title.startsWith('.') ? title.slice(1).trim() : title,
         hideTitle: title.startsWith('.'),
         ...(kitten ? { kitten } : {}),

@@ -178,7 +178,8 @@ describe('parseMarkdownToSlides', () => {
     const md = '# Layout Reset\n\n%% layout: compact %%\n\n## Compact Heading\n\nCompact paragraph.\n\n%% layout: normal %%\n\nNormal paragraph.';
     const slides = await parseMarkdownToSlides(md);
 
-    expect(slides[0].html).toContain('<div class="slide-layout slide-layout-compact"><h2>Compact Heading</h2>\n<p>Compact paragraph.</p></div>');
+    expect(slides[0].html).toContain('<h1>Layout Reset</h1>');
+    expect(slides[0].html).toContain('<div class="slide-layout slide-layout-compact">\n<h2>Compact Heading</h2>\n<p>Compact paragraph.</p>\n</div>');
     expect(slides[0].html).toContain('<p>Normal paragraph.</p>');
     expect(slides[0].html).toContain('</div>\n<p>Normal paragraph.</p>');
   });
@@ -199,6 +200,23 @@ describe('parseMarkdownToSlides', () => {
     expect(slides[0].html).not.toContain('slide-layout-compact');
     expect(slides[0].html).toContain('%% layout: compact %%');
     expect(slides[0].html).toContain('<p>Paragraph after code.</p>');
+  });
+
+  it('ignores layout markers inside fenced code blocks with info strings', async () => {
+    const md = '# Info Fence\n\n```md\n%% layout: compact %%\n```\n\nParagraph after code.';
+    const slides = await parseMarkdownToSlides(md);
+
+    expect(slides[0].html).not.toContain('slide-layout-compact');
+    expect(slides[0].html).toContain('%% layout: compact %%');
+    expect(slides[0].html).toContain('<p>Paragraph after code.</p>');
+  });
+
+  it('preserves markdown references across layout boundaries', async () => {
+    const md = '# Reference Links\n\n%% layout: compact %%\n\n[OpenAI][openai]\n\n%% layout: normal %%\n\n[openai]: https://openai.com';
+    const slides = await parseMarkdownToSlides(md);
+
+    expect(slides[0].html).toContain('href="https://openai.com"');
+    expect(slides[0].html).toContain('slide-layout slide-layout-compact');
   });
 });
 
