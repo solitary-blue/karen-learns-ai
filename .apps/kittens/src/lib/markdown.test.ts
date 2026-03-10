@@ -191,6 +191,15 @@ describe('parseMarkdownToSlides', () => {
     expect(slides[0].html).toContain('%% layout: compact %%');
     expect(slides[0].html).toContain('<p>Paragraph after code.</p>');
   });
+
+  it('keeps longer fenced code blocks intact when they contain layout markers', async () => {
+    const md = '# Longer Fence\n\n````md\n```\n%% layout: compact %%\n```\n````\n\nParagraph after code.';
+    const slides = await parseMarkdownToSlides(md);
+
+    expect(slides[0].html).not.toContain('slide-layout-compact');
+    expect(slides[0].html).toContain('%% layout: compact %%');
+    expect(slides[0].html).toContain('<p>Paragraph after code.</p>');
+  });
 });
 
 describe('analyzeSlideContent', () => {

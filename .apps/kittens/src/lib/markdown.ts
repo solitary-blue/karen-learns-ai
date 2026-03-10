@@ -24,12 +24,17 @@ interface SlideLayoutSegment {
   content: string;
 }
 
+interface ActiveFence {
+  char: '`' | '~';
+  length: number;
+}
+
 function splitSlideLayoutSegments(content: string): SlideLayoutSegment[] {
   const lines = content.split('\n');
   const segments: SlideLayoutSegment[] = [];
   let currentLayout: SlideLayoutMode = 'normal';
   let buffer: string[] = [];
-  let activeFence: '`' | '~' | null = null;
+  let activeFence: ActiveFence | null = null;
 
   const flushBuffer = () => {
     const segmentContent = buffer.join('\n');
@@ -42,10 +47,13 @@ function splitSlideLayoutSegments(content: string): SlideLayoutSegment[] {
   for (const line of lines) {
     const fenceMatch = line.match(/^\s*(```+|~~~+)/);
     if (fenceMatch) {
-      const fenceChar = fenceMatch[1][0] as '`' | '~';
+      const fenceSequence = fenceMatch[1];
+      const fenceChar = fenceSequence[0] as '`' | '~';
+      const fenceLength = fenceSequence.length;
+
       if (!activeFence) {
-        activeFence = fenceChar;
-      } else if (activeFence === fenceChar) {
+        activeFence = { char: fenceChar, length: fenceLength };
+      } else if (activeFence.char === fenceChar && fenceLength >= activeFence.length) {
         activeFence = null;
       }
 
