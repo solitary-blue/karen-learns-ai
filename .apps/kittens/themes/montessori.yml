@@ -53,8 +53,8 @@ fonts:
 
 components:
   callouts:
-    titleDividerWidth: "0"
-    titleDividerColor: "transparent"
+    titleDividerWidth: "1px"
+    titleDividerColor: "rgba(212, 165, 116, 0.45)"
 
 # Mascot Overrides (Optional)
 mascots:
