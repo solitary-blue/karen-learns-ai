@@ -50,6 +50,7 @@
 - [x] fix Kittens production CSS pruning for markdown callout variants
 - [x] make Kittens theme YAML changes hot-refresh in dev mode
 - [x] add Nordic Frost callout radius and elevation tokens
+- [x] add slide-level compact layout directive for markdown content
 
 ## Karen
 - [x] Create a practice slideshow about kittens in the `workspace/` folder.

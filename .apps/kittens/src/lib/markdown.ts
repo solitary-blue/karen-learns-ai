@@ -17,6 +17,43 @@ export interface SlideAnalysis {
   calloutType?: string;
 }
 
+type SlideLayoutMode = 'normal' | 'compact';
+
+interface SlideLayoutSegment {
+  layout: SlideLayoutMode;
+  content: string;
+}
+
+function splitSlideLayoutSegments(content: string): SlideLayoutSegment[] {
+  const lines = content.split('\n');
+  const segments: SlideLayoutSegment[] = [];
+  let currentLayout: SlideLayoutMode = 'normal';
+  let buffer: string[] = [];
+
+  const flushBuffer = () => {
+    const segmentContent = buffer.join('\n').trim();
+    if (segmentContent) {
+      segments.push({ layout: currentLayout, content: segmentContent });
+    }
+    buffer = [];
+  };
+
+  for (const line of lines) {
+    const layoutMatch = line.match(/^\s*%%\s*layout:\s*(compact|normal)\s*%%\s*$/i);
+    if (layoutMatch) {
+      flushBuffer();
+      currentLayout = layoutMatch[1].toLowerCase() as SlideLayoutMode;
+      continue;
+    }
+
+    buffer.push(line);
+  }
+
+  flushBuffer();
+
+  return segments;
+}
+
 export function analyzeSlideContent(rawMarkdown: string): SlideAnalysis {
   let isHeaderOnly = false;
   let isCalloutDominant = false;
@@ -106,7 +143,20 @@ export async function parseMarkdownToSlides(markdown: string, themeName?: string
 
   const slides = await Promise.all(
     rawSlides.map(async (content) => {
-      const result = await processor.process(content);
+      const segments = splitSlideLayoutSegments(content);
+      const htmlSegments = await Promise.all(
+        segments.map(async (segment) => {
+          const result = await processor.process(segment.content);
+          const html = result.toString();
+
+          if (segment.layout === 'compact') {
+            return `<div class="slide-layout slide-layout-compact">${html}</div>`;
+          }
+
+          return html;
+        })
+      );
+
       // Extract first heading as title
       const titleMatch = content.match(/^#+\s+(.*)$/m);
       const title = titleMatch ? titleMatch[1] : 'Untitled Slide';
@@ -115,7 +165,7 @@ export async function parseMarkdownToSlides(markdown: string, themeName?: string
       const kitten = resolveKittenForSlide(analysis, themeName);
       
       return {
-        html: result.toString(),
+        html: htmlSegments.join('\n'),
         title: title.startsWith('.') ? title.slice(1).trim() : title,
         hideTitle: title.startsWith('.'),
         ...(kitten ? { kitten } : {}),

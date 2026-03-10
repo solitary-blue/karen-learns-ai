@@ -163,6 +163,25 @@ describe('parseMarkdownToSlides', () => {
     expect(slides[0].html).toContain('src="/api/curriculum-images/section-1/diagrams/overview.png"');
     expect(slides[0].html).not.toContain('?root=');
   });
+
+  it('wraps compact layout segments in a two-column layout container', async () => {
+    const md = '# Compact Slide\n\n%% layout: compact %%\n\nParagraph one.\n\n- Bullet one\n- Bullet two\n\n> [!note]\n> Compact callout.';
+    const slides = await parseMarkdownToSlides(md);
+
+    expect(slides[0].html).toContain('<div class="slide-layout slide-layout-compact">');
+    expect(slides[0].html).toContain('<p>Paragraph one.</p>');
+    expect(slides[0].html).toContain('<ul>');
+    expect(slides[0].html).toContain('callout-note');
+  });
+
+  it('keeps compact layout active until a normal layout marker', async () => {
+    const md = '# Layout Reset\n\n%% layout: compact %%\n\n## Compact Heading\n\nCompact paragraph.\n\n%% layout: normal %%\n\nNormal paragraph.';
+    const slides = await parseMarkdownToSlides(md);
+
+    expect(slides[0].html).toContain('<div class="slide-layout slide-layout-compact"><h2>Compact Heading</h2>\n<p>Compact paragraph.</p></div>');
+    expect(slides[0].html).toContain('<p>Normal paragraph.</p>');
+    expect(slides[0].html).toContain('</div>\n<p>Normal paragraph.</p>');
+  });
 });
 
 describe('analyzeSlideContent', () => {
