@@ -65,9 +65,9 @@ components:
     shadow: "0 18px 40px rgba(15, 23, 42, 0.22)"
     backdropFilter: "blur(12px)"
     titleBackground: "rgba(51, 65, 85, 0.35)"
-    titleBorderWidth: "1px"
-    titleDividerWidth: "1px"
-    titleDividerColor: "rgba(148, 163, 184, 0.22)"
+    titleBorderWidth: "0"
+    titleDividerWidth: "0"
+    titleDividerColor: "transparent"
     kittenOpacity: "0.82"
     types:
       info:

@@ -65,7 +65,9 @@ components:
     radius: "0.9rem"
     shadow: "0 12px 28px rgba(0, 0, 0, 0.28)"
     titleBackground: "rgba(68, 71, 90, 0.7)"
-    titleBorderWidth: "1px"
+    titleBorderWidth: "0"
+    titleDividerWidth: "0"
+    titleDividerColor: "transparent"
     kittenOpacity: "0.88"
     types:
       info:
