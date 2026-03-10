@@ -51,6 +51,7 @@
 - [x] make Kittens theme YAML changes hot-refresh in dev mode
 - [x] add Nordic Frost callout radius and elevation tokens
 - [x] add slide-level compact layout directive for markdown content
+- [x] align Dusk Gradient live theme with mockup callout styling
 
 ## Karen
 - [x] Create a practice slideshow about kittens in the `workspace/` folder.

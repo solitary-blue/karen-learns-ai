@@ -6,8 +6,13 @@ colors:
   dusk-card: "#2a1848"
   dusk-fg: "#f0e8e0"
   dusk-border: "#3a2850"
+  dusk-plum: "#3a1838"
   peach: "#f0a070"
   purple: "#c084fc"
+  sky: "#8ab4f0"
+  mint: "#80daa8"
+  blush: "#f09098"
+  lavender: "#d0a8ff"
   muted: "#4a3060"
   muted-fg: "#b0a0c0"
 
@@ -45,7 +50,44 @@ semantics:
       color: peach
 
 fonts:
-  title: '"Outfit", sans-serif'
-  main: '"Lexend", sans-serif'
+  title: '"Fraunces", serif'
+  main: '"Averia Libre", cursive'
 
-googleFonts: "Lexend:wght@300;400;500;600;700&family=Outfit:wght@400;600;700"
+components:
+  bullets:
+    color: peach
+    size: "0.54rem"
+    radius: "999px"
+    offsetY: "0.74em"
+    shadow: "0 0 0.5rem rgba(240, 160, 112, 0.3)"
+  callouts:
+    radius: "1.5rem"
+    shadow: "0 4px 20px rgba(160, 80, 60, 0.06), 0 12px 40px rgba(80, 30, 100, 0.1)"
+    backdropFilter: "blur(14px)"
+    titleBackground: "transparent"
+    titleDividerWidth: "0"
+    titleDividerColor: "transparent"
+    kittenOpacity: "0.88"
+    types:
+      info:
+        surface: "rgba(26, 26, 58, 0.4)"
+        border: "rgba(106, 154, 224, 0.4)"
+        title: sky
+      success:
+        surface: "rgba(26, 42, 26, 0.4)"
+        border: "rgba(96, 192, 144, 0.4)"
+        title: mint
+      warning:
+        surface: "rgba(42, 26, 16, 0.4)"
+        border: "rgba(240, 160, 112, 0.4)"
+        title: "#f0b888"
+      danger:
+        surface: "rgba(42, 16, 16, 0.4)"
+        border: "rgba(240, 112, 128, 0.4)"
+        title: blush
+      example:
+        surface: "rgba(26, 16, 40, 0.4)"
+        border: "rgba(192, 132, 252, 0.4)"
+        title: lavender
+
+googleFonts: "Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=Averia+Libre:wght@400;700"
