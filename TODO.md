@@ -49,6 +49,7 @@
 - [x] document safe agent default for Kittens dev port (`PORT=3001`)
 - [x] fix Kittens production CSS pruning for markdown callout variants
 - [x] make Kittens theme YAML changes hot-refresh in dev mode
+- [x] add Nordic Frost callout radius and elevation tokens
 
 ## Karen
 - [x] Create a practice slideshow about kittens in the `workspace/` folder.

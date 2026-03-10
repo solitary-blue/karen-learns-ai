@@ -47,3 +47,39 @@ semantics:
 fonts:
   title: "system-ui, -apple-system, sans-serif"
   main: "system-ui, -apple-system, sans-serif"
+
+components:
+  bullets:
+    color: steel-blue
+    size: "0.54rem"
+    radius: "999px"
+    offsetY: "0.74em"
+    shadow: "none"
+  callouts:
+    radius: "0.75rem"
+    shadow: "0 0 0 1px rgba(0, 20, 60, 0.03), 0 1px 2px rgba(0, 20, 60, 0.04), 0 4px 8px rgba(0, 20, 60, 0.04), 0 8px 16px rgba(0, 20, 60, 0.03), 0 16px 32px rgba(0, 20, 60, 0.03)"
+    titleBackground: "transparent"
+    titleDividerWidth: "0"
+    titleDividerColor: "transparent"
+    kittenOpacity: "0.9"
+    types:
+      info:
+        surface: white
+        border: "#3a6aa0"
+        title: "#2a5080"
+      success:
+        surface: white
+        border: "#2a8060"
+        title: "#1a6a48"
+      warning:
+        surface: white
+        border: "#c08030"
+        title: "#8a5a18"
+      danger:
+        surface: white
+        border: "#c04050"
+        title: "#9a2a3a"
+      example:
+        surface: white
+        border: "#6a4aa0"
+        title: "#503880"
