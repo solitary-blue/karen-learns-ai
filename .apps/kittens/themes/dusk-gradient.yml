@@ -64,7 +64,7 @@ components:
     radius: "1.5rem"
     shadow: "0 4px 20px rgba(160, 80, 60, 0.06), 0 12px 40px rgba(80, 30, 100, 0.1)"
     backdropFilter: "blur(14px)"
-    titleBackground: "transparent"
+    titleBackground: "rgba(255, 255, 255, 0.04)"
     titleDividerWidth: "0"
     titleDividerColor: "transparent"
     kittenOpacity: "0.88"
