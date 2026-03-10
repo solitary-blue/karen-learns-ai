@@ -247,6 +247,21 @@
     font-size: 0.65em;
   }
 
+  .prose .slide-layout-compact .callout:has(img[src^="/api/kittens/"]) {
+    min-height: 10.5rem !important;
+  }
+
+  .prose .slide-layout-compact .callout:has(img[src^="/api/kittens/"]) .callout-title,
+  .prose .slide-layout-compact .callout:has(img[src^="/api/kittens/"]) .callout-content {
+    padding-right: 5.5rem;
+  }
+
+  .prose .slide-layout-compact .callout img[src^="/api/kittens/"] {
+    height: 7rem;
+    right: 0.25rem;
+    bottom: 0.25rem;
+  }
+
   @media (max-width: 768px) {
     .prose .slide-layout-compact {
       grid-template-columns: 1fr;
